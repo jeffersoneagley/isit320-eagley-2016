@@ -1,6 +1,6 @@
 #!/usr/bin/nodejs
 
-var debug = require('debug')('my-application');
+var debug = require('debug')('Week01-express-basics:server');
 var app = require('../app');
 
 app.set('port', process.env.PORT || 30025);
