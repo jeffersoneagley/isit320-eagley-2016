@@ -1,0 +1,34 @@
+{
+  "name": "ObjectBasics",
+  "version": "1.0.0",
+  "description": "Learn about JavaScript Objects",
+  "main": "index.js",
+  "scripts": {
+    "test": "node jasmine-runner.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git@github.com/charliecalvert/JsObjects.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Charlie Calvert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/charliecalvert/JsObjects/issues"
+  },
+  "homepage": "https://github.com/charliecalvert/JsObjects",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "~1.0.0",
+    "grunt-contrib-compress": "~1.2.0",
+    "grunt-contrib-copy": "~1.0.0",
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-jsbeautifier": "^0.2.12",
+    "grunt-jscs": "^2.8.0",
+    "jasmine": "^2.4.1",
+    "jasmine-core": "^2.4.1",
+    "jasmine-spec-reporter": "^2.4.0"
+  }
+}
