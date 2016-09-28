@@ -1,0 +1,31 @@
+{
+  "name": "GetNumbers",
+  "version": "1.0.0",
+  "description": "Downloaded example",
+  "main": "karma.conf.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node jasmine-runner.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/charliecalvert/JsObjects.git"
+  },
+  "author": "CharlieCalvert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/charliecalvert/JsObjects/issues"
+  },
+  "homepage": "https://elvenware.com/charlie",
+  "devDependencies": {
+    "grunt": "~1.0.1",
+    "grunt-contrib-clean": "~1.0.0",
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-jsbeautifier": "^0.2.12",
+    "grunt-jscs": "^2.8.0",
+    "jasmine-core": "^2.4.1",
+    "jasmine-spec-reporter": "^2.4.0"
+  }
+}
