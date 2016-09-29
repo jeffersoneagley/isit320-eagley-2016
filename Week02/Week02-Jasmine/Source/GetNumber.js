@@ -1,38 +1,38 @@
 var getNumbers = {
 
-    getOne: function () {
+    getOne: function() {
         'use strict';
         return 1;
     },
-    getTwo: function () {
+    getTwo: function() {
         'use strict';
         return 2;
     },
-    getThree: function () {
+    getThree: function() {
         'use strict';
         return 3;
     },
-    getFour: function () {
+    getFour: function() {
         'use strict';
         return 4;
     },
-    getFive: function () {
+    getFive: function() {
         'use strict';
         return 5;
     },
-    getSix: function () {
+    getSix: function() {
         'use strict';
         return 6;
     },
-    getSeven: function () {
+    getSeven: function() {
         'use strict';
         return 7;
     },
-    getEight: function () {
+    getEight: function() {
         'use strict';
         return 8;
     },
-    getNine: function () {
+    getNine: function() {
         'use strict';
         return 9;
     }
