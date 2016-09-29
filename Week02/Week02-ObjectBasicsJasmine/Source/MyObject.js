@@ -2,18 +2,18 @@ var myObject = {
     herp: 1,
     derp: 2,
     gonk: 'gonk',
-    fun1: function () {
+    function1: function() {
         'use strict';
         return 1;
     },
-    fun2: function () {
+    function2: function() {
         'use strict';
         return 2;
     },
-    fun3: function () {
+    cat: function() {
         'use strict';
-        return 3;
+        return 'miao~';
     }
 };
 
-exports.myObject;
+module.exports = myObject;
