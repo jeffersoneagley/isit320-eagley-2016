@@ -1,0 +1,13 @@
+{
+    "name": "Couch04",
+    "description": "Learn about Presidents",
+    "version": "0.0.2",
+    "private": true,
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "nano": "^6.1.2",
+        "request-debug": "^0.2.0"
+    }
+}
