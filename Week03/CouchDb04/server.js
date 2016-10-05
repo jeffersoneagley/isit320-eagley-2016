@@ -125,7 +125,70 @@ function showView(designDoc, view) {
         }
     });
 }
+/***************************
+ * Prompts
+ ***************************/
 
-//createDesignDocument();
+function list() {
+    "use strict";
 
-showView('example', 'simple');
+    // Prompts
+    var DESIGN = 0;
+    var INSERT = 1;
+    var DELETE = 2;
+    var READ = 3;
+    var VIEW = 4;
+    var prompts = ['Design', 'Insert', "Delete", "Read", "View"];
+
+    var options = [{
+        type: "list",
+        name: "theme",
+        message: "What do you want to do?",
+        choices: [
+            prompts[DESIGN],
+            prompts[INSERT],
+            new inquirer.Separator(),
+            prompts[VIEW],
+            prompts[READ],
+            prompts[DELETE]
+        ]
+    }];
+
+    inquirer.prompt(options)
+        .then(function (answer) {
+            console.log("Response:", answer);
+            switch (answer.theme) {
+            case prompts[READ]:
+                console.log(prompts[READ]);
+                readIt(RASPBERRY_PI);
+                break;
+
+            case prompts[DESIGN]:
+                console.log(prompts[DESIGN]);
+                createDesignDocument();
+                break;
+
+            case prompts[DELETE]:
+                console.log(prompts[DELETE]);
+                deleteDoc("_design/example");
+                break;
+
+            case prompts[INSERT]:
+                console.log(prompts[INSERT]);
+                coreDataInsert();
+                break;
+
+            case prompts[VIEW]:
+                console.log(prompts[VIEW]);
+                //showView("example", "prices");
+                showView("example", "simple");
+                break;
+
+            default:
+                console.log("No match");
+
+            }
+        });
+
+}
+list();

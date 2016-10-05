@@ -1,14 +1,14 @@
 {
-    "name": "CouchDbViews",
-    "description": "Learn about CouchDb Views",
-    "version": "0.0.2",
-    "private": true,
-    "scripts": {
-        "start": "nodemon server.js"
-    },
-    "dependencies": {
-        "inquirer": "^1.2.1",
-        "nano": "^6.1.2",
-        "request-debug": "^0.2.0"
-    }
+  "name": "CouchDbViews",
+  "description": "Learn about CouchDb Views",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "inquirer": "^1.2.1",
+    "nano": "^6.1.2",
+    "request-debug": "^0.2.0"
+  }
 }
