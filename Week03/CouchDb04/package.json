@@ -1,10 +1,10 @@
 {
-    "name": "Couch04",
-    "description": "Learn about Presidents",
-    "version": "0.0.2",
+    "name": "CouchDemo",
+    "description": "Learn about CouchDB",
+    "version": "0.0.1",
     "private": true,
     "scripts": {
-        "start": "node server.js"
+        "start": "nodemon server.js"
     },
     "dependencies": {
         "nano": "^6.1.2",
