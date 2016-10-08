@@ -1,14 +1,23 @@
 {
-  "name": "CouchDbViews",
-  "description": "Learn about CouchDb Views",
-  "version": "0.0.2",
-  "private": true,
-  "scripts": {
-    "start": "nodemon server.js"
-  },
-  "dependencies": {
-    "inquirer": "^1.2.1",
-    "nano": "^6.1.2",
-    "request-debug": "^0.2.0"
-  }
+    "name": "CouchDbViews",
+    "description": "Learn about CouchDb Views",
+    "version": "0.0.2",
+    "private": true,
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "dependencies": {
+        "inquirer": "^1.2.1",
+        "nano": "^6.1.2",
+        "request-debug": "^0.2.0"
+    },
+    "devDependencies": {
+        "grunt": "^1.0.1",
+        "grunt-contrib-clean": "~1.0.0",
+        "grunt-contrib-compress": "~1.2.0",
+        "grunt-contrib-copy": "~1.0.0",
+        "grunt-contrib-jshint": "~1.0.0",
+        "grunt-jsbeautifier": "^0.2.12",
+        "grunt-jscs": "^2.8.0"
+    }
 }
