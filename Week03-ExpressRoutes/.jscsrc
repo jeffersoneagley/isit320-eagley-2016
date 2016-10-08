@@ -1,0 +1,10 @@
+{
+    "preset": "google",
+    "validateIndentation": 4,
+    "excludeFiles": ["**/node_modules/**", "**/components/**"],
+    "requireCamelCaseOrUpperCaseIdentifiers": false,
+    "maximumLineLength": 120,
+    "requireSpaceBeforeBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+    "requireSpaceAfterBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "try", "catch"]
+}

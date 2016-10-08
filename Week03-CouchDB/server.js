@@ -4,17 +4,17 @@ var dbName = 'bc_data';
 var RASPBERRY_PI = 'raspberry pi';
 var ARDUINO = 'arduino';
 var BEAGLEBONE = 'beaglebone';
-var readIt = function(docName) {
+var readIt = function (docName) {
     'use strict';
     var prog = nano.db.use(dbName);
     prog.get(docName, {
         revs_info: true
-    }, function(err, body) {
+    }, function (err, body) {
         if (!err) {
             console.log(body);
         }
     });
-};
+};   
 
 function insert(data) {
     'use strict';
@@ -37,10 +37,10 @@ function insertIndividual(err, body) {
 function deleteDoc(docUniqueId) {
     'use strict';
     var db = nano.db.use(dbName);
-    db.get(docUniqueId, function(err, body) {
+    db.get(docUniqueId, function (err, body) {
         if (!err) {
             var latestRev = body._rev;
-            db.destroy(docUniqueId, latestRev, function(err, body, header) {
+            db.destroy(docUniqueId, latestRev, function (err, body, header) {
                 if (!err) {
                     console.log('Successfully deleted doc', docUniqueId);
                 }
@@ -82,11 +82,11 @@ function coreDataInsert() {
 /*******************************+
  * Views
  *******************************/
-var simpleView = function(doc) {
+var simpleView = function (doc) {
     'use strict';
     emit(doc._id, doc._rev);
 };
-var designUrls = function(doc) {
+var designUrls = function (doc) {
     'use strict';
     var url;
     var key;
@@ -121,7 +121,7 @@ function createDesignDocument() {
 function showView(designDoc, view) {
     'use strict';
     var nanoDb = nano.db.use(dbName);
-    nanoDb.view(designDoc, view, function(err, body) {
+    nanoDb.view(designDoc, view, function (err, body) {
         if (!err) {
             for (var i = 0; i < body.rows.length; i++) {
                 console.log(body.rows[i].key, body.rows[i]);
@@ -163,32 +163,32 @@ function list() {
         ]
     }];
     inquirer.prompt(options)
-        .then(function(answer) {
+        .then(function (answer) {
             console.log('Response:', answer);
             switch (answer.theme) {
-                case prompts[READ]:
-                    console.log(prompts[READ]);
-                    readIt(RASPBERRY_PI);
-                    break;
-                case prompts[DESIGN]:
-                    console.log(prompts[DESIGN]);
-                    createDesignDocument();
-                    break;
-                case prompts[DELETE]:
-                    console.log(prompts[DELETE]);
-                    deleteDoc('_design/example');
-                    break;
-                case prompts[INSERT]:
-                    console.log(prompts[INSERT]);
-                    coreDataInsert();
-                    break;
-                case prompts[VIEW]:
-                    console.log(prompts[VIEW]);
-                    //showView('example', 'prices');
-                    showView('example', 'simple');
-                    break;
-                default:
-                    console.log('No match');
+            case prompts[READ]:
+                console.log(prompts[READ]);
+                readIt(RASPBERRY_PI);
+                break;
+            case prompts[DESIGN]:
+                console.log(prompts[DESIGN]);
+                createDesignDocument();
+                break;
+            case prompts[DELETE]:
+                console.log(prompts[DELETE]);
+                deleteDoc('_design/example');
+                break;
+            case prompts[INSERT]:
+                console.log(prompts[INSERT]);
+                coreDataInsert();
+                break;
+            case prompts[VIEW]:
+                console.log(prompts[VIEW]);
+                //showView('example', 'prices');
+                showView('example', 'simple');
+                break;
+            default:
+                console.log('No match');
             }
         });
 }

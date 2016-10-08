@@ -12,9 +12,10 @@ module.exports = function(grunt) {
                 ignores: [
                     '**/node_modules/**',
                     '**/Library/jas/**',
-                    '**/jquery-2.0.3.js',
+                    '**/jquery*',
                     '**/requirejs-wrapper*.js',
-                    '**/requirejs-setup*.js'
+                    '**/requirejs-setup*.js',
+                    '**/components/**'
                 ],
                 reporter: 'checkstyle',
                 reporterOutput: 'result.xml',
@@ -38,7 +39,7 @@ module.exports = function(grunt) {
             },
 
             zip: {
-                src: []
+                src: ['<%= zipFile %>']
             }
         },
 
