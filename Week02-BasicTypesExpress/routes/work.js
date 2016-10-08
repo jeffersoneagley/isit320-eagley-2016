@@ -1,19 +1,23 @@
 var fs = require('fs');
-var myData;
-console.log("Beginning reading file");
-fs.readFile('./../data/myJSONTestData.json', 'utf8', (err, rawData) => {
-    if (err) {
-        console.log(err);
-        throw err;
-    }
-    myData = JSON.parse(rawData);
-    console.log(myData);
-    console.log(typeof myData);
-    console.log("Content:");
-    for (var entry in myData) {
-        if (myData.hasOwnProperty(entry)) {
-            console.log(typeof myData[entry] + "\t" + entry + ":\t" + myData[entry]);
+var getData = function () {
+    var myData;
+    fs.readFile('./data/myJSONTestData.json', 'utf8', (err, rawData) => {
+        if (err) {
+            console.log(err);
+            throw err;
         }
-    }
-})
-module.exports = myData;
+        myData = JSON.parse(rawData);
+        console.log(myData);
+        console.log(typeof myData);
+        console.log("Content:");
+        for (var entry in myData) {
+            if (myData.hasOwnProperty(entry)) {
+                console.log(typeof myData[entry] + "\t" + entry + ":\t" + myData[entry]);
+            }
+        }
+    })
+    return myData;
+};
+console.log("Beginning reading file");
+
+module.exports = getData;
