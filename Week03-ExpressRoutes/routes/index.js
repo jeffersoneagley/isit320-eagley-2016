@@ -15,8 +15,8 @@ router.get('/add', function(request, response) {
     console.log('add method called');
     var myParams = request.query;
     console.log('The parameters are:', myParams);
-    var operatorA = parseInt(myParams.operatorA),
-        operatorB = parseInt(myParams.operatorB);
+    var operatorA = parseInt(myParams.operatorA);
+    var operatorB = parseInt(myParams.operatorB);
     if (!isNaN(operatorA) &&
         !isNaN(operatorB)
     ) {
