@@ -3,7 +3,11 @@ extends layout
 block content
     h1= title
     p Welcome to #{title}
-    button#read Read
+    button#readLocal Read
     button#readJson ReadJson
-
-    pre#display
+    div
+        input(value=1)#operatorA
+        input(value=1)#operatorB
+        button#add Add
+    div
+        p#display
