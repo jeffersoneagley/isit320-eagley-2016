@@ -21,18 +21,14 @@ function insert(data) {
     nano.db.create(dbName);
     var prog = nano.db.use(dbName);
     for (var i = 0; i < data.length; i++) {
-        prog.insert(data[i], insertIndividual(err, body));
+        prog.insert(data[i], function(err, body) {
+            if (!err) {
+                readIt(body);
+            } else {
+                console.log(err);
+            }
+        });
     }
-}
-
-function insertIndividual(err, body) {
-    'use strict';
-    if (!err) {
-        readIt(body);
-    } else {
-        console.log(err);
-    }
-
 }
 
 function deleteDoc(docUniqueId) {
