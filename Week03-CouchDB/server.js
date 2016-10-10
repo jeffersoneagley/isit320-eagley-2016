@@ -21,7 +21,7 @@ function insert(data) {
     nano.db.create(dbName);
     var prog = nano.db.use(dbName);
     for (var i = 0; i < data.length; i++) {
-        prog.insert(data[i], insertHelper(err, body));
+        prog.insert(data[i], insertHelper);
     }
 }
 
