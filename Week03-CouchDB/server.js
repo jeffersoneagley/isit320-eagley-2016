@@ -21,13 +21,16 @@ function insert(data) {
     nano.db.create(dbName);
     var prog = nano.db.use(dbName);
     for (var i = 0; i < data.length; i++) {
-        prog.insert(data[i], function(err, body) {
-            if (!err) {
-                readIt(body);
-            } else {
-                console.log(err);
-            }
-        });
+        prog.insert(data[i], insertHelper(err, body));
+    }
+}
+
+function insertHelper(err, body) {
+    'use strict';
+    if (!err) {
+        readIt(body);
+    } else {
+        console.log(err);
     }
 }
 
@@ -163,30 +166,30 @@ function list() {
         .then(function(answer) {
             console.log('Response:', answer);
             switch (answer.theme) {
-            case prompts[READ]:
-                console.log(prompts[READ]);
-                readIt(RASPBERRY_PI);
-                break;
-            case prompts[DESIGN]:
-                console.log(prompts[DESIGN]);
-                createDesignDocument();
-                break;
-            case prompts[DELETE]:
-                console.log(prompts[DELETE]);
-                deleteDoc('_design/example');
-                break;
-            case prompts[INSERT]:
-                console.log(prompts[INSERT]);
-                coreDataInsert();
-                break;
-            case prompts[VIEW]:
-                console.log(prompts[VIEW]);
-                //showView('example', 'prices');
-                showView('example', 'simple');
-                break;
-            default:
-                console.log('No match');
-        }
+                case prompts[READ]:
+                    console.log(prompts[READ]);
+                    readIt(RASPBERRY_PI);
+                    break;
+                case prompts[DESIGN]:
+                    console.log(prompts[DESIGN]);
+                    createDesignDocument();
+                    break;
+                case prompts[DELETE]:
+                    console.log(prompts[DELETE]);
+                    deleteDoc('_design/example');
+                    break;
+                case prompts[INSERT]:
+                    console.log(prompts[INSERT]);
+                    coreDataInsert();
+                    break;
+                case prompts[VIEW]:
+                    console.log(prompts[VIEW]);
+                    //showView('example', 'prices');
+                    showView('example', 'simple');
+                    break;
+                default:
+                    console.log('No match');
+            }
         });
 }
 list();
