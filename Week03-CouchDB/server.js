@@ -26,12 +26,13 @@ function insert(data) {
 }
 
 function insertIndividual(err, body) {
-
     'use strict';
     if (!err) {
-        console.log(body);
+        readIt(body);
+    } else {
+        console.log(err);
     }
-    readIt();
+
 }
 
 function deleteDoc(docUniqueId) {
