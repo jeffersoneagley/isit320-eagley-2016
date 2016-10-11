@@ -1,9 +1,9 @@
 {
-    "name": "application-name",
+    "name": "threejs-floor",
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "start": "nodemon ./bin/www"
+        "start": "nodejs ./bin/www"
     },
     "dependencies": {
         "express": "~4.0.0",
