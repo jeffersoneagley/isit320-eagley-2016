@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res) {
     'use strict';
     res.render('index', {
-        title: 'Express'
+        title: 'Jefferson\'s game'
     });
 });
 
