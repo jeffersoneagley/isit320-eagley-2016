@@ -27,26 +27,26 @@ define(['floors'], function(Floors) {
 
         switch (event.keyCode) {
 
-        case 38: // up
-        case 87: // w
-            keyMove.moveForward = down;
-            break;
+            case 38: // up
+            case 87: // w
+                keyMove.moveForward = down;
+                break;
 
-        case 37: // left
-        case 65: // a
-            keyMove.moveLeft = down;
-            break;
+            case 37: // left
+            case 65: // a
+                keyMove.moveLeft = down;
+                break;
 
-        case 40: // down
-        case 83: // s
-            keyMove.moveBackward = down;
-            break;
+            case 40: // down
+            case 83: // s
+                keyMove.moveBackward = down;
+                break;
 
-        case 39: // right
-        case 68: // d
-            keyMove.moveRight = down;
-            break;
-    }
+            case 39: // right
+            case 68: // d
+                keyMove.moveRight = down;
+                break;
+        }
     };
 
     var onKeyDown = function(event) {
@@ -86,6 +86,7 @@ define(['floors'], function(Floors) {
         camera.position.x = 2;
         camera.position.y = 0;
         window.addEventListener('resize', onWindowResize, false);
+        onWindowResize();
         render();
     }
 
