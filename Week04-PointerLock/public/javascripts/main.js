@@ -4,8 +4,10 @@ requirejs.config({
         'jquery': 'components/jquery/dist/jquery',
         'bootstrap': 'components/bootstrap/dist/js/bootstrap',
         'Three': 'javascripts/three.min',
+        'pointerLockControls': 'javascripts/pointerLockControls',
+        'pointerLockSetup': 'javascripts/pointerLockSetup',
         'control': 'javascripts/control',
-        'floors': 'javascripts/floors'
+        'floor': 'javascripts/floors'
 
     },
     shim: {

@@ -1,7 +1,15 @@
 extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
-
+    div#blocker(style='display: -webkit-box;')
+        div#instructions(style='')
+            span(style='font-size:40px') Click to play
+            p (W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
     div#gameWindow
+    div#message
+        p
+            strong CameraX:
+                span#cameraX initializing
+        p
+            strong CameraZ:
+                span#cameraZ initializing
