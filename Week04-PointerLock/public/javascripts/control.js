@@ -14,6 +14,7 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
         var cubes = [];
         var controls;
         var raycaster;
+        var reducedUpdateIndex = 0;
 
         var cameraPosition = {
             x: 2,
@@ -75,14 +76,25 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
             var controlObject = controls.getObject();
             var position = controlObject.position;
 
-            drawText(controlObject, position);
-
             collisionDetection(position);
 
             // Move the camera
             controls.update();
 
+            if (reducedUpdateIndex > 5) {
+                reducedUpdateIndex = 0;
+                animateReducedUpdate();
+            } else {
+                reducedUpdateIndex++;
+            }
+
             renderer.render(scene, camera);
+        }
+
+        function animateReducedUpdate() {
+
+            drawText(controls.getObject()
+                .position);
         }
 
         function collisionDetection(position) {
@@ -114,7 +126,7 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
             var ps = new PointerLockSetup(controls);
         }
 
-        function drawText(object, position) {
+        function drawText(position) {
             $('#cameraX')
                 .html(position.x);
             $('#cameraZ')
@@ -133,7 +145,7 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
         function addCube(scene, camera, wireFrame, x, y) {
             var geometry = new THREE.BoxGeometry(size, size, size);
             var cube = new THREE.Mesh(geometry, crateMaterial);
-            cube.position.set(x, 2, y);
+            cube.position.set(x, (size / 2) - 0.5, y);
             cubes.push(cube);
             scene.add(cube);
 
@@ -143,7 +155,7 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
         function addSphere(scene, camera, wireFrame, x, y) {
             var geometry = new THREE.SphereGeometry(0.5, 25, 25);
             var material = new THREE.MeshNormalMaterial({
-                color: 0x05ff05,
+                //  color: 0x05ff05,
                 wireframe: wireFrame
             });
             var sphere = new THREE.Mesh(geometry, material);
