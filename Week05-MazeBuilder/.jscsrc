@@ -1,0 +1,16 @@
+{
+    "preset": "google",
+    "validateIndentation": 4,
+    "excludeFiles": [
+        "**/node_modules/**",
+        "**/components/**",
+        "**/three.min.js",
+        "**/pointerLockControls.js",
+        "**/pointerLockSetup.js"
+    ],
+    "requireCamelCaseOrUpperCaseIdentifiers": false,
+    "maximumLineLength": 200,
+    "requireSpaceBeforeBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+    "requireSpaceAfterBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "try", "catch"]
+}
