@@ -1,9 +1,9 @@
 $(document)
-    .ready(function () {
+    .ready(function() {
         'use strict';
-        $.getJSON('/getIndex', function (result) {
+        $.getJSON('/getIndex', function(result) {
             $('#output')
                 .html(result);
 
-        })
+        });
     });

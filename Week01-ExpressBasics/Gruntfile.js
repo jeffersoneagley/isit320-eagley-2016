@@ -11,11 +11,12 @@ module.exports = function(grunt) {
             options: {
                 ignores: [
                     '**/node_modules/**',
-                    '**/components/**',
                     '**/Library/jas/**',
-                    '**/jquery-2.0.3.js',
+                    '**/jquery*',
                     '**/requirejs-wrapper*.js',
                     '**/requirejs-setup*.js',
+                    '**/components/**',
+                    '**/three.min.js',
                     'app.js'
                 ],
                 reporter: 'checkstyle',
@@ -40,7 +41,7 @@ module.exports = function(grunt) {
             },
 
             zip: {
-                src: []
+                src: ['<%= zipFile %>']
             }
         },
 

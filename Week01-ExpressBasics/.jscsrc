@@ -2,7 +2,8 @@
     "preset": "google",
     "validateIndentation": 4,
     "excludeFiles": [
-        "**/node_modules/**"
+        "**/node_modules/**",
+        "app.js"
     ],
     "requireCamelCaseOrUpperCaseIdentifiers": false,
     "maximumLineLength": 200,

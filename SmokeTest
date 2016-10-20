@@ -1,0 +1,39 @@
+#! /bin/bash
+
+# Use set -e to exit on error
+set -e
+
+function check() {
+  if [ -d $1 ]; then
+    cd $1
+  else
+    echo "Directory $1 does not exist."
+    echo "Please fix the problem and try again."
+    exit
+  fi
+
+  pwd
+
+  if [ ! -d node_modules ]; then
+     npm install
+     # ln -s ~/tmp/node_modules node_modules
+  fi
+
+  grunt check
+
+  cd ..
+}
+
+check Week01-ExpressBasics/
+check Week02-BasicTypes/
+check Week02-BasicTypesExpress/
+check Week02-GetNumbers/
+check Week02-JavaScriptObjects/
+check Week02-ObjectBasicsJasmine/
+check Week03-CouchDbDemo/
+check Week03-CouchDbViews/
+check Week03-ExpressJQuery/
+check Week03-ExpressRoutes/
+check Week04-PointerLock/
+check Week04-ThreeFloor/
+check Week04-ThreeJsBasics/
