@@ -2,9 +2,9 @@
  * @author mrdoob / http://mrdoob.com/
  */
 
-define(['floor'], function (Floor) {
-
-    var PointerLockControls = function (camera, threeInit) {
+define(['floor'], function(Floor) {
+    'use strict';
+    var PointerLockControls = function(camera, threeInit) {
 
         var scope = this;
         var THREE = threeInit;
@@ -32,9 +32,11 @@ define(['floor'], function (Floor) {
 
         var PI_2 = Math.PI / 2;
 
-        var onMouseMove = function (event) {
+        var onMouseMove = function(event) {
 
-            if(scope.enabled === false) return;
+            if (scope.enabled === false) {
+                return;
+            }
 
             var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
             var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
@@ -46,62 +48,64 @@ define(['floor'], function (Floor) {
 
         };
 
-        var onKeyDown = function (event) {
+        var onKeyDown = function(event) {
 
-            switch(event.keyCode) {
+            switch (event.keyCode) {
 
-            case 38: // up
-            case 87: // w
-                moveForward = true;
-                break;
+                case 38: // up
+                case 87: // w
+                    moveForward = true;
+                    break;
 
-            case 37: // left
-            case 65: // a
-                moveLeft = true;
-                break;
+                case 37: // left
+                case 65: // a
+                    moveLeft = true;
+                    break;
 
-            case 40: // down
-            case 83: // s
-                moveBackward = true;
-                break;
+                case 40: // down
+                case 83: // s
+                    moveBackward = true;
+                    break;
 
-            case 39: // right
-            case 68: // d
-                moveRight = true;
-                break;
+                case 39: // right
+                case 68: // d
+                    moveRight = true;
+                    break;
 
-            case 32: // space
-                if(canJump === true) velocity.y += 350;
-                canJump = false;
-                break;
+                case 32: // space
+                    if (canJump === true) {
+                        velocity.y += 200; ///////////////////////////////////decrease jump
+                    }
+                    canJump = false;
+                    break;
 
             }
 
         };
 
-        var onKeyUp = function (event) {
+        var onKeyUp = function(event) {
 
-            switch(event.keyCode) {
+            switch (event.keyCode) {
 
-            case 38: // up
-            case 87: // w
-                moveForward = false;
-                break;
+                case 38: // up
+                case 87: // w
+                    moveForward = false;
+                    break;
 
-            case 37: // left
-            case 65: // a
-                moveLeft = false;
-                break;
+                case 37: // left
+                case 65: // a
+                    moveLeft = false;
+                    break;
 
-            case 40: // down
-            case 83: // s
-                moveBackward = false;
-                break;
+                case 40: // down
+                case 83: // s
+                    moveBackward = false;
+                    break;
 
-            case 39: // right
-            case 68: // d
-                moveRight = false;
-                break;
+                case 39: // right
+                case 68: // d
+                    moveRight = false;
+                    break;
 
             }
 
@@ -113,27 +117,27 @@ define(['floor'], function (Floor) {
 
         this.enabled = false;
 
-        this.getObject = function () {
+        this.getObject = function() {
 
             return yawObject;
 
         };
 
-        this.isOnObject = function (boolean) {
+        this.isOnObject = function(boolean) {
 
             isOnObject = boolean;
             canJump = boolean;
 
         };
 
-        this.getDirection = function () {
+        this.getDirection = function() {
 
             // assumes the camera itself is not rotated
 
             var direction = new THREE.Vector3(0, 0, -1);
-            var rotation = new THREE.Euler(0, 0, 0, "YXZ");
+            var rotation = new THREE.Euler(0, 0, 0, 'YXZ');
 
-            return function (v) {
+            return function(v) {
 
                 rotation.set(pitchObject.rotation.x, yawObject.rotation.y, 0);
 
@@ -142,13 +146,15 @@ define(['floor'], function (Floor) {
 
                 return v;
 
-            }
+            };
 
         }();
 
-        this.update = function () {
+        this.update = function() {
 
-            if(scope.enabled === false) return;
+            if (scope.enabled === false) {
+                return;
+            }
 
             var time = performance.now();
             var delta = (time - prevTime) / 1000;
@@ -156,18 +162,26 @@ define(['floor'], function (Floor) {
             velocity.x -= velocity.x * 10.0 * delta;
             velocity.z -= velocity.z * 10.0 * delta;
 
-            velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+            velocity.y -= 9.8 * 60.0 * delta; // 60.0 = mass  ////////////lowered mass
 
-            if(moveForward) velocity.z -= 400.0 * delta;
-            if(moveBackward) velocity.z += 400.0 * delta;
+            if (moveForward) {
+                velocity.z -= 400.0 * delta;
+            }
+            if (moveBackward) {
+                velocity.z += 400.0 * delta;
+            }
 
-            if(moveLeft) velocity.x -= 400.0 * delta;
-            if(moveRight) velocity.x += 400.0 * delta;
+            if (moveLeft) {
+                velocity.x -= 400.0 * delta;
+            }
+            if (moveRight) {
+                velocity.x += 400.0 * delta;
+            }
 
             // I've changed this code to stop all movement if we
             // are about to hit something. Compare to original
             // which only set y.
-            if(isOnObject === true) {
+            if (isOnObject === true) {
 
                 velocity.y = Math.max(0, velocity.y);
                 velocity.x = 0;
@@ -179,7 +193,7 @@ define(['floor'], function (Floor) {
             yawObject.translateY(velocity.y * delta);
             yawObject.translateZ(velocity.z * delta);
 
-            if(yawObject.position.y < 10) {
+            if (yawObject.position.y < 10) {
 
                 velocity.y = 0;
                 yawObject.position.y = 10;

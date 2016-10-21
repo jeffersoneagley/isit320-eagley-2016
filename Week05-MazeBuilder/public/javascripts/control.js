@@ -114,8 +114,13 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
                 new THREE.Vector3(0, 0, -1), // 4  6:00  180 degress,  near
                 new THREE.Vector3(-1, 0, -1), // 5  7:30  225 degrees,  left near
                 new THREE.Vector3(-1, 0, 0), // 6  9:00  270 degrees,  left
-                new THREE.Vector3(-1, 0, 1) // 7 11:30  315 degrees,  left deep
+                new THREE.Vector3(-1, 0, 1), // 7 11:30  315 degrees,  left deep
+                //new THREE.Vector3(0, -1, 0), // 8 down straight
+                new THREE.Vector3(0.5, -1, 0.33), //9 down right ////////////charlie, look at this
+                new THREE.Vector3(-0.5, -1, 0.33), //10 down left
+                new THREE.Vector3(0, -1, -0.66) //11 down rear
             ];
+            //I built a tripod to ensure that players couldn't "fall" at a 45 through boxes
 
             var position = controls.getObject()
                 .position;
@@ -167,13 +172,13 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
                 for (var i = 0; i < grid.length; i++) {
                     for (var j = 0; j < grid[i].length; j++) {
                         switch (grid[i][j]) {
-                        case 1:
+                            case 1:
 
-                            addCube(scene, camera, false, (size * i), (size * j));
-                            break;
-                        default:
+                                addCube(scene, camera, false, (size * i), (size * j));
+                                break;
+                            default:
 
-                    }
+                        }
                     }
                 }
             });
