@@ -1,0 +1,22 @@
+{
+    "_id": "npcObjects",
+    "docs": [{
+        "id": "XXXXX",
+        "npc_id": 1,
+        "npc_name": "Lydia",
+        "description": "A cute airhead with potato chips",
+        "color": "#3333FF",
+        "value": 1500,
+        "question": "Nyan?",
+        "answer": true
+    }, {
+        "id": "YYYYY",
+        "npc_id": 2,
+        "npc_name": "Tom",
+        "description": "A programmer with green eyes",
+        "color": "#00EE00",
+        "value": 15,
+        "question": "Is 2 + 2 equal to 5?",
+        "answer": true
+    }]
+};

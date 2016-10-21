@@ -45,7 +45,7 @@ function couchAttach(router, nano, dbName) {
             } else {
                 console.log(err1);
                 err1.p282special = 'Document conflict means document already exists. Try an update.';
-		response.status(err.statusCode).send(err1);
+                response.status(err.statusCode).send(err1);
             }
         }
 
@@ -56,8 +56,8 @@ function couchAttach(router, nano, dbName) {
                 a.insert('attachMe', 'AttachMe.html', data, 'text/html', rev,
                     nestedCallback);
             } else {
-		console.log(err);                
-		response.status(err.statusCode).send(err);
+                console.log(err);
+                response.status(err.statusCode).send(err);
             }
         }
 
@@ -79,8 +79,8 @@ function couchAttach(router, nano, dbName) {
                 console.log(body);
                 response.send(body);
             } else {
-                console.log(err);                
-		response.status(err.statusCode).send(err);
+                console.log(err);
+                response.status(err.statusCode).send(err);
             }
         });
     });

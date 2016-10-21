@@ -48,7 +48,7 @@ function views(router, nano, dbName) {
                 response.send(body);
             } else {
                 console.log(err);
-        response.status(err.statusCode).send(err);
+                response.status(err.statusCode).send(err);
             }
         });
     });
@@ -63,14 +63,14 @@ function views(router, nano, dbName) {
                 console.log(body);
                 response.send(body);
             } else {
-                console.log(err);                
-        response.status(err.statusCode).send(err);
+                console.log(err);
+                response.status(err.statusCode).send(err);
             }
         });
     });
 
     router.get('/viewOneDoc', function(request, response) {
-		console.log('View one doc called');
+        console.log('View one doc called');
         var nanoDb = nano.db.use(dbName);
         nanoDb.view(request.query.designDoc, request.query.view, function(err, body) {
             if (!err) {
@@ -78,7 +78,7 @@ function views(router, nano, dbName) {
                 response.send(body);
             } else {
                 console.log(err);
-        response.status(err.statusCode).send(err);
+                response.status(err.statusCode).send(err);
             }
         });
     });
