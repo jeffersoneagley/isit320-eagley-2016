@@ -71,6 +71,12 @@ queryController.viewBulk = function($q) {
     return runQuery('/viewBulk?designDoc=states&view=docBulk', $q);
 };
 
+queryController.viewNpc = function($q) {
+    'use strict';
+    console.log('viewNpc');
+    return runQuery('/viewBulk?designDoc=npcObjects&view=SortedByName', $q);
+};
+
 queryController.readOne = function($q) {
     'use strict';
     return runQuery('/read?docName=statesDoc', $q);
@@ -159,6 +165,13 @@ myModule.config(function($routeProvider) {
             controller: 'QueryController',
             resolve: {
                 result: queryController.viewBulk
+            }
+        })
+        .when('/viewNpc', {
+            templateUrl: 'templates/QueryView.html',
+            controller: 'QueryController',
+            resolve: {
+                result: queryController.viewNpc
             }
         })
         .when('/viewOneDoc', {
