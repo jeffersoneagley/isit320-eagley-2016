@@ -17,6 +17,7 @@ var queryController = myModule.controller('QueryController',
 
         $scope.docs = result.docs;
     });
+var fileName = 'NpcObjects.json';
 
 function runQuery(query, $q) {
     'use strict';
@@ -43,6 +44,11 @@ queryController.delete = function($q) {
 queryController.create = function($q) {
     'use strict';
     return runQuery('/createDb', $q);
+};
+
+queryController.fileBulk = function($q) {
+    'use strict';
+    return runQuery('/insertBulk?fileName=' + fileName, $q);
 };
 
 queryController.statesBulk = function($q) {
@@ -120,14 +126,14 @@ myModule.config(function($routeProvider) {
                 result: queryController.create
             }
         })
-        .when('/insertStatesBulk', {
+        .when('/insertBulk', {
             templateUrl: 'templates/States.html',
             controller: 'QueryController',
             resolve: {
-                result: queryController.statesBulk
+                result: queryController.fileBulk
             }
         })
-        .when('/insertStatesOneDoc', {
+        .when('/insertOneDoc', {
             templateUrl: 'templates/States.html',
             controller: 'QueryController',
             resolve: {

@@ -12,11 +12,11 @@
     }, {
         "id": "YYYYY",
         "npc_id": 2,
-        "npc_name": "Tom",
+        "npc_name": "Jefferson",
         "description": "A programmer with green eyes",
         "color": "#00EE00",
         "value": 15,
         "question": "Is 2 + 2 equal to 5?",
         "answer": true
     }]
-};
+}

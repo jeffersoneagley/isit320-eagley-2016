@@ -28,20 +28,45 @@ function designDocs(router, nano, dbName) {
         emit(doc._id, doc.name);
     };
 
-    var docStateCapital = function(doc) {
-        emit(doc.abbreviation, {
-            'name': doc.name,
-            'capital': doc.capital
+    var docNpcAllByID = function(doc) {
+        emit(doc.id, {
+            'id': doc.id,
+            'npc_id': doc.npc_id,
+            'npc_name': doc.npc_name,
+            'description': doc.description,
+            'color': doc.color,
+            'value': doc.value,
+            'question': doc.question,
+            'answer': doc.answer
         });
     };
 
-    var docStatesDoc = function(doc) {
-        if (doc._id === 'statesDoc') {
+    var docNpcAllByName = function(doc) {
+        emit(doc.npc_name, {
+            'id': doc.id,
+            'npc_id': doc.npc_id,
+            'npc_name': doc.npc_name,
+            'description': doc.description,
+            'color': doc.color,
+            'value': doc.value,
+            'question': doc.question,
+            'answer': doc.answer
+        });
+    };
+
+    var docNpcDoc = function(doc) {
+        if (doc._id === 'npcDoc') {
             var data = [];
-            doc.docs.forEach(function(state) {
+            doc.docs.forEach(function(npc) {
                 data.push({
-                    'name': state.name,
-                    'capital': state.capital
+                    'id': npc.id,
+                    'npc_id': npc.npc_id,
+                    'npc_name': npc.npc_name,
+                    'description': npc.description,
+                    'color': npc.color,
+                    'value': npc.value,
+                    'question': npc.question,
+                    'answer': npc.answer
                 });
             });
             emit(doc.docs[0].abbreviation, data);
@@ -80,6 +105,10 @@ function designDocs(router, nano, dbName) {
     }*/
 
     function createDesignDocument(designDocument, designName, response) {
+        console.log('createDesignDocument');
+        console.log('createDesignDocument(' + designDocument + ', ' +
+            designName + ', ' +
+            response + ')');
         var nanoDb = nano.db.use(dbName);
         nanoDb.insert(designDocument, designName, function(error, body) {
             if (!error) {
@@ -96,23 +125,29 @@ function designDocs(router, nano, dbName) {
 
     router.get('/designDoc', function(request, response) {
 
-        console.log('Design Doc Called');
+        console.log('/designDoc Called');
 
-        var designName = '_design/states';
+        var designName = '_design/npcObjects';
         var designDocument = {
             'views': {
-                'docBulk': {
-                    'map': docBulk
+                'docId': {
+                    'map': docNpcAllByID
                 },
+                'Sorted By Name': {
+                    'map': docNpcAllByName
+                }
+                /*  'docBulk': {
+                      'map': docBulk
+                  },
                 'docIdDoc': {
                     'map': docIdDoc
                 },
-                'docStateCapital': {
-                    'map': docStateCapital
+                'docNpcName': {
+                    'map': docNpcName
                 },
-                'docStatesDoc': {
-                    'map': docStatesDoc
-                }
+                'docNpcQuestion': {
+                    'map': docNpcQuestion
+                }*/
                 /*,
                                 "viewStatesDoc" : {
                                     "map" : viewStatesDoc
@@ -122,7 +157,7 @@ function designDocs(router, nano, dbName) {
                                 }*/
             }
         };
-
+        console.log('calling createDesignDocument');
         createDesignDocument(designDocument, designName, response);
     });
 
