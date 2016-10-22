@@ -6,7 +6,7 @@
         "npc_name": "Lydia",
         "description": "A cute airhead with potato chips",
         "color": "#3333FF",
-        "value": 1500,
+        "value": "priceless",
         "question": "Nyan?",
         "answer": true
     }, {
@@ -15,8 +15,17 @@
         "npc_name": "Jefferson",
         "description": "A programmer with green eyes",
         "color": "#00EE00",
-        "value": 15,
+        "value": 2000,
         "question": "Is 2 + 2 equal to 5?",
+        "answer": true
+    }, {
+        "id": "000001",
+        "npc_id": 3,
+        "npc_name": "Charlie",
+        "description": "A mad scientist, solar panel enthusiast, and professor.",
+        "color": "#00EE00",
+        "value": 2000,
+        "question": "Did you run grunt check on your code?",
         "answer": true
     }]
 }

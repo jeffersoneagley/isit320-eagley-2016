@@ -54,6 +54,21 @@ function designDocs(router, nano, dbName) {
         });
     };
 
+    var docNpcAnswerBool = function(npc) {
+        if (typeof (npc.answer) === 'boolean') {
+            emit(npc.npc_name + ': ' + npc.answer, {
+                'id': npc.id,
+                'npc_id': npc.npc_id,
+                'npc_name': npc.npc_name,
+                'description': npc.description,
+                'color': npc.color,
+                'value': npc.value,
+                'question': npc.question,
+                'answer': npc.answer
+            });
+        }
+    };
+
     var docNpcDoc = function(doc) {
         if (doc._id === 'npcDoc') {
             var data = [];
@@ -133,8 +148,11 @@ function designDocs(router, nano, dbName) {
                 'docId': {
                     'map': docNpcAllByID
                 },
-                'Sorted By Name': {
+                'SortedByName': {
                     'map': docNpcAllByName
+                },
+                'Answers_Bool_Only': {
+                    'map': docNpcAnswerBool
                 }
                 /*  'docBulk': {
                       'map': docBulk
