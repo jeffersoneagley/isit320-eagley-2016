@@ -29,7 +29,8 @@ function designDocs(router, nano, dbName) {
     };
 
     var docNpcAllByID = function(doc) {
-        emit(doc.npc_id, {
+        emit(doc.id, {
+            'id': doc.id,
             'npc_id': doc.npc_id,
             'npc_name': doc.npc_name,
             'description': doc.description,
@@ -42,6 +43,7 @@ function designDocs(router, nano, dbName) {
 
     var docNpcAllByName = function(doc) {
         emit(doc.npc_name, {
+            'id': doc.id,
             'npc_id': doc.npc_id,
             'npc_name': doc.npc_name,
             'description': doc.description,
@@ -55,6 +57,7 @@ function designDocs(router, nano, dbName) {
     var docNpcAnswerBool = function(npc) {
         if (typeof (npc.answer) === 'boolean') {
             emit(npc.npc_name + ': ' + npc.answer, {
+                'id': npc.id,
                 'npc_id': npc.npc_id,
                 'npc_name': npc.npc_name,
                 'description': npc.description,
@@ -71,6 +74,7 @@ function designDocs(router, nano, dbName) {
             var data = [];
             doc.docs.forEach(function(npc) {
                 data.push({
+                    'id': npc.id,
                     'npc_id': npc.npc_id,
                     'npc_name': npc.npc_name,
                     'description': npc.description,
@@ -141,13 +145,13 @@ function designDocs(router, nano, dbName) {
         var designName = '_design/npcObjects';
         var designDocument = {
             'views': {
-                'SortedById': {
+                'docId': {
                     'map': docNpcAllByID
                 },
                 'SortedByName': {
                     'map': docNpcAllByName
                 },
-                'AnswersBoolOnly': {
+                'Answers_Bool_Only': {
                     'map': docNpcAnswerBool
                 }
                 /*  'docBulk': {
