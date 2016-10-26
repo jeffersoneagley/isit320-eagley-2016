@@ -72,6 +72,36 @@ router.get('/deleteDb', function(request, response) {
     });
 });
 
+router.get('/readNpcInitialSetupParameters', function(request, response) {
+    'use strict';
+    console.log('readNpcInitialSetupParameters called');
+    // var url = 'http://localhost:5984/prog28202/_all_docs';
+    var nanoDb = nano.db.use(dbName);
+    nano.db.get('_design/npcObjects/_view/docNpcInitialSetupParameters', function(err, result) {
+        if (!err) {
+            console.log(result);
+        }
+        console.log(result);
+        response.send(result);
+    });
+    /*  var result = [];
+      nanoDb.list(function(err, body) {
+          if (!err) {
+              body.rows.forEach(function(doc) {
+                  console.log(doc);
+                  result.push(doc.key);
+              });
+              console.log(result);
+              response.send(result);
+          } else {
+              console.log(err);
+              response.status(500)
+                  .send(err);
+              return;
+          }
+      });*/
+});
+
 router.get('/read', function(request, response) {
     'use strict';
     console.log('Read called: ' + JSON.stringify(request.query));

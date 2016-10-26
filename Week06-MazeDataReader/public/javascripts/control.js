@@ -198,8 +198,26 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
             readDatabase();
         }
 
+        function checkPlayerPositionForNPC() {
+            var x = 1;
+            var z = 1;
+            $.getJSON('/checkPlayerPositionForNPC?={x:' + x + ',z:' + z + '}', function(data) {
+                    console.log(JSON.stringify(data, null, 4));
+                })
+                .fail(function(jqxhr, textStatus, error) {
+                    var err = textStatus + ', ' + error;
+                    console.log({
+                        'Request Failed': err
+                    });
+                    var response = JSON.parse(jqxhr.responseText);
+                    var responseValue = JSON.stringify(response, null, 4);
+                    console.log(responseValue);
+                    alert('Database not connected' + responseValue);
+                });
+        }
+
         function readDatabase() {
-            $.getJSON('/read?=game_data_eagley/_design/npcObjects', function(data) {
+            $.getJSON('/readNpcInitialSetupParameters', function(data) {
                     console.log(JSON.stringify(data, null, 4));
                 })
                 .fail(function(jqxhr, textStatus, error) {

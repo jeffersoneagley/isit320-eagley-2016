@@ -52,6 +52,13 @@ function designDocs(router, nano, dbName) {
         });
     };
 
+    var docNpcInitialSetupParameters = function(doc) {
+        emit(doc.npc_id, {
+            'npc_id': doc.npc_id,
+            'color': doc.color,
+        });
+    };
+
     var docNpcAnswerBool = function(npc) {
         if (typeof (npc.answer) === 'boolean') {
             emit(npc.npc_name + ': ' + npc.answer, {
@@ -66,8 +73,8 @@ function designDocs(router, nano, dbName) {
         }
     };
 
-    var docNpcDoc = function(doc) {
-        if (doc._id === 'npcDoc') {
+    var docGetSpecificNpcById = function(doc) {
+        if (doc.npc_id === 'npcDoc') {
             var data = [];
             doc.docs.forEach(function(npc) {
                 data.push({
@@ -80,7 +87,7 @@ function designDocs(router, nano, dbName) {
                     'answer': npc.answer
                 });
             });
-            emit(doc.docs[0].abbreviation, data);
+            emit(doc.npc_id, data);
         }
     };
 
@@ -141,14 +148,20 @@ function designDocs(router, nano, dbName) {
         var designName = '_design/npcObjects';
         var designDocument = {
             'views': {
-                'SortedById': {
+                'docSortedById': {
                     'map': docNpcAllByID
                 },
-                'SortedByName': {
+                'docSortedByName': {
                     'map': docNpcAllByName
                 },
-                'AnswersBoolOnly': {
+                'docAnswersBoolOnly': {
                     'map': docNpcAnswerBool
+                },
+                'docNpcInitialSetupParameters': {
+                    'map': docNpcInitialSetupParameters
+                },
+                'docGetSpecificNpcById': {
+                    'map': docGetSpecificNpcById
                 }
                 /*  'docBulk': {
                       'map': docBulk
