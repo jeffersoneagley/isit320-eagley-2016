@@ -60,5 +60,10 @@ define([require], function() {
 
         return false;
     };
+
+    collisions.prototype.npcDetection = function() {
+
+    };
+
     return Collisions;
 });

@@ -8,7 +8,8 @@ requirejs.config({
         'pointerLockSetup': 'javascripts/pointerLockSetup',
         'control': 'javascripts/control',
         'floor': 'javascripts/floors',
-        'collisions': 'javascripts/collisions'
+        'collisions': 'javascripts/collisions',
+        'npcEngine': 'javascripts/npcEngine'
 
     },
     shim: {

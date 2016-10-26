@@ -1,7 +1,7 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions'],
-    function(Floors, PointerLockControls, PointerLockSetup, Collisions) {
+define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEngine'],
+    function(Floors, PointerLockControls, PointerLockSetup, Collisions, NpcEngine) {
         'use strict';
         var scene = null;
         var camera = null;
@@ -10,6 +10,7 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions'],
         var THREE = null;
         var floors;
         var collisions = null;
+        var npcEngine = null;
         var crateMaterial = null;
         var loader = null;
         var size = 20;
@@ -35,11 +36,15 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions'],
 
         function init(threeInit) {
             console.log('Control constructor called');
+            //start three
             THREE = threeInit;
+
+            //initialize controllers and objects
             initializeMaterials();
             floors = new Floors(THREE);
             collisions = new Collisions(THREE);
             scene = new THREE.Scene();
+            npcEngine = new NpcEngine(THREE);
 
             //set up camera
             var width = window.innerWidth / window.innerHeight;
@@ -150,8 +155,8 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions'],
                         for (var i = 0; i < grid.length; i++) {
                             for (var j = 0; j < grid[i].length; j++) {
                                 if (grid[i][j] !== 0) {
-                                    addSphere(scene, camera, false,
-                                        (size * i), (size * j),
+                                    npcEngine.addNpc(scene, camera, false,
+                                        (size * i), (size * j), size,
                                         data[grid[i][j] - 1].value.color);
                                 }
                             }
