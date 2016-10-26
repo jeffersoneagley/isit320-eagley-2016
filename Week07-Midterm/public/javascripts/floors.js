@@ -1,5 +1,4 @@
 define([require], function() {
-
     'use strict';
 
     var THREE = null;

@@ -1,19 +1,20 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'pointerLockControls', 'pointerLockSetup'],
-    function(Floors, PointerLockControls, PointerLockSetup) {
+define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions'],
+    function(Floors, PointerLockControls, PointerLockSetup, Collisions) {
         'use strict';
         var scene = null;
         var camera = null;
         var renderer = null;
         var cube = null;
         var THREE = null;
+        var floors;
+        var collisions = null;
         var crateMaterial = null;
         var loader = null;
         var size = 20;
         var cubes = [];
         var controls;
-        var raycaster;
         var reducedUpdateIndex = 0;
 
         var cameraPosition = {
@@ -33,27 +34,36 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
         }
 
         function init(threeInit) {
-            THREE = threeInit;
             console.log('Control constructor called');
+            THREE = threeInit;
+            initializeMaterials();
+            floors = new Floors(THREE);
+            collisions = new Collisions(THREE);
             scene = new THREE.Scene();
+
+            //set up camera
             var width = window.innerWidth / window.innerHeight;
             camera = new THREE.PerspectiveCamera(75, width, 0.1, 1000);
-            initializeMaterials();
-            var floors = new Floors(THREE);
-            floors.drawFloor(scene);
             renderer = new THREE.WebGLRenderer({
                 antialias: true
             });
             renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+
+            //set up scene
+            floors.drawFloor(scene);
+
+            //attach game
             $('#gameWindow')
                 .append(renderer.domElement);
+
+            //build items to scene
             addCubes(scene, camera, false);
             addSpheres(scene, camera, false);
             addLights();
 
-            raycaster = new THREE.Raycaster(new THREE.Vector3(),
-                new THREE.Vector3(0, -1, 0), 0, 4);
             window.addEventListener('resize', onWindowResize, false);
+
+            //final scale and lock
             onWindowResize();
             doPointerLock();
         }
@@ -75,8 +85,7 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
 
             var controlObject = controls.getObject();
             var position = controlObject.position;
-
-            collisionDetection(cubes);
+            collisions.detect(cubes, controls);
 
             // Move the camera
             controls.update();
@@ -96,57 +105,6 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
             drawText(controls.getObject()
                 .position);
         }
-
-        var collisionDetection = function(cubes) {
-
-            function bounceBack(position, ray) {
-                position.x -= ray.bounceDistance.x;
-                position.y -= ray.bounceDistance.y;
-                position.z -= ray.bounceDistance.z;
-            }
-
-            var rays = [
-                //   Time    Degrees      words
-                new THREE.Vector3(0, 0, 1), // 0 12:00,   0 degrees,  deep
-                new THREE.Vector3(1, 0, 1), // 1  1:30,  45 degrees,  right deep
-                new THREE.Vector3(1, 0, 0), // 2  3:00,  90 degress,  right
-                new THREE.Vector3(1, 0, -1), // 3  4:30, 135 degrees,  right near
-                new THREE.Vector3(0, 0, -1), // 4  6:00  180 degress,  near
-                new THREE.Vector3(-1, 0, -1), // 5  7:30  225 degrees,  left near
-                new THREE.Vector3(-1, 0, 0), // 6  9:00  270 degrees,  left
-                new THREE.Vector3(-1, 0, 1), // 7 11:30  315 degrees,  left deep
-                //new THREE.Vector3(0, -1, 0), // 8 down straight
-                new THREE.Vector3(0.5, -1, 0.33), //9 down right ////////////charlie, look at this
-                new THREE.Vector3(-0.5, -1, 0.33), //10 down left
-                new THREE.Vector3(0, -1, -0.66) //11 down rear
-            ];
-            //I built a tripod to ensure that players couldn't "fall" at a 45 through boxes
-
-            var position = controls.getObject()
-                .position;
-            var rayHits = [];
-            for (var index = 0; index < rays.length; index += 1) {
-
-                // Set bounce distance for each vector
-                var bounceSize = 0.01;
-                rays[index].bounceDistance = {
-                    x: rays[index].x * bounceSize,
-                    y: rays[index].y * bounceSize,
-                    z: rays[index].z * bounceSize
-                };
-
-                raycaster.set(position, rays[index]);
-
-                var intersections = raycaster.intersectObjects(cubes);
-
-                if (intersections.length > 0 && intersections[0].distance <= 3) {
-                    controls.isOnObject(true);
-                    bounceBack(position, rays[index]);
-                }
-            }
-
-            return false;
-        };
 
         function doPointerLock() {
             controls = new PointerLockControls(camera, THREE);
@@ -186,16 +144,23 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
 
         function addSpheres(scene, camera, wireFrame) {
 
-            $.getJSON('npcs000.json', function(grid) {
-                for (var i = 0; i < grid.length; i++) {
-                    for (var j = 0; j < grid[i].length; j++) {
-                        if (grid[i][j] !== 0) {
-                            addSphere(scene, camera, false, (size * i), (size * j));
+            var data = readDatabase(function(err, data) {
+                if (!err) {
+                    $.getJSON('npcs000.json', function(grid) {
+                        for (var i = 0; i < grid.length; i++) {
+                            for (var j = 0; j < grid[i].length; j++) {
+                                if (grid[i][j] !== 0) {
+                                    addSphere(scene, camera, false,
+                                        (size * i), (size * j),
+                                        data[grid[i][j] - 1].value.color);
+                                }
+                            }
                         }
-                    }
+                    });
+                } else {
+                    console.log('Failed to load NPC data');
                 }
             });
-            readDatabase();
         }
 
         function checkPlayerPositionForNPC() {
@@ -216,9 +181,12 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
                 });
         }
 
-        function readDatabase() {
+        function readDatabase(callback) {
             $.getJSON('/readNpcInitialSetupParameters', function(data) {
-                    console.log(JSON.stringify(data, null, 4));
+                    var myData = data.rows;
+                    console.log(myData);
+                    console.log(JSON.stringify(myData, null, 4));
+                    callback(undefined, myData);
                 })
                 .fail(function(jqxhr, textStatus, error) {
                     var err = textStatus + ', ' + error;
@@ -229,6 +197,7 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
                     var responseValue = JSON.stringify(response, null, 4);
                     console.log(responseValue);
                     alert('Database not connected' + responseValue);
+                    callback('Database not connected' + responseValue, null);
                 });
         }
 
@@ -242,10 +211,11 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
             return cube;
         }
 
-        function addSphere(scene, camera, wireFrame, x, z) {
+        function addSphere(scene, camera, wireFrame, x, z, color) {
+            console.log(color + ' NPC added');
             var geometry = new THREE.SphereGeometry(3, 25, 25);
-            var material = new THREE.MeshNormalMaterial({
-                //  color: 0x05ff05,
+            var material = new THREE.MeshBasicMaterial({
+                color: color,
                 wireframe: wireFrame
             });
             var sphere = new THREE.Mesh(geometry, material);

@@ -78,20 +78,23 @@ router.get('/readNpcInitialSetupParameters', function(request, response) {
     // var url = 'http://localhost:5984/prog28202/_all_docs';
 
     var nanoDb = nano.db.use(dbName);
-
-    nano.db.view('npcObjects', 'docNpcInitialSetupParameters', function(err, result) {
-        console.log('response from db ' + err);
-        console.log(result);
-        if (!err) {
-            console.log('success, processing result');
+    try {
+        nanoDb.view('npcObjects', 'docNpcInitialSetupParameters', function(err, result) {
+            console.log('response from db ' + err);
             console.log(result);
-            //result.rows
-        } else {
-            console.log(err);
-        }
-        console.log(result);
-        response.send(result);
-    });
+            if (!err) {
+                console.log('success, processing result');
+                console.log(result);
+                //result.rows
+            } else {
+                console.log(err);
+            }
+            console.log(result);
+            response.send(result);
+        });
+    } catch (exc) {
+        console.log(exc);
+    }
     /*var result = [];
     nanoDb.list(function(err, body) {
         if (!err) {
