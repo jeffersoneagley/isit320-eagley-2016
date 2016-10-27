@@ -75,39 +75,24 @@ router.get('/deleteDb', function(request, response) {
 router.get('/readNpcInitialSetupParameters', function(request, response) {
     'use strict';
     console.log('readNpcInitialSetupParameters called');
-    // var url = 'http://localhost:5984/prog28202/_all_docs';
-
     var nanoDb = nano.db.use(dbName);
-
-    nano.db.view('npcObjects', 'docNpcInitialSetupParameters', function(err, result) {
-        console.log('response from db ' + err);
-        console.log(result);
-        if (!err) {
-            console.log('success, processing result');
+    try {
+        nanoDb.view('npcObjects', 'docNpcInitialSetupParameters', function(err, result) {
+            console.log('response from db ' + err);
             console.log(result);
-            //result.rows
-        } else {
-            console.log(err);
-        }
-        console.log(result);
-        response.send(result);
-    });
-    /*var result = [];
-    nanoDb.list(function(err, body) {
-        if (!err) {
-            body.rows.forEach(function(doc) {
-                console.log(doc);
-                result.push(doc.key);
-            });
+            if (!err) {
+                console.log('success, processing result');
+                console.log(result);
+                //result.rows
+            } else {
+                console.log(err);
+            }
             console.log(result);
             response.send(result);
-        } else {
-            console.log(err);
-            response.status(500)
-                .send(err);
-            return;
-        }
-    });*/
+        });
+    } catch (exc) {
+        console.log(exc);
+    }
 });
 
 router.get('/read', function(request, response) {
