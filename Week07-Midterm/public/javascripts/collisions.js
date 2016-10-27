@@ -3,22 +3,13 @@ define([require], function() {
 
     var THREE = null;
     var raycaster;
+    var rays;
 
     function Collisions(threeInit) {
         THREE = threeInit;
         raycaster = new THREE.Raycaster(new THREE.Vector3(),
             new THREE.Vector3(0, -1, 0), 0, 4);
-    }
-
-    Collisions.prototype.detect = function(cubes, controls) {
-
-        function bounceBack(position, ray) {
-            position.x -= ray.bounceDistance.x;
-            position.y -= ray.bounceDistance.y;
-            position.z -= ray.bounceDistance.z;
-        }
-
-        var rays = [
+        rays = [
             //   Time    Degrees      words
             new THREE.Vector3(0, 0, 1), // 0 12:00,   0 degrees,  deep
             new THREE.Vector3(1, 0, 1), // 1  1:30,  45 degrees,  right deep
@@ -34,7 +25,16 @@ define([require], function() {
             new THREE.Vector3(0, -1, -0.66) //11 down rear
         ];
         //I built a tripod to ensure that players couldn't "fall" at a 45 through boxes
+    }
 
+    function bounceBack(position, ray) {
+        position.x -= ray.bounceDistance.x;
+        position.y -= ray.bounceDistance.y;
+        position.z -= ray.bounceDistance.z;
+    }
+
+    Collisions.prototype.detect = function(cubes, controls) {
+        var result = false;
         var position = controls.getObject()
             .position;
         var rayHits = [];
@@ -55,15 +55,53 @@ define([require], function() {
             if (intersections.length > 0 && intersections[0].distance <= 3) {
                 controls.isOnObject(true);
                 bounceBack(position, rays[index]);
+                result = true;
             }
         }
 
-        return false;
+        return result;
     };
 
-    collisions.prototype.npcDetection = function() {
+    Collisions.prototype.npcDetection = function(npcObjects, controls) {
+        var result = false;
+        var position = controls.getObject()
+            .position;
+        var rayHits = [];
+        for (var index = 0; index < rays.length; index += 1) {
 
+            // Set bounce distance for each vector
+            var bounceSize = 0.01;
+            rays[index].bounceDistance = {
+                x: rays[index].x * bounceSize,
+                y: rays[index].y * bounceSize,
+                z: rays[index].z * bounceSize
+            };
+
+            raycaster.set(position, rays[index]);
+
+            var intersections = raycaster.intersectObjects(npcObjects);
+
+            if (intersections.length > 0 && intersections[0].distance <= 3) {
+                controls.isOnObject(true);
+                bounceBack(position, rays[index]);
+                result = true;
+
+                for (var collider in intersections) {
+                    //console.log(collider);
+                    if (intersections[collider].object !== undefined &&
+                        intersections[collider].object.npc_id !== undefined) {
+                        intersectNpc(intersections[collider].object.npc_id);
+                    }
+                }
+            }
+        }
+
+        return result;
     };
+
+    function intersectNpc(npc_id) {
+        console.log(npc_id + ' encountered');
+    }
 
     return Collisions;
 });

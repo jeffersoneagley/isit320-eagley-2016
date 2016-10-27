@@ -91,6 +91,7 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEn
             var controlObject = controls.getObject();
             var position = controlObject.position;
             collisions.detect(cubes, controls);
+            collisions.npcDetection(npcEngine.getNpcList(), controls);
 
             // Move the camera
             controls.update();
@@ -157,7 +158,9 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEn
                                 if (grid[i][j] !== 0) {
                                     npcEngine.addNpc(scene, camera, false,
                                         (size * i), (size * j), size,
-                                        data[grid[i][j] - 1].value.color);
+                                        data[grid[i][j] - 1].value.color,
+                                        data[grid[i][j] - 1].value.npc_id
+                                    );
                                 }
                             }
                         }
