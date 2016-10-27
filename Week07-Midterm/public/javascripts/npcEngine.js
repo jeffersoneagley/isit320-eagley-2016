@@ -19,6 +19,8 @@ define([require], function() {
         sphere.overdraw = true;
         sphere.position.set(x, scale / 2, z);
         sphere.npc_id = npc_id;
+        sphere.npcAskQuestion = npcAskQuestion;
+        sphere.npcCheckAnswer = npcCheckAnswer;
         scene.add(sphere);
         npcList.push(sphere);
         return sphere;
@@ -28,6 +30,21 @@ define([require], function() {
         //console.log('getNpcList called ' + npcList);
         return npcList;
     };
+
+    function npcAskQuestion() {
+        //get npc's question
+        console.log(this.npc_id);
+        $.getJSON('/readNpcQuestion?=npc_id:' + this.npc_id, function(data) {
+            var myData = data.rows;
+            console.log(myData);
+            console.log(JSON.stringify(myData, null, 4));
+            callback(undefined, myData);
+        });
+    }
+
+    function npcCheckAnswer(playerGuess) {
+
+    }
 
     return NpcEngine;
 

@@ -95,22 +95,37 @@ router.get('/readNpcInitialSetupParameters', function(request, response) {
     } catch (exc) {
         console.log(exc);
     }
-    /*var result = [];
-    nanoDb.list(function(err, body) {
-        if (!err) {
-            body.rows.forEach(function(doc) {
-                console.log(doc);
-                result.push(doc.key);
+});
+
+router.get('/readNpcQuestion', function(request, response) {
+    'use strict';
+    console.log('readNpcQuestion called');
+    // var url = 'http://localhost:5984/prog28202/_all_docs';
+    if (request.query.npc_id !== undefined) {
+        var npc_id = request.query.npc_id;
+        console.log('readNpcQuestion for NPC ' + npc_id);
+        var nanoDb = nano.db.use(dbName);
+        try {
+            console.log('searching db for id');
+            nanoDb.search('npcObjects', 'docSortedById', {
+                'npc_id': npc_id
+            }, function(err, result) {
+                console.log('response from db ' + err);
+                console.log(result);
+                if (!err) {
+                    console.log('success, processing result');
+                    console.log(result);
+                    //result.rows
+                } else {
+                    console.log(err);
+                }
+                console.log(result);
+                response.send(result);
             });
-            console.log(result);
-            response.send(result);
-        } else {
-            console.log(err);
-            response.status(500)
-                .send(err);
-            return;
+        } catch (exc) {
+            console.log(exc);
         }
-    });*/
+    }
 });
 
 router.get('/read', function(request, response) {

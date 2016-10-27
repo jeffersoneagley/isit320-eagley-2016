@@ -171,24 +171,6 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEn
             });
         }
 
-        function checkPlayerPositionForNPC() {
-            var x = 1;
-            var z = 1;
-            $.getJSON('/checkPlayerPositionForNPC?={x:' + x + ',z:' + z + '}', function(data) {
-                    console.log(JSON.stringify(data, null, 4));
-                })
-                .fail(function(jqxhr, textStatus, error) {
-                    var err = textStatus + ', ' + error;
-                    console.log({
-                        'Request Failed': err
-                    });
-                    var response = JSON.parse(jqxhr.responseText);
-                    var responseValue = JSON.stringify(response, null, 4);
-                    console.log(responseValue);
-                    alert('Database not connected' + responseValue);
-                });
-        }
-
         function readDatabase(callback) {
             $.getJSON('/readNpcInitialSetupParameters', function(data) {
                     var myData = data.rows;

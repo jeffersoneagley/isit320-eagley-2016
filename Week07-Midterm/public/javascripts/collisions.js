@@ -91,6 +91,9 @@ define([require], function() {
                     if (intersections[collider].object !== undefined &&
                         intersections[collider].object.npc_id !== undefined) {
                         intersectNpc(intersections[collider].object.npc_id);
+                        if (intersections[collider].object.npcAskQuestion !== undefined) {
+                            intersections[collider].object.npcAskQuestion();
+                        }
                     }
                 }
             }
