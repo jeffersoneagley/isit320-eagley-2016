@@ -6,6 +6,7 @@ requirejs.config({
         'Three': 'javascripts/three.min',
         'pointerLockControls': 'javascripts/pointerLockControls',
         'pointerLockSetup': 'javascripts/pointerLockSetup',
+        'score': 'javascripts/score',
         'control': 'javascripts/control',
         'floor': 'javascripts/floors'
 

@@ -1,17 +1,19 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'pointerLockControls', 'pointerLockSetup'],
-    function(Floors, PointerLockControls, PointerLockSetup) {
+define(['floor', 'pointerLockControls', 'pointerLockSetup', 'score'],
+    function(Floors, PointerLockControls, PointerLockSetup, Score) {
         'use strict';
         var scene = null;
         var camera = null;
         var renderer = null;
         var cube = null;
         var THREE = null;
+        var score = null;
         var crateMaterial = null;
         var loader = null;
         var size = 20;
         var cubes = [];
+        var npcs = [];
         var controls;
         var raycaster;
         var reducedUpdateIndex = 0;
@@ -40,6 +42,7 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
             camera = new THREE.PerspectiveCamera(75, width, 0.1, 1000);
             initializeMaterials();
             var floors = new Floors(THREE);
+            score = new Score(THREE);
             floors.drawFloor(scene);
             renderer = new THREE.WebGLRenderer({
                 antialias: true
@@ -77,6 +80,7 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
             var position = controlObject.position;
 
             collisionDetection(cubes);
+            collisionDetection(npcs);
 
             // Move the camera
             controls.update();
@@ -142,6 +146,10 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
                 if (intersections.length > 0 && intersections[0].distance <= 3) {
                     controls.isOnObject(true);
                     bounceBack(position, rays[index]);
+                    if (intersections[0].object !== undefined &&
+                        intersections[0].object.OnCollisionWithPlayer !== undefined) {
+                        intersections[0].object.OnCollisionWithPlayer();
+                    }
                 }
             }
 
@@ -164,6 +172,8 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
                 .html(Number(Math.round(position.x / size)));
             $('#cameraZ')
                 .html(Number(Math.round(position.z / size)));
+            $('#score')
+                .html(Number(Math.round(score.GetScore())));
         }
 
         function addCubes(scene, camera, wireFrame) {
@@ -251,9 +261,32 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup'],
             var sphere = new THREE.Mesh(geometry, material);
             sphere.overdraw = true;
             sphere.position.set(x, size / 2, z);
+            sphere.value = 1;
+            sphere.collisionEnabled = true;
+            sphere.OnCollisionWithPlayer = function() {
+                if (score.GetScore() >= sphere.value - 1) {
+                    console.log('encountered a sphere of value ' + sphere.value);
+                    score.ScorePoints(sphere.value);
+                    sphere.collisionEnabled = false;
+                    refreshNpcList();
+                }
+            };
+
+            npcs.push(sphere);
             scene.add(sphere);
 
             return sphere;
+        }
+
+        function refreshNpcList() {
+            var temp = [];
+            for (var i = 0; i < npcs.length; i++) {
+                if (npcs[i].collisionEnabled === undefined ||
+                    npcs[i].collisionEnabled === true) {
+                    temp.push(npcs[i]);
+                }
+            }
+            npcs = temp;
         }
 
         function addLights() {
