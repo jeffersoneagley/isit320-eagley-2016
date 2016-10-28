@@ -1,13 +1,14 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEngine'],
-    function(Floors, PointerLockControls, PointerLockSetup, Collisions, NpcEngine) {
+define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEngine'],
+    function(Floors, Score, PointerLockControls, PointerLockSetup, Collisions, NpcEngine) {
         'use strict';
         var scene = null;
         var camera = null;
         var renderer = null;
         var cube = null;
         var THREE = null;
+        var score = null;
         var floors;
         var collisions = null;
         var npcEngine = null;
@@ -40,11 +41,12 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEn
             THREE = threeInit;
 
             //initialize controllers and objects
+            scene = new THREE.Scene();
             initializeMaterials();
             floors = new Floors(THREE);
             collisions = new Collisions(THREE);
-            scene = new THREE.Scene();
             npcEngine = new NpcEngine(THREE);
+            score = new Score(THREE);
 
             //set up camera
             var width = window.innerWidth / window.innerHeight;
