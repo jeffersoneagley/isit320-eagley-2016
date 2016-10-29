@@ -4,6 +4,7 @@ define([require], function() {
     var THREE = null;
     var raycaster;
     var rays;
+    var debug = false;
 
     function Collisions(threeInit) {
         THREE = threeInit;
@@ -60,7 +61,9 @@ define([require], function() {
             for (var i = 0; i < intersections.length; i++) {
                 if (intersections[i].object !== undefined &&
                     intersections[i].object.OnCollisionEnter !== undefined) {
-                    console.log(intersections[i].object + ' executing OnCollisionEnter');
+                    if (debug) {
+                        console.log(intersections[i].object + ' executing OnCollisionEnter');
+                    }
                     intersections[i].object.OnCollisionEnter(intersections[i].object);
                 }
             }
@@ -110,7 +113,9 @@ define([require], function() {
     };
 
     function intersectNpc(npc_id) {
-        console.log(npc_id + ' encountered');
+        if (debug) {
+            console.log(npc_id + ' encountered');
+        }
     }
 
     return Collisions;

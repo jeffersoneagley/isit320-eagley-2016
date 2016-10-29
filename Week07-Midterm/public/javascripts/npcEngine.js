@@ -1,4 +1,4 @@
-define([require], function() {
+define(['popupQuestion', 'pointerLockControls'], function(PopupQuestion, PointerLockControls) {
     'use strict';
 
     var THREE = null;
@@ -22,6 +22,7 @@ define([require], function() {
         sphere.npcAskQuestion = npcAskQuestion;
         sphere.npcCheckAnswer = npcCheckAnswer;
         sphere.OnCollisionEnter = function(self) {
+            console.log('OnCollisionEnter called');
             if (self.npcAskQuestion !== undefined) {
                 self.npcAskQuestion(self);
             }
@@ -38,22 +39,27 @@ define([require], function() {
 
     function npcAskQuestion(self) {
         //get npc's question
-        if (self.isAskingQuestion === undefined) {
-            self.isAskingQuestion = true;
-        }
-        if (self.isAskingQuestion !== true) {
-            console.log(self.npc_id);
-            $.getJSON('/readNpcQuestion?=npc_id:' + self.npc_id, function(data) {
-                var myData = data.rows;
-                console.log(JSON.stringify(myData, null, 4));
+
+        if (self.isAskingQuestion === undefined || self.isAskingQuestion !== true) {
+            console.log('npcAskQuestion - ' + self.npc_id);
+            console.log('npc_id ' + self.npc_id + ' asking question from db');
+            $.getJSON('/readNpcQuestion?npc_id=' + self.npc_id, function(response) {
+                console.log('readNpcQuestion response recieved');
+                console.log(JSON.stringify(response, null, 4));
+                var myPopupQuestion = new PopupQuestion(THREE);
+                myPopupQuestion.Show(response.question, response.options, '/readNpcTryGuess', function(guess) {
+                    npcCheckAnswer(self, guess);
+                });
             });
+            if (self.isAskingQuestion === undefined) {
+                self.isAskingQuestion = true;
+            }
         }
     }
 
     function npcCheckAnswer(self, playerGuess) {
         self.isAskingQuestion = false;
-        $.getJSON('/readNpcTryGuess?=npc_id:' + self.npc_id + '&&guess:' + playerGuess, function(result) {
-            var myData = data.rows;
+        $.getJSON('/readNpcTryGuess?=npc_id:' + self.npc_id + '&guess:' + playerGuess, function(result) {
             console.log(result);
         });
     }

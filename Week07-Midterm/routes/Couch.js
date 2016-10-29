@@ -99,28 +99,78 @@ router.get('/readNpcInitialSetupParameters', function(request, response) {
 
 router.get('/readNpcQuestion', function(request, response) {
     'use strict';
-    console.log('readNpcQuestion called');
+    console.log('readNpcQuestion for NPC ' + request.query.npc_id);
     // var url = 'http://localhost:5984/prog28202/_all_docs';
     if (request.query.npc_id !== undefined) {
         var npc_id = request.query.npc_id;
-        console.log('readNpcQuestion for NPC ' + npc_id);
         var nanoDb = nano.db.use(dbName);
+        var params = {
+            keys: [npc_id + '']
+        };
+        console.log(params.keys);
         try {
-            console.log('searching db for id');
-            nanoDb.search('npcObjects', 'docSortedById', {
-                'npc_id': npc_id
+            nanoDb.view('npcObjects', 'docSortedById', {
+                keys: [1]
             }, function(err, result) {
-                console.log('response from db ' + err);
-                console.log(result);
                 if (!err) {
                     console.log('success, processing result');
-                    console.log(result);
-                    //result.rows
+                    var question = result.rows[0].value.question;
+                    var options = [];
+                    if (result.rows[0].value.answer === false || result.rows[0].value.answer === true) {
+                        options.push({
+                            'label': 'yes',
+                            'value': true
+                        });
+                        options.push({
+                            'label': 'no',
+                            'value': false
+                        });
+                    }
+                    //console.log(JSON.stringify(result, null, 4));
+                    response.send({
+                        'question': question,
+                        'options': options
+                    });
                 } else {
                     console.log(err);
+                    response.send(err);
                 }
-                console.log(result);
-                response.send(result);
+            });
+        } catch (exc) {
+            console.log(exc);
+        }
+    }
+});
+
+router.get('/readNpcTryGuess', function(request, response) {
+    'use strict';
+    console.log('readNpcQuestion for NPC ' + request.query.npc_id + ' guess: ' + request.query.guess);
+    if (request.query.npc_id !== undefined) {
+        var npc_id = request.query.npc_id;
+        var guess = request.query.guess;
+        var nanoDb = nano.db.use(dbName);
+        var params = {
+            keys: [npc_id + '']
+        };
+        console.log(params.keys);
+        try {
+            nanoDb.view('npcObjects', 'docSortedById', {
+                keys: [1]
+            }, function(err, result) {
+                if (!err) {
+                    console.log('success, processing result');
+                    var question = result.rows[0].value.question;
+                    var answer = result.rows[0].value.answer;
+                    var isCorrectAnswer = (answer === guess);
+                    response.send({
+                        'question': question,
+                        'guess': guess,
+                        'result': isCorrectAnswer
+                    });
+                } else {
+                    console.log(err);
+                    response.send(err);
+                }
             });
         } catch (exc) {
             console.log(exc);
@@ -158,7 +208,7 @@ router.get('/docNames', function(request, response) {
     var result = [];
     nanoDb.list(function(err, body) {
         if (!err) {
-            body.rows.forEach(function(doc) {
+            body.rows.forEach(function (doc) {
                 console.log(doc);
                 result.push(doc.key);
             });
@@ -174,4 +224,3 @@ router.get('/docNames', function(request, response) {
 });
 
 module.exports = router;
-ts = router;

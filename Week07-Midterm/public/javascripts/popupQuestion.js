@@ -5,14 +5,36 @@ define([require], function() {
     var pointerLockControls = null;
     var myCallback = null;
     var myButton = null;
+    var debug = true;
 
-    function PopupQuestion(threeInit, pointerLockinit) {
+    function PopupQuestion(threeInit) {
         THREE = threeInit;
-        pointerLockControls = pointerLockinit;
+        //pointerLockControls = pointerLockInit;
+        if (debug) {
+            console.log('initialized popupQuestion, three: ' + THREE + ' pointerLockControls:' + pointerLockControls);
+        }
     }
 
-    PopupQuestion.prototype.Show = function(question, route, onGuessMade) {
+    PopupQuestion.prototype.Show = function(question, optionsArray, route, onGuessMade) {
         myCallback = onGuessMade;
+        var myPopup = $('<div>');
+        myPopup.addClass('popup');
+        myPopup.append($('<h1>')
+            .html(question));
+        var optionPanel = $('<div>');
+        myPopup.append(optionPanel);
+        for (var i = 0; i < optionsArray.length; i++) {
+            var myButton = $('<button>');
+            myButton.html(optionsArray[i].label);
+            myButton.guessValue = optionsArray[i].value;
+            myButton.on('click', function() {
+                onGuessMade(myButton.guessValue);
+            });
+            optionPanel.append(myButton);
+        }
+        myPopup.show();
+        $('#popupArea')
+            .append(myPopup);
     };
 
     return PopupQuestion;
