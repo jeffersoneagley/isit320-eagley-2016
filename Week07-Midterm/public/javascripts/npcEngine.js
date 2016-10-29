@@ -21,6 +21,11 @@ define([require], function() {
         sphere.npc_id = npc_id;
         sphere.npcAskQuestion = npcAskQuestion;
         sphere.npcCheckAnswer = npcCheckAnswer;
+        sphere.OnCollisionEnter = function(self) {
+            if (self.npcAskQuestion !== undefined) {
+                self.npcAskQuestion(self);
+            }
+        };
         scene.add(sphere);
         npcList.push(sphere);
         return sphere;
@@ -31,19 +36,26 @@ define([require], function() {
         return npcList;
     };
 
-    function npcAskQuestion() {
+    function npcAskQuestion(self) {
         //get npc's question
-        console.log(this.npc_id);
-        $.getJSON('/readNpcQuestion?=npc_id:' + this.npc_id, function(data) {
-            var myData = data.rows;
-            console.log(myData);
-            console.log(JSON.stringify(myData, null, 4));
-            callback(undefined, myData);
-        });
+        if (self.isAskingQuestion === undefined) {
+            self.isAskingQuestion = true;
+        }
+        if (self.isAskingQuestion !== true) {
+            console.log(self.npc_id);
+            $.getJSON('/readNpcQuestion?=npc_id:' + self.npc_id, function(data) {
+                var myData = data.rows;
+                console.log(JSON.stringify(myData, null, 4));
+            });
+        }
     }
 
-    function npcCheckAnswer(playerGuess) {
-
+    function npcCheckAnswer(self, playerGuess) {
+        self.isAskingQuestion = false;
+        $.getJSON('/readNpcTryGuess?=npc_id:' + self.npc_id + '&&guess:' + playerGuess, function(result) {
+            var myData = data.rows;
+            console.log(result);
+        });
     }
 
     return NpcEngine;

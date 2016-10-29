@@ -57,6 +57,13 @@ define([require], function() {
                 bounceBack(position, rays[index]);
                 result = true;
             }
+            for (var i = 0; i < intersections.length; i++) {
+                if (intersections[i].object !== undefined &&
+                    intersections[i].object.OnCollisionEnter !== undefined) {
+                    console.log(intersections[i].object + ' executing OnCollisionEnter');
+                    intersections[i].object.OnCollisionEnter(intersections[i].object);
+                }
+            }
         }
 
         return result;

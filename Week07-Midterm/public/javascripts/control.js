@@ -93,7 +93,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             var controlObject = controls.getObject();
             var position = controlObject.position;
             collisions.detect(cubes, controls);
-            collisions.npcDetection(npcEngine.getNpcList(), controls);
+            collisions.detect(npcEngine.getNpcList(), controls);
 
             // Move the camera
             controls.update();
