@@ -26,9 +26,13 @@ define([require], function() {
         for (var i = 0; i < optionsArray.length; i++) {
             var myButton = $('<button>');
             myButton.html(optionsArray[i].label);
+            myButton.attr('guessValue', optionsArray[i].value);
             myButton.guessValue = optionsArray[i].value;
-            myButton.on('click', function() {
-                onGuessMade(myButton.guessValue);
+            myButton.click(function(e) {
+                console.log($(this)
+                    .attr('guessValue') + ' guessed');
+                onGuessMade($(this)
+                    .attr('guessValue'));
             });
             optionPanel.append(myButton);
         }

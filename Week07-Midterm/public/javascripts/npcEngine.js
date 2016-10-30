@@ -58,10 +58,17 @@ define(['popupQuestion', 'pointerLockControls'], function(PopupQuestion, Pointer
     }
 
     function npcCheckAnswer(self, playerGuess) {
-        self.isAskingQuestion = false;
-        $.getJSON('/readNpcTryGuess?=npc_id:' + self.npc_id + '&guess:' + playerGuess, function(result) {
-            console.log(result);
+        //console.log(self + ', ' + playerGuess);
+        console.log('npcCheckAnswer called');
+        console.log(self.npc_id);
+        $.getJSON('/readNpcTryGuess', {
+            'npc_id': self.npc_id,
+            'guess': playerGuess
+        }, function(response) {
+            console.log('readNpcTryGuess response recieved');
+            console.log(JSON.stringify(response.result));
         });
+        self.isAskingQuestion = false;
     }
 
     return NpcEngine;

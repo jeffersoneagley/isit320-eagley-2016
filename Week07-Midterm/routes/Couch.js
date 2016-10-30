@@ -161,7 +161,8 @@ router.get('/readNpcTryGuess', function(request, response) {
                     console.log('success, processing result');
                     var question = result.rows[0].value.question;
                     var answer = result.rows[0].value.answer;
-                    var isCorrectAnswer = (answer === guess);
+                    var isCorrectAnswer = (answer + '' == guess + '');
+                    console.log(answer + ' == ' + guess + ' ' + isCorrectAnswer);
                     response.send({
                         'question': question,
                         'guess': guess,
