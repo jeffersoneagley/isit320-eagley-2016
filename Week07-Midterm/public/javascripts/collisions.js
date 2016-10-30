@@ -53,58 +53,23 @@ define([require], function() {
 
             var intersections = raycaster.intersectObjects(cubes);
 
-            if (intersections.length > 0 && intersections[0].distance <= 3) {
-                controls.isOnObject(true);
-                bounceBack(position, rays[index]);
-                result = true;
-            }
             for (var i = 0; i < intersections.length; i++) {
+                if (intersections.length > 0 &&
+                    intersections[i].distance <= 3 &&
+                    intersections[i].object.visible !== undefined &&
+                    intersections[i].object.visible === true
+                ) {
+                    controls.isOnObject(true);
+                    bounceBack(position, rays[index]);
+                    result = true;
+                }
                 if (intersections[i].object !== undefined &&
                     intersections[i].object.OnCollisionEnter !== undefined) {
                     if (debug) {
                         console.log(intersections[i].object + ' executing OnCollisionEnter');
                     }
+
                     intersections[i].object.OnCollisionEnter(intersections[i].object);
-                }
-            }
-        }
-
-        return result;
-    };
-
-    Collisions.prototype.npcDetection = function(npcObjects, controls) {
-        var result = false;
-        var position = controls.getObject()
-            .position;
-        var rayHits = [];
-        for (var index = 0; index < rays.length; index += 1) {
-
-            // Set bounce distance for each vector
-            var bounceSize = 0.01;
-            rays[index].bounceDistance = {
-                x: rays[index].x * bounceSize,
-                y: rays[index].y * bounceSize,
-                z: rays[index].z * bounceSize
-            };
-
-            raycaster.set(position, rays[index]);
-
-            var intersections = raycaster.intersectObjects(npcObjects);
-
-            if (intersections.length > 0 && intersections[0].distance <= 3) {
-                controls.isOnObject(true);
-                bounceBack(position, rays[index]);
-                result = true;
-
-                for (var collider in intersections) {
-                    //console.log(collider);
-                    if (intersections[collider].object !== undefined &&
-                        intersections[collider].object.npc_id !== undefined) {
-                        intersectNpc(intersections[collider].object.npc_id);
-                        if (intersections[collider].object.npcAskQuestion !== undefined) {
-                            intersections[collider].object.npcAskQuestion();
-                        }
-                    }
                 }
             }
         }

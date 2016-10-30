@@ -9,7 +9,8 @@ requirejs.config({
         'popupQuestion': 'javascripts/popupQuestion',
         'score': 'javascripts/score',
         'control': 'javascripts/control',
-        'floor': 'javascripts/floors',
+        'floor': 'javascripts/level/floors',
+        'prettyLights': 'javascripts/level/prettyLights',
         'collisions': 'javascripts/collisions',
         'npcEngine': 'javascripts/npcEngine'
 

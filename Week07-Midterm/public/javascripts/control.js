@@ -1,7 +1,7 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEngine'],
-    function(Floors, Score, PointerLockControls, PointerLockSetup, Collisions, NpcEngine) {
+define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEngine', 'prettyLights'],
+    function(Floors, Score, PointerLockControls, PointerLockSetup, Collisions, NpcEngine, PrettyLights) {
         'use strict';
         var scene = null;
         var camera = null;
@@ -45,8 +45,10 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             initializeMaterials();
             floors = new Floors(THREE);
             collisions = new Collisions(THREE);
-            npcEngine = new NpcEngine(THREE);
             score = new Score(THREE);
+            //set up scene
+            floors.drawFloor(scene);
+            npcEngine = new NpcEngine(THREE, scene);
 
             //set up camera
             var width = window.innerWidth / window.innerHeight;
@@ -56,9 +58,6 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             });
             renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
 
-            //set up scene
-            floors.drawFloor(scene);
-
             //attach game
             $('#gameWindow')
                 .append(renderer.domElement);
@@ -66,7 +65,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             //build items to scene
             addCubes(scene, camera, false);
             addSpheres(scene, camera, false);
-            addLights();
+            new PrettyLights(THREE, scene);
 
             window.addEventListener('resize', onWindowResize, false);
 
@@ -201,30 +200,6 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             scene.add(cube);
 
             return cube;
-        }
-
-        function addSphere(scene, camera, wireFrame, x, z, color) {
-            console.log(color + ' NPC added');
-            var geometry = new THREE.SphereGeometry(3, 25, 25);
-            var material = new THREE.MeshBasicMaterial({
-                color: color,
-                wireframe: wireFrame
-            });
-            var sphere = new THREE.Mesh(geometry, material);
-            sphere.overdraw = true;
-            sphere.position.set(x, size / 2, z);
-            scene.add(sphere);
-
-            return sphere;
-        }
-
-        function addLights() {
-            var light = new THREE.DirectionalLight(0xffffff, 1.5);
-            light.position.set(1, 1, 1);
-            scene.add(light);
-            light = new THREE.DirectionalLight(0xffffff, 0.75);
-            light.position.set(-1, -0.5, -1);
-            scene.add(light);
         }
 
         return Control;

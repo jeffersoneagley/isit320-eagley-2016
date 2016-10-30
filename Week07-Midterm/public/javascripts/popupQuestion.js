@@ -5,6 +5,7 @@ define([require], function() {
     var pointerLockControls = null;
     var myCallback = null;
     var myButton = null;
+    var myPopup = null;
     var debug = true;
 
     function PopupQuestion(threeInit) {
@@ -15,9 +16,18 @@ define([require], function() {
         }
     }
 
-    PopupQuestion.prototype.Show = function(question, optionsArray, route, onGuessMade) {
+    PopupQuestion.prototype.Update = function(innerHtml) {
+        myPopup.html(innerHtml);
+    };
+
+    PopupQuestion.prototype.Kill = function() {
+        myPopup.empty();
+        myPopup.hide();
+    };
+
+    PopupQuestion.prototype.ShowOptionsDialog = function(question, optionsArray, route, onGuessMade) {
         myCallback = onGuessMade;
-        var myPopup = $('<div>');
+        myPopup = $('<div>');
         myPopup.addClass('popup');
         myPopup.append($('<h1>')
             .html(question));
@@ -28,7 +38,7 @@ define([require], function() {
             myButton.html(optionsArray[i].label);
             myButton.attr('guessValue', optionsArray[i].value);
             myButton.guessValue = optionsArray[i].value;
-            myButton.click(function(e) {
+            myButton.click(function() {
                 console.log($(this)
                     .attr('guessValue') + ' guessed');
                 onGuessMade($(this)
@@ -39,6 +49,39 @@ define([require], function() {
         myPopup.show();
         $('#popupArea')
             .append(myPopup);
+    };
+
+    PopupQuestion.prototype.OkButton = function(onOkPressed) {
+        console.log('ok setup');
+        var buttonPanel = $('<div>');
+        var buttonOk = $('<button>');
+        buttonOk.html('Ok!');
+        buttonPanel.append(buttonOk);
+        myPopup.append(buttonPanel);
+        var scope = this;
+        buttonOk.click(function() {
+
+            scope.okButtonPress(onOkPressed);
+        });
+
+    };
+
+    PopupQuestion.prototype.okButtonPress = function(onOkPressed) {
+        if (
+            onOkPressed !== undefined &&
+            typeof (onOkPressed) === 'function'
+        ) {
+            onOkPressed();
+        }
+        PopupQuestion.prototype.Kill();
+    };
+
+    PopupQuestion.prototype.ShowOkDialog = function(title, message, onOkPressed) {
+        myPopup.html($('<h1>')
+            .html(title));
+        myPopup.append($('<p>')
+            .html(message));
+        this.OkButton(onOkPressed);
     };
 
     return PopupQuestion;

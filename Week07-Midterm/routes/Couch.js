@@ -104,13 +104,9 @@ router.get('/readNpcQuestion', function(request, response) {
     if (request.query.npc_id !== undefined) {
         var npc_id = request.query.npc_id;
         var nanoDb = nano.db.use(dbName);
-        var params = {
-            keys: [npc_id + '']
-        };
-        console.log(params.keys);
         try {
             nanoDb.view('npcObjects', 'docSortedById', {
-                keys: [1]
+                keys: [parseInt(npc_id)]
             }, function(err, result) {
                 if (!err) {
                     console.log('success, processing result');
@@ -155,10 +151,11 @@ router.get('/readNpcTryGuess', function(request, response) {
         console.log(params.keys);
         try {
             nanoDb.view('npcObjects', 'docSortedById', {
-                keys: [1]
+                keys: [parseInt(npc_id)]
             }, function(err, result) {
                 if (!err) {
-                    console.log('success, processing result');
+                    console.log('success, processing result: ');
+                    console.log(JSON.stringify(result, null, 4));
                     var question = result.rows[0].value.question;
                     var answer = result.rows[0].value.answer;
                     var isCorrectAnswer = (answer + '' == guess + '');
