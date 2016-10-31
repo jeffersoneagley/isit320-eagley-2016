@@ -55,7 +55,7 @@ function designDocs(router, nano, dbName) {
     };
 
     var docNpcAnswerBool = function(npc) {
-        if (typeof (npc.answer) === 'boolean') {
+        if (typeof(npc.answer) === 'boolean') {
             emit(npc.npc_name + ': ' + npc.answer, {
                 'id': npc.id,
                 'npc_id': npc.npc_id,

@@ -182,13 +182,13 @@ define(['floor', 'pointerLockControls', 'pointerLockSetup', 'score'],
                 for (var i = 0; i < grid.length; i++) {
                     for (var j = 0; j < grid[i].length; j++) {
                         switch (grid[i][j]) {
-                        case 1:
+                            case 1:
 
-                            addCube(scene, camera, false, (size * i), (size * j));
-                            break;
-                        default:
+                                addCube(scene, camera, false, (size * i), (size * j));
+                                break;
+                            default:
 
-                    }
+                        }
                     }
                 }
             });

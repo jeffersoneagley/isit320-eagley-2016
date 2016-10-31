@@ -12,7 +12,8 @@ requirejs.config({
         'floor': 'javascripts/level/floors',
         'prettyLights': 'javascripts/level/prettyLights',
         'collisions': 'javascripts/collisions',
-        'npcEngine': 'javascripts/npcEngine'
+        'npcEngine': 'javascripts/npcEngine',
+        'drawHud': 'javascripts/display/drawHud'
 
     },
     shim: {

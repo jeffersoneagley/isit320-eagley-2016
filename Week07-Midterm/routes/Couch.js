@@ -199,14 +199,14 @@ router.get('/read', function(request, response) {
     });
 });
 
-router.get('/docNames', function(request, response) {
+/*router.get('/docNames', function(request, response) {
     'use strict';
     // var url = 'http://localhost:5984/prog28202/_all_docs';
     var nanoDb = nano.db.use(dbName);
     var result = [];
     nanoDb.list(function(err, body) {
         if (!err) {
-            body.rows.forEach(function (doc) {
+            body.rows.forEach(function(doc) {
                 console.log(doc);
                 result.push(doc.key);
             });
@@ -219,6 +219,6 @@ router.get('/docNames', function(request, response) {
             return;
         }
     });
-});
+});*/
 
 module.exports = router;

@@ -26,7 +26,6 @@ define([require], function() {
     };
 
     PopupQuestion.prototype.ShowOptionsDialog = function(question, optionsArray, route, onGuessMade) {
-        myCallback = onGuessMade;
         myPopup = $('<div>');
         myPopup.addClass('popup');
         myPopup.append($('<h1>')
@@ -38,17 +37,22 @@ define([require], function() {
             myButton.html(optionsArray[i].label);
             myButton.attr('guessValue', optionsArray[i].value);
             myButton.guessValue = optionsArray[i].value;
-            myButton.click(function() {
-                console.log($(this)
-                    .attr('guessValue') + ' guessed');
-                onGuessMade($(this)
-                    .attr('guessValue'));
-            });
+            myButton.click(optionButtonClickHandler(onGuessMade));
             optionPanel.append(myButton);
         }
         myPopup.show();
         $('#popupArea')
             .append(myPopup);
+    };
+
+    var optionButtonClickHandler = function(onGuessMade) {
+        //console.log($(this).attr('guessValue') + ' guessed');
+        console.log('optionButtonClickHandler');
+        return function() {
+            console.log(onGuessMade);
+            onGuessMade($(this)
+                .attr('guessValue'));
+        };
     };
 
     PopupQuestion.prototype.OkButton = function(onOkPressed) {
