@@ -1,4 +1,3 @@
-## New Test Inspection
 # My Test
 
 This is my test document.
