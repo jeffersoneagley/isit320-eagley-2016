@@ -5,9 +5,11 @@ define(['popupQuestion', 'pointerLockControls'], function(PopupQuestion, Pointer
     var npcList = [];
     var myPopupQuestion = null;
     var myScene = null;
+    var scoreBoard = null;
 
-    function NpcEngine(threeInit) {
+    function NpcEngine(threeInit, scoreBoardInit) {
         THREE = threeInit;
+        scoreBoard = scoreBoardInit;
     }
 
     NpcEngine.prototype.addNpc = function(scene, camera, wireFrame, x, z, scale, color, npc_id) {
@@ -68,10 +70,14 @@ define(['popupQuestion', 'pointerLockControls'], function(PopupQuestion, Pointer
         }, function(response) {
             console.log('readNpcTryGuess response recieved');
             console.log(JSON.stringify(response, null, 4));
+            scoreBoard.GuessesMade.ScorePoints(1);
             if (response.result) {
-                console.log('kill?');
-                console.log(myScene);
+                //console.log('kill?');
+                //console.log(myScene);
                 myScene.remove(self);
+
+                scoreBoard.QuestionsCorrect.ScorePoints(1);
+
                 self.questionAnswered = true;
                 refreshNpcList();
                 self.isAskingQuestion = false;

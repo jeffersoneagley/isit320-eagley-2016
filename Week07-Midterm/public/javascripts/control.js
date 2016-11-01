@@ -49,10 +49,10 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             collisions = new Collisions(THREE);
             drawHud = new DrawHud(THREE);
             initializeScoreboard();
-            initializeHudBindings();
             //set up scene
             floors.drawFloor(scene);
-            npcEngine = new NpcEngine(THREE, scene);
+            npcEngine = new NpcEngine(THREE, scoreboard);
+            initializeHudBindings();
 
             //set up camera
             var width = window.innerWidth / window.innerHeight;
@@ -86,15 +86,16 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
         }
 
         function initializeHudBindings() {
-            console.log(score.GetScoreText());
-            drawHud.AttachRefreshFunction(scoreboard.GuessesMade.GetScoreText);
-            drawHud.AttachRefreshFunction(scoreboard.QuestionsCorrect.GetScoreText);
+            drawHud.AttachRefreshFunction(scoreboard.GuessesMade, 'GetScoreText');
+            drawHud.AttachRefreshFunction(scoreboard.QuestionsCorrect, 'GetScoreText');
 
         }
 
         function initializeScoreboard() {
-            scoreboard.GuessesMade = new Score(THREE);
-            scoreboard.QuestionsCorrect = new Score(THREE);
+            scoreboard.GuessesMade = new Score(THREE, 'Guesses made: ');
+            scoreboard.QuestionsCorrect = new Score(THREE, 'Questions correct: ');
+            console.log('derp');
+            console.log(scoreboard.GuessesMade.GetScoreText());
         }
 
         function animate() {
@@ -127,6 +128,8 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             drawHud.RefreshHud();
             drawText(controls.getObject()
                 .position);
+            //console.log(scoreboard.QuestionsCorrect.GetScoreText());
+            //console.log(scoreboard.GuessesMade.GetScoreText());
         }
 
         function doPointerLock() {

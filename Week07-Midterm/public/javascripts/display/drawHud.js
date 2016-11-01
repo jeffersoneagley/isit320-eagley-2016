@@ -11,8 +11,12 @@ define([require], function() {
                 .attr('id', 'hudMessages'));*/
     }
 
-    DrawHud.prototype.AttachRefreshFunction = function(refreshFunction) {
-        myRefreshFunctions.push(refreshFunction);
+    DrawHud.prototype.AttachRefreshFunction = function(sourceObject, functionToCall) {
+        var refreshObject = {
+            'source': sourceObject,
+            'function': functionToCall
+        };
+        myRefreshFunctions.push(refreshObject);
     };
 
     //DrawHud.prototype.OnHudRefresh = new Event('OnHudRefresh');
@@ -29,7 +33,10 @@ define([require], function() {
                 try {
                     var myLine = $('<p>');
                     myLine.attr('id', 'hudElement' + functionId);
-                    myLine.html(myRefreshFunctions[functionId]());
+                    //console.log(myRefreshFunctions[functionId].source[myRefreshFunctions[functionId].function]);
+                    var myText = myRefreshFunctions[functionId].source[myRefreshFunctions[functionId].function]();
+                    //console.log(myText);
+                    myLine.html(myText);
                     $('#hudMessages')
                         .append(myLine);
                 } catch (exc) {

@@ -1,33 +1,32 @@
 define([require], function() {
     'use strict';
     var THREE = null;
-    var myScore = 0;
     var debug = false;
-    var myDisplayString = 'score: ';
 
     function Score(threeInit, displayString) {
         THREE = threeInit;
-        myDisplayString = displayString || myDisplayString;
+        this.myDisplayString = displayString || myDisplayString;
+        this.myScore = 0;
     }
 
     Score.prototype.ScorePoints = function(amount) {
         amount = amount || 1;
-        myScore += amount;
+        this.myScore += amount;
     };
     Score.prototype.RemovePoints = function(amount) {
         amount = amount || 1;
-        ScorePoints(-amount);
+        this.ScorePoints(-amount);
     };
 
     Score.prototype.GetScore = function() {
-        return myScore;
+        return this.myScore;
     };
 
     Score.prototype.GetScoreText = function() {
         if (debug) {
-            console.log('GetScoreText called ' + myDisplayString + myScore);
+            console.log('GetScoreText called ' + this.myDisplayString + this.myScore);
         }
-        return myDisplayString + myScore;
+        return '' + this.myDisplayString + this.myScore;
     };
 
     return Score;
