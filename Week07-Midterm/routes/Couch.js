@@ -159,11 +159,13 @@ router.get('/readNpcTryGuess', function(request, response) {
                     var question = result.rows[0].value.question;
                     var answer = result.rows[0].value.answer;
                     var isCorrectAnswer = (answer + '' == guess + '');
+                    var npcValue = result.rows[0].value.value;
                     console.log(answer + ' == ' + guess + ' ' + isCorrectAnswer);
                     response.send({
                         'question': question,
                         'guess': guess,
-                        'result': isCorrectAnswer
+                        'result': isCorrectAnswer,
+                        'value': npcValue
                     });
                 } else {
                     console.log(err);

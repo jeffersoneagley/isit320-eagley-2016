@@ -75,6 +75,7 @@ define(['popupQuestion', 'pointerLockControls'], function(PopupQuestion, Pointer
                 myScene.remove(self);
 
                 scoreBoard.QuestionsCorrect.ScorePoints(1);
+                scoreBoard.Reputation.ScorePoints(response.value);
 
                 self.questionAnswered = true;
                 refreshNpcList();

@@ -8,7 +8,6 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
         var renderer = null;
         var cube = null;
         var THREE = null;
-        var score = null;
         var scoreboard = {};
         var floors;
         var collisions = null;
@@ -88,14 +87,14 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
         function initializeHudBindings() {
             drawHud.AttachRefreshFunction(scoreboard.GuessesMade, 'GetScoreText');
             drawHud.AttachRefreshFunction(scoreboard.QuestionsCorrect, 'GetScoreText');
+            drawHud.AttachRefreshFunction(scoreboard.Reputation, 'GetScoreText');
 
         }
 
         function initializeScoreboard() {
             scoreboard.GuessesMade = new Score(THREE, 'Guesses made: ');
             scoreboard.QuestionsCorrect = new Score(THREE, 'Questions correct: ');
-            console.log('derp');
-            console.log(scoreboard.GuessesMade.GetScoreText());
+            scoreboard.Reputation = new Score(THREE, 'Reputation: ');
         }
 
         function animate() {
