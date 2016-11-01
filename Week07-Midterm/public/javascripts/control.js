@@ -1,7 +1,7 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEngine', 'prettyLights'],
-    function(Floors, Score, PointerLockControls, PointerLockSetup, Collisions, NpcEngine, PrettyLights) {
+define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEngine', 'prettyLights', 'drawHud'],
+    function(Floors, Score, PointerLockControls, PointerLockSetup, Collisions, NpcEngine, PrettyLights, DrawHud) {
         'use strict';
         var scene = null;
         var camera = null;
@@ -9,9 +9,11 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
         var cube = null;
         var THREE = null;
         var score = null;
+        var scoreboard = {};
         var floors;
         var collisions = null;
         var npcEngine = null;
+        var drawHud = null;
         var crateMaterial = null;
         var loader = null;
         var size = 20;
@@ -45,7 +47,9 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             initializeMaterials();
             floors = new Floors(THREE);
             collisions = new Collisions(THREE);
-            score = new Score(THREE);
+            drawHud = new DrawHud(THREE);
+            initializeScoreboard();
+            initializeHudBindings();
             //set up scene
             floors.drawFloor(scene);
             npcEngine = new NpcEngine(THREE, scene);
@@ -81,6 +85,18 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             });
         }
 
+        function initializeHudBindings() {
+            console.log(score.GetScoreText());
+            drawHud.AttachRefreshFunction(scoreboard.GuessesMade.GetScoreText);
+            drawHud.AttachRefreshFunction(scoreboard.QuestionsCorrect.GetScoreText);
+
+        }
+
+        function initializeScoreboard() {
+            scoreboard.GuessesMade = new Score(THREE);
+            scoreboard.QuestionsCorrect = new Score(THREE);
+        }
+
         function animate() {
 
             requestAnimationFrame(animate);
@@ -97,7 +113,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             // Move the camera
             controls.update();
 
-            if (reducedUpdateIndex > 7) {
+            if (reducedUpdateIndex > 15) {
                 reducedUpdateIndex = 0;
                 animateReducedUpdate();
             } else {
@@ -108,7 +124,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
         }
 
         function animateReducedUpdate() {
-
+            drawHud.RefreshHud();
             drawText(controls.getObject()
                 .position);
         }
@@ -137,13 +153,13 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
                 for (var i = 0; i < grid.length; i++) {
                     for (var j = 0; j < grid[i].length; j++) {
                         switch (grid[i][j]) {
-                            case 1:
+                        case 1:
 
-                                addCube(scene, camera, false, (size * i), (size * j));
-                                break;
-                            default:
+                            addCube(scene, camera, false, (size * i), (size * j));
+                            break;
+                        default:
 
-                        }
+                    }
                     }
                 }
             });

@@ -58,7 +58,7 @@ h1{
   text-align: center;
 }
 
-#message {
+#hudWindow {
     /* background-color: #7777AA; */
     background-color:rgba(0,255,0,0.5);
     position: absolute;
