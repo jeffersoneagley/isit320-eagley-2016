@@ -72,8 +72,6 @@ define(['popupQuestion', 'pointerLockControls'], function(PopupQuestion, Pointer
             console.log(JSON.stringify(response, null, 4));
             scoreBoard.GuessesMade.ScorePoints(1);
             if (response.result) {
-                //console.log('kill?');
-                //console.log(myScene);
                 myScene.remove(self);
 
                 scoreBoard.QuestionsCorrect.ScorePoints(1);
