@@ -5,27 +5,30 @@ block content
     p 
         | Welcome to #{title}. Click the options below, and if necessary 
         | scroll down to see the results.
-
-    ul DBO master stuff
-        li 
-            a(href='/#/databaseName') Get current Database Name and all names
-        li
-            a(href='/#/createDb') CreateDb
-        li
-            a(href='/#/deleteDb') DeleteDb
-    ul NPC stuff
-        li
-            a(href='/#/insertBulk') Insert Game Data in Bulk
-        //li
-        //a(href='/#/insertOneDoc') Insert Game Data as one document
-        li
-            a(href="/#/insertDesignDoc") Insert Design Doc
-        li 
-            a(href="/#/viewNpc") View By Name
-        li
-            a(href="/#/insertNewNpc") Add new NPC to database
+    article
+        h2 DBO master stuff
+        ul
+            li 
+                a(href='/#/databaseName') Get current Database Name and all names
+            li
+                a(href='/#/createDb') CreateDb
+            li
+                a(href='/#/deleteDb') DeleteDb
+    article
+        h2 NPC stuff
+        ul
+            li
+                a(href='/#/insertBulk') Insert NPC Game Data in Bulk
+            //li
+            //a(href='/#/insertOneDoc') Insert Game Data as one document
+            li
+                a(href="/#/insertDesignDoc") Insert NPC Design Doc
+            li 
+                a(href="/#/viewNpc") View NPCs By Name
+            li
+                a(href="/#/showInsertNewNpcInterface") Open "add new NPC to database" dialog
 
     p {{debug}}
 
-    div
+    div(class="jumbotron")
         div(data-ng-view='')
