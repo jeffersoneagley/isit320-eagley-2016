@@ -2,9 +2,13 @@ extends layout
 
 block content
     div#blocker(style='display: -webkit-box;')
-        div#instructions(style='')
-            span(style='font-size:40px') Click to play
-            p (W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
+        div#instructions
+            h2 Click anywhere to play
+            div
+                ul Controls:
+                    li W, A, S, D = Move
+                    li SPACE = Jump
+                    li MOUSE = Look around)
     div#gameWindow
     div#hudWindow
         p
@@ -12,5 +16,5 @@ block content
                 span#cameraX initializing
                 span ,&nbsp
                 span#cameraZ initializing
-        p#hudMessages
+        div#hudMessages
     div#popupArea

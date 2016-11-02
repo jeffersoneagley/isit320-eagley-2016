@@ -27,11 +27,19 @@ define([require], function() {
 
     PopupQuestion.prototype.ShowOptionsDialog = function(question, optionsArray, route, onGuessMade) {
         myPopup = $('<div>');
-        myPopup.addClass('popup');
-        myPopup.append($('<h1>')
-            .html(question));
         var optionPanel = $('<div>');
+        var titleName = $('<h1>');
+        var textQuestion = $('<p>');
+        myPopup.addClass('popup');
+        optionPanel.addClass('.btn-group');
+        titleName.addClass('.jumbotron');
+
+        textQuestion.html(question);
+
+        myPopup.append(titleName);
+        myPopup.append(textQuestion);
         myPopup.append(optionPanel);
+
         for (var i = 0; i < optionsArray.length; i++) {
             var myButton = $('<button>');
             myButton.html(optionsArray[i].label);
