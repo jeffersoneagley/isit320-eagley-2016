@@ -81,7 +81,7 @@ define([require], function() {
     PopupQuestion.prototype.okButtonPress = function(onOkPressed) {
         if (
             onOkPressed !== undefined &&
-            typeof (onOkPressed) === 'function'
+            typeof(onOkPressed) === 'function'
         ) {
             onOkPressed();
         }
