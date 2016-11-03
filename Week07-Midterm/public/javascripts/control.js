@@ -128,7 +128,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
 
         function animateReducedUpdate() {
             if (reducedUpdateIndex > 15) {
-                reducedUpdateIndex = 1;
+                reducedUpdateIndex = 0;
                 drawHud.RefreshHud();
                 drawText(controls.getObject()
                     .position);
