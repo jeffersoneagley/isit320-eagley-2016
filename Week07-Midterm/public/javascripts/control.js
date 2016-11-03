@@ -23,6 +23,10 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
         var cubes = [];
         var controls;
         var reducedUpdateIndex = 0;
+        var lastLocation = {
+            'x': 0,
+            'z': 0
+        };
 
         var cameraPosition = {
             x: 2,
@@ -93,7 +97,6 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
             drawHud.AttachRefreshFunction(scoreboard.GuessesMade, 'GetScoreText');
             drawHud.AttachRefreshFunction(scoreboard.QuestionsCorrect, 'GetScoreText');
             drawHud.AttachRefreshFunction(scoreboard.Reputation, 'GetScoreText');
-
         }
 
         function initializeScoreboard() {
@@ -132,9 +135,31 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
             drawHud.RefreshHud();
             drawText(controls.getObject()
                 .position);
+            CheckPlayerHasMovedCells();
             fishyMap.Refresh();
             //console.log(scoreboard.QuestionsCorrect.GetScoreText());
             //console.log(scoreboard.GuessesMade.GetScoreText());
+        }
+
+        function CheckPlayerHasMovedCells() {
+            var current = ConvertWorldToCell(controls.getObject()
+                .position);
+            console.log(current);
+            if (
+                current.x !== lastLocation.x ||
+                current.z !== lastLocation.z
+            ) {
+                lastLocation.x = current.x;
+                lastLocation.z = current.z;
+                fishyMap.DiscoverCell(current.x, current.z, true);
+            }
+        }
+
+        function ConvertWorldToCell(source) {
+            return {
+                'x': Number(Math.round(source.x / size)),
+                'z': Number(Math.round(source.z / size))
+            };
         }
 
         function doPointerLock() {
