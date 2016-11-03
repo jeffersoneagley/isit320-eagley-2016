@@ -22,7 +22,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
         var size = 20;
         var cubes = [];
         var controls;
-        var reducedUpdateIndex = 0;
+        var reducedUpdateIndex = 5;
         var lastLocation = {
             'x': 0,
             'z': 0
@@ -127,23 +127,29 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
         }
 
         function animateReducedUpdate() {
+            //if 15 frames passed
             if (reducedUpdateIndex > 15) {
+                //reset counter
                 reducedUpdateIndex = 0;
+                //refresh my hud object for scoreboard and other objects
                 drawHud.RefreshHud();
+                //update player location is still done externally
                 drawText(controls.getObject()
                     .position);
+                //check whether player has moved
                 CheckPlayerHasMovedCells();
+                //update minimap
                 fishyMap.Refresh();
             } else {
+                //15 frames haven't passed, increment counter
                 reducedUpdateIndex++;
             }
-
         }
 
         function CheckPlayerHasMovedCells() {
             var current = ConvertWorldToCell(controls.getObject()
                 .position);
-            console.log(current);
+            //console.log(current);
             if (
                 current.x !== lastLocation.x ||
                 current.z !== lastLocation.z
@@ -200,8 +206,14 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
 
         function addSpheres(scene, camera, wireFrame) {
 
-            var data = readDatabase(function(err, data) {
+            var data = readIntialNpcSetupFromDatabase(function(err, data) {
                 if (!err) {
+                    var npcList = {};
+                    for (var i = 0; i < data.length; i++) {
+                        var npcEntry = data[i].value;
+                        npcList[npcEntry.npc_id] = npcEntry;
+                    }
+                    fishyMap.BindKeyNpcColors(npcList);
                     $.getJSON('npcs000.json', function(grid) {
                         fishyMap.BindNpcMap(grid);
                         for (var i = 0; i < grid.length; i++) {
@@ -222,7 +234,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
             });
         }
 
-        function readDatabase(callback) {
+        function readIntialNpcSetupFromDatabase(callback) {
             $.getJSON('/readNpcInitialSetupParameters', function(data) {
                     var myData = data.rows;
                     console.log(myData);
