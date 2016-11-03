@@ -13,7 +13,8 @@ requirejs.config({
         'prettyLights': 'javascripts/level/prettyLights',
         'collisions': 'javascripts/collisions',
         'npcEngine': 'javascripts/npcEngine',
-        'drawHud': 'javascripts/display/drawHud'
+        'drawHud': 'javascripts/display/drawHud',
+        'fishyMap': 'javascripts/display/fishyMap/fishyMap'
 
     },
     shim: {

@@ -1,7 +1,10 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions', 'npcEngine', 'prettyLights', 'drawHud'],
-    function(Floors, Score, PointerLockControls, PointerLockSetup, Collisions, NpcEngine, PrettyLights, DrawHud) {
+define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
+        'collisions', 'npcEngine', 'prettyLights', 'drawHud', 'fishyMap'
+    ],
+    function(Floors, Score, PointerLockControls, PointerLockSetup,
+        Collisions, NpcEngine, PrettyLights, DrawHud, FishyMap) {
         'use strict';
         var scene = null;
         var camera = null;
@@ -13,6 +16,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
         var collisions = null;
         var npcEngine = null;
         var drawHud = null;
+        var fishyMap = null;
         var crateMaterial = null;
         var loader = null;
         var size = 20;
@@ -47,6 +51,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             floors = new Floors(THREE);
             collisions = new Collisions(THREE);
             drawHud = new DrawHud(THREE);
+            fishyMap = new FishyMap();
             initializeScoreboard();
             //set up scene
             floors.drawFloor(scene);
@@ -127,6 +132,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             drawHud.RefreshHud();
             drawText(controls.getObject()
                 .position);
+            fishyMap.Refresh();
             //console.log(scoreboard.QuestionsCorrect.GetScoreText());
             //console.log(scoreboard.GuessesMade.GetScoreText());
         }
@@ -152,16 +158,17 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
         function addCubes(scene, camera, wireFrame) {
 
             $.getJSON('grid000.json', function(grid) {
+                fishyMap.BindStructureMap(grid);
                 for (var i = 0; i < grid.length; i++) {
                     for (var j = 0; j < grid[i].length; j++) {
                         switch (grid[i][j]) {
-                            case 1:
+                        case 1:
 
-                                addCube(scene, camera, false, (size * i), (size * j));
-                                break;
-                            default:
+                            addCube(scene, camera, false, (size * i), (size * j));
+                            break;
+                        default:
 
-                        }
+                    }
                     }
                 }
             });
@@ -172,6 +179,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             var data = readDatabase(function(err, data) {
                 if (!err) {
                     $.getJSON('npcs000.json', function(grid) {
+                        fishyMap.BindNpcMap(grid);
                         for (var i = 0; i < grid.length; i++) {
                             for (var j = 0; j < grid[i].length; j++) {
                                 if (grid[i][j] !== 0) {
