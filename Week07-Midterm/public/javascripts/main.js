@@ -9,10 +9,10 @@ requirejs.config({
         'popupQuestion': 'javascripts/display/popupQuestion',
         'score': 'javascripts/score',
         'control': 'javascripts/control',
-        'floor': 'javascripts/level/floors',
-        'prettyLights': 'javascripts/level/prettyLights',
-        'collisions': 'javascripts/collisions',
-        'npcEngine': 'javascripts/npcEngine',
+        'floor': 'javascripts/physics/level/floors',
+        'prettyLights': 'javascripts/physics/level/prettyLights',
+        'collisions': 'javascripts/physics/collisions',
+        'npcEngine': 'javascripts/npc/npcEngine',
         'drawHud': 'javascripts/display/drawHud',
         'fishyMap': 'javascripts/display/fishyMap/fishyMap'
 

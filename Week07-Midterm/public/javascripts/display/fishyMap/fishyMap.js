@@ -7,7 +7,7 @@ define([require], function() {
         this.mapHtmlElements = [];
         this.mapHtmlTableRoot = $('<div>');
         this.mapHtmlTableRoot.css('display', 'flex');
-        this.mapHtmlTableRoot.css('flex-direction', 'column');
+        this.mapHtmlTableRoot.css('flex-direction', 'column-reverse');
         this.mapHtmlTableRoot.css('flex-wrap', 'no-wrap');
         this.mapHtmlTableRoot.css('width', '100%');
         this.mapHtmlTableRoot.css('height', '100%');
