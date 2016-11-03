@@ -121,24 +121,23 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
             // Move the camera
             controls.update();
 
-            if (reducedUpdateIndex > 15) {
-                reducedUpdateIndex = 0;
-                animateReducedUpdate();
-            } else {
-                reducedUpdateIndex++;
-            }
+            animateReducedUpdate();
 
             renderer.render(scene, camera);
         }
 
         function animateReducedUpdate() {
-            drawHud.RefreshHud();
-            drawText(controls.getObject()
-                .position);
-            CheckPlayerHasMovedCells();
-            fishyMap.Refresh();
-            //console.log(scoreboard.QuestionsCorrect.GetScoreText());
-            //console.log(scoreboard.GuessesMade.GetScoreText());
+            if (reducedUpdateIndex > 15) {
+                reducedUpdateIndex = 1;
+                drawHud.RefreshHud();
+                drawText(controls.getObject()
+                    .position);
+                CheckPlayerHasMovedCells();
+                fishyMap.Refresh();
+            } else {
+                reducedUpdateIndex++;
+            }
+
         }
 
         function CheckPlayerHasMovedCells() {
