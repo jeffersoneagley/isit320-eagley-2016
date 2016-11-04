@@ -51,11 +51,11 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
 
             //initialize controllers and objects
             scene = new THREE.Scene();
+            fishyMap = new FishyMap();
             initializeMaterials();
             floors = new Floors(THREE);
             collisions = new Collisions(THREE);
             drawHud = new DrawHud(THREE);
-            fishyMap = new FishyMap();
             initializeScoreboard();
             //set up scene
             floors.drawFloor(scene);
@@ -87,10 +87,13 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
         }
 
         function initializeMaterials() {
+            var structureMaterials = [null, 'images/crate.jpg'];
             var loader = new THREE.TextureLoader();
             crateMaterial = new THREE.MeshLambertMaterial({
                 map: loader.load('images/crate.jpg')
             });
+
+            fishyMap.BindKeyStructureBackgrounds(structureMaterials);
         }
 
         function initializeHudBindings() {
@@ -154,9 +157,23 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
                 current.x !== lastLocation.x ||
                 current.z !== lastLocation.z
             ) {
+                fishyMap.DiscoverCell(current.x, current.z, true);
+                //discover ahead of player
+                var fwd = {
+                    x: (current.x - lastLocation.x),
+                    z: (current.z - lastLocation.z)
+                };
+                for (var i = -1; i <= 1; i++) {
+                    var myX = 0;
+                    if (fwd.x !== 0) {
+                        fishyMap.DiscoverCell(current.x + fwd.x, current.z + i, true);
+                    }
+                    if (fwd.z !== 0) {
+                        fishyMap.DiscoverCell(current.x + i, current.z + fwd.z, true);
+                    }
+                }
                 lastLocation.x = current.x;
                 lastLocation.z = current.z;
-                fishyMap.DiscoverCell(current.x, current.z, true);
             }
         }
 

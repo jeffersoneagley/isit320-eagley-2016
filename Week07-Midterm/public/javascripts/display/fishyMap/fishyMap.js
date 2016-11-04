@@ -15,32 +15,32 @@ define([require], function() {
         this.mapGrid = [];
         this.gridForStructures = null;
         this.gridForNpcs = null;
-        this.keyForStructures = null; //stores images based on index
-        this.npcTemplateList = null; //stores colors based on index
+        this.templateListStructures = null; //stores images based on index
+        this.templateListNpcs = null; //stores colors based on index
         this.ParentElement = $('#fishyMap');
     }
 
     FishyMap.prototype.DiscoverCell = function(x, y, isDiscovered) {
         isDiscovered = isDiscovered || true;
-        //console.log(x + ' ' + y + ' ' + isDiscovered);
         try {
+            console.log(x + ' ' + y + ' ' + isDiscovered);
             if (this.mapItems[x][y] !== undefined) {
                 this.mapItems[x][y].discovered = isDiscovered;
+                this.refreshCellHtml(x, y);
                 return true;
             }
-            return false;
-        } catch (exc) {
-            return false;
-        }
+        } catch (exc) {}
+        this.refreshCellHtml(x, y);
+        return false;
     };
 
     FishyMap.prototype.BindKeyNpcColors = function(arrayOfNpcs) {
-        this.npcTemplateList = arrayOfNpcs;
+        this.templateListNpcs = arrayOfNpcs;
         this.CheckBindComplete();
     };
 
-    FishyMap.prototype.BindKeyStructureImages = function(arrayOfStructures) {
-        this.keyForStructures = arrayOfStructures;
+    FishyMap.prototype.BindKeyStructureBackgrounds = function(arrayOfStructures) {
+        this.templateListStructures = arrayOfStructures;
         this.CheckBindComplete();
     };
 
@@ -58,11 +58,15 @@ define([require], function() {
         if (
             this.gridForNpcs !== null &&
             this.gridForStructures !== null &&
-            this.npcTemplateList !== null
-            /*&&
-                       this.keyForStructures.length > 0 */
+            this.templateListNpcs !== null &&
+            this.templateListStructures !== null
         ) {
             this.BuildMap();
+            for (var i = 0; i < this.mapItems.length; i++) {
+                for (var j = 0; j < this.mapItems.length; j++) {
+                    this.refreshCellHtml(i, j);
+                }
+            }
         }
     };
 
@@ -134,41 +138,54 @@ define([require], function() {
         return myCell;
     };
 
-    FishyMap.prototype.Refresh = function() {
-        for (var i = 0; i < this.mapItems.length; i++) {
-            for (var j = 0; j < this.mapItems.length; j++) {
-                //safety check
-                //if (this.mapHtmlElements[i][j] === undefined) {
-                //this.mapHtmlElements.push(this.BuildHtmlMapCell());
-                //}
-                //drawing
-                if (this.mapItems[i][j].discovered) {
-                    this.mapHtmlElements[i][j].empty();
-                    //set background
-                    this.mapHtmlElements[i][j].css('background-color', 'lightskyblue');
-                    //show structures
-                    //show NPCS
-                    try {
-                        var npcId = this.gridForNpcs[i][j];
-                        if (npcId !== 0) {
-                            var myNpc = this.npcTemplateList[npcId];
-                            var myColor = myNpc.color;
-                            var npcEmblem = $('<div>')
-                                .css('width', '50%')
-                                .css('height', '50%')
-                                .css('border-radius', '25%')
-                                .css('border', 'groove 0.1em ' + myColor)
-                                .css('background-color', myColor);
-                            this.mapHtmlElements[i][j].append(npcEmblem);
-                        }
-                    } catch (exc) {
-                        console.log('NPC add to map failed');
-                    }
-                } else {
-                    this.mapHtmlElements[i][j].css('background-color', 'slategray');
+    FishyMap.prototype.refreshCellHtml = function(i, j) {
+        console.log('refreshCellHtml');
+        if (this.mapItems[i][j].discovered) {
+
+            this.mapHtmlElements[i][j].empty();
+            //set background
+            this.mapHtmlElements[i][j].css('background-color', 'lightskyblue');
+            //show structures
+            try {
+                var structureId = this.mapItems[i][j].structure;
+                if (structureId !== 0) {
+                    console.log(structureId);
+                    var myStructure = $('<div>')
+                        .css('display', 'block')
+                        .css('width', '90%')
+                        .css('height', '90%')
+                        .css('background', 'URL(' + this.templateListStructures[structureId] + ')')
+                        .css('background-size', '90%');
+                    this.mapHtmlElements[i][j].append(myStructure);
                 }
+            } catch (exc) {
+                console.log(exc);
+                console.log('Error loading structure for cell');
             }
+            //show NPCS
+            try {
+                var npcId = this.mapItems[i][j].npc;
+                if (npcId !== 0) {
+                    var myNpc = this.templateListNpcs[npcId];
+                    var myColor = myNpc.color;
+                    var npcEmblem = $('<div>')
+                        .css('width', '50%')
+                        .css('height', '50%')
+                        .css('border-radius', '25%')
+                        .css('border', 'groove 0.1em ' + myColor)
+                        .css('background', myColor);
+                    this.mapHtmlElements[i][j].append(npcEmblem);
+                }
+            } catch (exc) {
+                console.log('NPC add to map failed');
+            }
+        } else {
+            this.mapHtmlElements[i][j].css('background-color', 'slategray');
         }
+    };
+
+    FishyMap.prototype.Refresh = function() {
+
     };
     return FishyMap;
 });
