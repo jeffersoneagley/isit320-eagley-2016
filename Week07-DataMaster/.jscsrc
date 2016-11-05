@@ -1,7 +1,12 @@
 {
     "preset": "google",
     "validateIndentation": 4,
-    "excludeFiles": ["**/node_modules/**", "**/components/**", "**/bower_components/**"],
+    "excludeFiles": [
+        "**/node_modules/**", "**/components/**", "**/three.min.js", "**/app.js"
+    ],
     "requireCamelCaseOrUpperCaseIdentifiers": false,
-    "maximumLineLength": 120
+    "maximumLineLength": 200,
+    "requireSpaceBeforeBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+    "requireSpaceAfterBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "try", "catch"]
 }

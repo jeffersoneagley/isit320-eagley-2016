@@ -1,6 +1,6 @@
-#!/usr/bin/env node
+#!/usr/bin/nodejs
 
-var debug = require('debug')('CouchView02');
+var debug = require('debug')('my-application');
 var app = require('../app');
 
 app.set('port', process.env.PORT || 30025);
@@ -9,4 +9,4 @@ var server = app.listen(app.get('port'), function() {
     'use strict';
     debug('Express server listening on port ' + server.address()
         .port);
-});
+  });

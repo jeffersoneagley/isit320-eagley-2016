@@ -10,17 +10,37 @@ module.exports = function(grunt) {
 
             options: {
                 ignores: [
-                    '**/node_modules/**', '**/components/**'
+                    '**/node_modules/**',
+                    '**/Library/jas/**',
+                    '**/jquery*',
+                    '**/requirejs-wrapper*.js',
+                    '**/requirejs-setup*.js',
+                    '**/components/**',
+                    '**/three.min.js'
                 ],
-                reporter: require('jshint-stylish'),
+                reporter: 'checkstyle',
+                reporterOutput: 'result.xml',
                 strict: true,
-                jasmine: true
+                globals: {
+                    describe: true,
+                    afterEach: true,
+                    beforeEach: true,
+                    inject: true,
+                    it: true,
+                    jasmine: true,
+                    expect: true,
+                    module: true,
+                }
             }
         },
 
         clean: {
-            yourTarget: {
-                src: ['**/node_modules/**', '**/components/**']
+            work: {
+                src: ['**/node_modules/**', 'result.xml']
+            },
+
+            zip: {
+                src: ['<%= zipFile %>']
             }
         },
 
@@ -36,12 +56,6 @@ module.exports = function(grunt) {
             options: {
                 'indentSize': 4
             }
-        },
-
-        karma: {
-            karma: {
-                configFile: 'karma.conf.js'
-            }
         }
 
     });
@@ -50,8 +64,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-jsbeautifier');
-    grunt.loadNpmTasks('grunt-karma');
     grunt.registerTask('beautify', ['jsbeautifier']);
     grunt.registerTask('check', ['beautify', 'jscs', 'jshint']);
-    grunt.registerTask('test', ['jshint', 'karma']);
 };
