@@ -1,23 +1,28 @@
-function EditorNpc(router) {
+function EditorNpc(router, nano, dbName, myDbUtilities) {
     'use strict';
-
     var req = null;
 
     function BuildNpcListHtml(callback) {
-        BuildNpcListElement({
-            'name': 'derp',
-            'npc_id': 1
-        }, function(htmlText) {
-            callback(htmlText);
+        myDbUtilities.npc.ReadNpcAllByID(nano, dbName, function(data, result) {
+            //console.log('ReadNpcAllByID complted');
+            //console.log(data);
+            var myResponse = '';
+            for (var row in data.rows) {
+                BuildNpcListElement(data.rows[row], function(htmlText) {
+                    myResponse += (htmlText);
+                });
+            }
+            callback(myResponse);
         });
     }
 
     function BuildNpcListElement(npc, callback) {
+        console.log(npc);
         req.app.render('template/npcLine.jade', {
-            'npc_name': npc.name,
-            'npc_id': npc.npc_id
+            'npc_name': npc.value.npc_name,
+            'npc_id': npc.value.npc_id
         }, function(err, result) {
-            console.log(result);
+            //console.log(result);
             if (!err) {
                 callback(result);
             } else {
@@ -27,26 +32,23 @@ function EditorNpc(router) {
         });
     }
 
-    function onNpcListRecieved(dataFromDb) {
+    function onNpcListRecieved(callback) {
 
         BuildNpcListHtml(function(htmlSnippet) {
             var myEditorInterface = {
                 'title': 'NPC Database',
                 'body': htmlSnippet
             };
-            console.log(myEditorInterface);
-            response.send(myEditorInterface);
+            callback(myEditorInterface);
         });
     }
 
     router.get('/editor/npc', function(request, response) {
         try {
-            console.log('editor/npc');
+            console.log('editor/npc called');
             req = request;
-            req.app.get('/docNpcAllByID', function(thing1, thing2) {
-                console.log('polling against db');
-                console.log(thing1);
-                console.log(thing2);
+            onNpcListRecieved(function(result) {
+                response.send(result);
             });
         } catch (e) {
             console.log(e);

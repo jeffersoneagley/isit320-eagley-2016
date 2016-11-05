@@ -14,11 +14,17 @@ var nano = require('nano')(servers[serverIndex]);
 var dbName = 'game_data_eagley';
 var docName = 'npcObjects';
 
+var myDbUtilities = {
+    npc: require('./controller/DbControllerNpc')()
+};
+
 var insert = require('./CouchInsert')(router, nano, dbName);
 var views = require('./CouchViews')(router, nano, dbName);
 var designDocs = require('./CouchDesignDocs')(router, nano, dbName);
 var attach = require('./CouchAttach')(router, nano, dbName);
 var couchBulk = require('./CouchBulk')(router, dbName, servers[serverIndex]);
+
+var couchRouteMaster = require('./CouchRouteMaster')(router, nano, dbName, myDbUtilities);
 
 router.get('/databaseName', function(request, response) {
     'use strict';
@@ -72,6 +78,39 @@ router.get('/deleteDb', function(request, response) {
     });
 });
 
+router.get('/readNpcInitialSetupParameters', function(request, response) {
+    'use strict';
+    console.log('readNpcInitialSetupParameters called');
+    // var url = 'http://localhost:5984/prog28202/_all_docs';
+
+    try {
+        myDbUtilities.npc.ReadNpcAllByInitialSetupParameters(request, response, nano, dbName);
+
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+router.get('/readNpcQuestion', function(request, response) {
+    'use strict';
+    try {
+        myDbUtilities.npc.ReadNpcQuestion(request, response, nano, dbName);
+
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+router.get('/readNpcTryGuess', function(request, response) {
+    'use strict';
+    try {
+        myDbUtilities.npc.ReadNpcTryGuess(request, response, nano, dbName);
+
+    } catch (e) {
+        console.log(e);
+    }
+});
+
 router.get('/read', function(request, response) {
     'use strict';
     console.log('Read called: ' + JSON.stringify(request.query));
@@ -95,7 +134,7 @@ router.get('/read', function(request, response) {
     });
 });
 
-router.get('/docNames', function(request, response) {
+/*router.get('/docNames', function(request, response) {
     'use strict';
     // var url = 'http://localhost:5984/prog28202/_all_docs';
     var nanoDb = nano.db.use(dbName);
@@ -115,6 +154,6 @@ router.get('/docNames', function(request, response) {
             return;
         }
     });
-});
+});*/
 
 module.exports = router;

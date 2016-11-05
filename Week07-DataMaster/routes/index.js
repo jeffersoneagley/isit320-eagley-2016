@@ -1,5 +1,5 @@
 var express = require('express');
-var router = require('./couchMenu/couchRouteMaster', './couch/Couch.js');
+var router = require('./couch/Couch.js');
 
 /* GET home page. */
 router.get('/', function(req, res) {
