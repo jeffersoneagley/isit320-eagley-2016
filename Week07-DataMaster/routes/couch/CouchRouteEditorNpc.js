@@ -23,11 +23,7 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
 
     function BuildNpcListElement(npc, callback) {
         console.log(npc);
-        req.app.render('template/npcLine.jade', {
-            'npc_name': npc.value.npc_name,
-            'npc_id': npc.value.npc_id,
-            'color': npc.value.color
-        }, function(err, result) {
+        req.app.render('template/npcLine.jade', npc.value, function(err, result) {
             //console.log(result);
             if (!err) {
                 callback(result);

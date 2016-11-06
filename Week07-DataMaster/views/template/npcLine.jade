@@ -1,9 +1,16 @@
-div(class='well row' style='box-shadow: 0em 0em .15em #{color}')
-    div(class='col-sm-2')
-        h4 #{npc_id}
+div(class='well row' style='box-shadow: 0em 0em .25em #{color}')
+    div(class='col-sm-2 text-center')
+        div(class='row')
+            h4(class='col-xs-3 offset-xs-3 col-sm-12')  ID #{npc_id} 
+            h4(class='col-xs-3 offset-xs-3 col-sm-12') #{npc_name}
     div(class='col-sm-5')
-        h4 #{npc_name}
+        if question.length>31
+            p(class='small well') #{question.substring(0,28)+"..."}
+        else
+            p(class='well') #{question}
     div(class='col-sm-5')
         button(class='btn btn-primary btn-lg btn-block' 
         myRouteToCall='/editor/npc/#{npc_id}' 
-        id='buttonEditNpc#{npc_id}') edit
+        id='buttonEditNpc#{npc_id}'
+        ) edit 
+            span(style='color:#{color}') &nbsp>
