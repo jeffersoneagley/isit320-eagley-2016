@@ -3,8 +3,8 @@ requirejs.config({
     paths: {
         'jquery': 'components/jquery/dist/jquery',
         'bootstrap': 'components/bootstrap/dist/js/bootstrap',
-        'control': 'javascripts/control'
-
+        'control': 'javascripts/control',
+        'dbHandler': 'javascripts/dbHandler'
     }
 });
 

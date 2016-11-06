@@ -15,7 +15,8 @@ var dbName = 'game_data_eagley';
 var docName = 'npcObjects';
 
 var myDbUtilities = {
-    npc: require('./controller/DbControllerNpc')()
+    npc: require('./controller/DbControllerNpc')(),
+    db: require('./controller/DbControllerDb')()
 };
 
 var insert = require('./CouchInsert')(router, nano, dbName);
@@ -24,7 +25,7 @@ var designDocs = require('./CouchDesignDocs')(router, nano, dbName);
 var attach = require('./CouchAttach')(router, nano, dbName);
 var couchBulk = require('./CouchBulk')(router, dbName, servers[serverIndex]);
 
-var couchRouteMaster = require('./CouchRouteMaster')(router, nano, dbName, myDbUtilities);
+var couchRouteMaster = require('./routemaster/CouchRouteMaster')(router, nano, dbName, myDbUtilities);
 
 router.get('/databaseName', function(request, response) {
     'use strict';

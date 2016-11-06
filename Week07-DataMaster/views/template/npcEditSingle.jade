@@ -1,30 +1,30 @@
 div(class='container')
     div(class='input-group')
         span(class='input-group-addon') Name
-        input(type='text' class = 'form-control' value='#{npc_name}')
+        input(type='text' class = 'form-control' jeffersonDbCouchProperty='npc_name' value='#{npc_name}')
         span(class='input-group-addon') original: #{npc_name}
     div(class='input-group')
         span(class='input-group-addon') Color
-        input(type='text' class = 'form-control' value='#{color}')
+        input(type='text' class = 'form-control' jeffersonDbCouchProperty='color' value='#{color}')
         span(class='input-group-addon') original: #{color}
     div(class='input-group')
         span(class='input-group-addon') Value
-        input(type='number' class = 'form-control' value='#{value}')
+        input(type='number' class = 'form-control' jeffersonDbCouchProperty='value' value='#{value}')
         span(class='input-group-addon') original: #{value}
     div(class='input-group')
         span(class='input-group-addon') Description
-        textarea(class = 'form-control' ) #{description}
+        input(type='text' class = 'form-control' jeffersonDbCouchProperty='description' value= '#{description}')
         span(class='') Original: #{description}
     div(class='input-group')
         span(class='input-group-addon') Question
-        textarea(class = 'form-control' ) #{question}
+        input(type='text' class = 'form-control' jeffersonDbCouchProperty='question' value= '#{question}')
         span(class='') Original: #{question}
     div(class='input-group')
         span(class='input-group-addon') Answer
-        textarea(class = 'form-control' ) #{answer}
+        input(type='text' class = 'form-control' jeffersonDbCouchProperty='answer' value= '#{answer}')
         span(class='') Original: #{answer}
 
 div(class='row')
-    button(class='btn btn-warning col-sm-3' myRouteToCall='/editor/npclist' id='buttonCancel') Cancel
+    button(class='btn btn-warning col-sm-3' jeffersonDbRouteToCall='/editor/npc/list' id='buttonCancel') Cancel
     span(class='col-sm-5')
-    button(class='btn btn-primary col-sm-4' id='buttonSave') Save
+    button(class='btn btn-primary col-sm-4' jeffersonDbSubmitRoute='/editor/npc/update/' jeffersonDbEntryId='#{npc_id}' id='buttonUpdateDb') Save

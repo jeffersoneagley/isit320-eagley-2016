@@ -3,16 +3,17 @@ function CouchRouteMaster(router, nano, dbName, myDbUtilities) {
 
     var myMasterRouteList = [{
         'buttonLabel': 'NPCs',
-        'route': '/editor/npclist'
+        'route': '/editor/npc/list'
     }, {
         'buttonLabel': 'Levels',
         'route': '/editor/level'
     }, {
         'buttonLabel': 'Databases',
-        'route': '/editor/db'
+        'route': '/editor/db/list'
     }];
 
-    var couchRouteEditor = require('./CouchRouteEditorNpc')(router, nano, dbName, myDbUtilities);
+    require('./CouchRouteEditorNpc')(router, nano, dbName, myDbUtilities);
+    require('./CouchRouteEditorDb')(router, nano, myDbUtilities);
     myDbUtilities.wrapTitleAndBody = function(title, body, navRoutes) {
         var result = {
             'title': title,

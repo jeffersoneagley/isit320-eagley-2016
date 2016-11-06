@@ -42,7 +42,7 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
         });
     }
 
-    router.get('/editor/npclist', function(request, response) {
+    router.get('/editor/npc/list', function(request, response) {
         try {
             console.log('editor/npc called');
             req = request;
@@ -57,6 +57,22 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
             });
         } finally {
 
+        }
+    });
+
+    router.get('/editor/npc/update/', function(request, response) {
+        try {
+
+            console.log('/editor/npc/update/');
+            console.log(request.query);
+            var result = myDbUtilities.wrapTitleAndBody('Update result', request.query, [{
+                'buttonLabel': 'ok',
+                'route': '/editor/npc/list'
+            }]);
+
+            response.send(result);
+        } catch (e) {
+            console.log(e);
         }
     });
 
