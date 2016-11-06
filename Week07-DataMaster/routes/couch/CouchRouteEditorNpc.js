@@ -2,6 +2,11 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
     'use strict';
     var req = null;
 
+    var routesNpcDatabase = [{
+        'buttonLabel': 'Exit Npcs',
+        'route': '/editor/'
+    }];
+
     function BuildNpcListHtml(callback) {
         myDbUtilities.npc.ReadNpcAllByID(nano, dbName, function(data, result) {
             //console.log('ReadNpcAllByID complted');
@@ -20,7 +25,8 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
         console.log(npc);
         req.app.render('template/npcLine.jade', {
             'npc_name': npc.value.npc_name,
-            'npc_id': npc.value.npc_id
+            'npc_id': npc.value.npc_id,
+            'color': npc.value.color
         }, function(err, result) {
             //console.log(result);
             if (!err) {
@@ -35,15 +41,12 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
     function onNpcListRecieved(callback) {
 
         BuildNpcListHtml(function(htmlSnippet) {
-            var myEditorInterface = {
-                'title': 'NPC Database',
-                'body': htmlSnippet
-            };
+            var myEditorInterface = myDbUtilities.wrapTitleAndBody('NPC Database', htmlSnippet, routesNpcDatabase);
             callback(myEditorInterface);
         });
     }
 
-    router.get('/editor/npc', function(request, response) {
+    router.get('/editor/npclist', function(request, response) {
         try {
             console.log('editor/npc called');
             req = request;
@@ -58,6 +61,26 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
             });
         } finally {
 
+        }
+    });
+
+    router.get('/editor/npc/:id', function(request, response) {
+        console.log('edit npc ' + request.params.id + ' called');
+        try {
+
+            myDbUtilities.npc.ReadSingleNpcByID(request.params.id, nano, dbName, function(npc) {
+                console.log(npc);
+                request.app.render('./template/npcEditSingle.jade', npc, function(err, htmlSnippet) {
+                    if (err) {
+                        throw err;
+                    }
+                    var myEditorInterface = myDbUtilities.wrapTitleAndBody('Edit Npc ' + npc.npc_id, htmlSnippet, 'locked');
+                    console.log(myEditorInterface);
+                    response.send(myEditorInterface);
+                });
+            });
+        } catch (e) {
+            console.log(e);
         }
     });
 }

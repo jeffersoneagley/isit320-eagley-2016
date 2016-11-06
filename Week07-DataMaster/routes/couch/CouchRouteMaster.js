@@ -1,24 +1,38 @@
 function CouchRouteMaster(router, nano, dbName, myDbUtilities) {
     'use strict';
-    //var dbControllerNpc = require('./controller/DbControllerNpc');
-    //console.log(dbControllerNpc);
-    var couchRouteEditorNpc = require('./CouchRouteEditorNpc')(router, nano, dbName, myDbUtilities);
+
+    var myMasterRouteList = [{
+        'buttonLabel': 'NPCs',
+        'route': '/editor/npclist'
+    }, {
+        'buttonLabel': 'Levels',
+        'route': '/editor/level'
+    }, {
+        'buttonLabel': 'Databases',
+        'route': '/editor/db'
+    }];
+
+    var couchRouteEditor = require('./CouchRouteEditorNpc')(router, nano, dbName, myDbUtilities);
+    myDbUtilities.wrapTitleAndBody = function(title, body, navRoutes) {
+        var result = {
+            'title': title,
+            'body': body
+        };
+
+        if (navRoutes !== undefined) {
+            result.routelist = navRoutes;
+        }
+        return result;
+    };
 
     router.get('/getCouchRoutes', function(request, response) {
         console.log('getCouchRoutes called');
-        var myRouteList = {
-            'rows': [{
-                'buttonLabel': 'NPCs',
-                'route': '/editor/npc'
-            }, {
-                'buttonLabel': 'Levels',
-                'route': '/editor/level'
-            }, {
-                'buttonLabel': 'Databases',
-                'route': '/editor/db'
-            }]
-        };
-        response.send(myRouteList);
+        response.send(myMasterRouteList);
+    });
+
+    router.get('/editor/', function(request, response) {
+        var myHtml = myDbUtilities.wrapTitleAndBody('Welcome', 'Select a button on the left', myMasterRouteList);
+        response.send(myHtml);
     });
 
 }

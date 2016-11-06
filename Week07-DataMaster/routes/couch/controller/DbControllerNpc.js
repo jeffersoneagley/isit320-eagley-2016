@@ -6,6 +6,29 @@ function DbControllerNpc() {
 function buildNpcObject() {
     'use strict';
     var npc = {};
+
+    npc.ReadSingleNpcByID = function functionName(npc_id, nano, dbName, callback) {
+        var nanoDb = nano.db.use(dbName);
+        try {
+            nanoDb.view('npcObjects', 'docSortedById', {
+                keys: [parseInt(npc_id)]
+            }, function(err, result) {
+                //console.log(result);
+                if (!err) {
+                    console.log('success, processing result');
+                    var npc = result.rows[0].value;
+                    console.log(npc);
+                    callback(npc);
+                } else {
+                    console.log(err);
+                    callback(err);
+                }
+            });
+        } catch (exc) {
+            console.log(exc);
+        }
+    };
+
     npc.ReadNpcAllByID = function(nano, dbName, callback) {
         var nanoDb = nano.db.use(dbName);
         try {
