@@ -2,7 +2,7 @@
     "preset": "google",
     "validateIndentation": 4,
     "excludeFiles": [
-        "**/node_modules/**", "**/components/**", "**/three.min.js"
+        "**/node_modules/**", "**/components/**", "**/three.min.js", "**/app.js"
     ],
     "requireCamelCaseOrUpperCaseIdentifiers": false,
     "maximumLineLength": 200,

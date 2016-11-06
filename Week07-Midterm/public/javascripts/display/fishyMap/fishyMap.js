@@ -23,7 +23,7 @@ define([require], function() {
     FishyMap.prototype.DiscoverCell = function(x, y, isDiscovered) {
         isDiscovered = isDiscovered || true;
         try {
-            console.log(x + ' ' + y + ' ' + isDiscovered);
+            //console.log(x + ' ' + y + ' ' + isDiscovered);
             if (this.mapItems[x][y] !== undefined) {
                 this.mapItems[x][y].discovered = isDiscovered;
                 this.refreshCellHtml(x, y);
@@ -95,6 +95,38 @@ define([require], function() {
         this.BuildAndFillHtmlGrid();
     };
 
+    FishyMap.prototype.DoForAllMapItems = function(cellFunction) {
+        for (var i = 0; i < this.mapItems.length; i++) {
+            for (var j = 0; j < this.mapItems.length; j++) {
+                cellFunction(this.mapItems[i][j]);
+            }
+        }
+    };
+
+    FishyMap.prototype.GetExplorableSquares = function() {
+        var explorableSquares = 0;
+        DoForAllMapItems(function(mapItem) {
+            if (mapItem.structure === 0) {
+                explorableSquares++;
+            }
+        });
+    };
+
+    FishyMap.prototype.GetExploredSquares = function() {
+        var exploredSquares = 0;
+        DoForAllMapItems(function(mapItem) {
+            if (mapItem.structure === 0) {
+                if (
+                    this.mapItems.structure === 0 &&
+                    this.mapItems.discovered
+                ) {
+                    exploredSquares++;
+                }
+            }
+        });
+
+    };
+
     FishyMap.prototype.BuildAndFillHtmlGrid = function() {
         if (debug) {
             console.log('BuildAndFillHtmlGrid');
@@ -139,8 +171,8 @@ define([require], function() {
     };
 
     FishyMap.prototype.refreshCellHtml = function(i, j) {
-        console.log('refreshCellHtml');
-        if (this.mapItems[i][j].discovered) {
+        //console.log('refreshCellHtml');
+        if(this.mapItems[i][j].discovered) {
 
             this.mapHtmlElements[i][j].empty();
             //set background
@@ -148,8 +180,8 @@ define([require], function() {
             //show structures
             try {
                 var structureId = this.mapItems[i][j].structure;
-                if (structureId !== 0) {
-                    console.log(structureId);
+                if(structureId !== 0) {
+                    //console.log(structureId);
                     var myStructure = $('<div>')
                         .css('display', 'block')
                         .css('width', '90%')
@@ -158,14 +190,14 @@ define([require], function() {
                         .css('background-size', '90%');
                     this.mapHtmlElements[i][j].append(myStructure);
                 }
-            } catch (exc) {
+            } catch(exc) {
                 console.log(exc);
                 console.log('Error loading structure for cell');
             }
             //show NPCS
             try {
                 var npcId = this.mapItems[i][j].npc;
-                if (npcId !== 0) {
+                if(npcId !== 0) {
                     var myNpc = this.templateListNpcs[npcId];
                     var myColor = myNpc.color;
                     var npcEmblem = $('<div>')
@@ -176,16 +208,12 @@ define([require], function() {
                         .css('background', myColor);
                     this.mapHtmlElements[i][j].append(npcEmblem);
                 }
-            } catch (exc) {
+            } catch(exc) {
                 console.log('NPC add to map failed');
             }
         } else {
             this.mapHtmlElements[i][j].css('background-color', 'slategray');
         }
-    };
-
-    FishyMap.prototype.Refresh = function() {
-
     };
     return FishyMap;
 });

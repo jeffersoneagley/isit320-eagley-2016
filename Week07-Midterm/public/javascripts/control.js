@@ -141,8 +141,6 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
                     .position);
                 //check whether player has moved
                 CheckPlayerHasMovedCells();
-                //update minimap
-                fishyMap.Refresh();
             } else {
                 //15 frames haven't passed, increment counter
                 reducedUpdateIndex++;
