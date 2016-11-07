@@ -55,11 +55,36 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
         });
     }
 
-    function onNpcListRecieved(callback) {
+    function listBuildCreateNewNpcButton(callback) {
 
+    }
+
+    function onNpcListRecieved(result, callback) {
+        var myEditorInterface = myDbUtilities.wrapTitleAndBody('NPC Database', result, routesNpcDatabase);
+        callback(myEditorInterface);
+    }
+
+    function listBuildNpcList(callback) {
         BuildNpcListHtml(function(htmlSnippet) {
-            var myEditorInterface = myDbUtilities.wrapTitleAndBody('NPC Database', htmlSnippet, routesNpcDatabase);
+
             callback(myEditorInterface);
+        });
+    }
+
+    function listBuildFinalPage(callback) {
+        var sectionNewNpc = null;
+        var sectionNpcList = null;
+        listBuildNpcList(function(myNpcListInterface) {
+            sectionNpcList = myNpcListInterface;
+            if (sectionNpcList !== null && sectionNewNpc !== null) {
+                callback(sectionNewNpc + sectionNpcList);
+            }
+        });
+        listBuildCreateNewNpcButton(function(myNpcListInterface) {
+            sectionNewNpc = myNpcListInterface;
+            if (sectionNpcList !== null && sectionNewNpc !== null) {
+                callback(sectionNewNpc + sectionNpcList);
+            }
         });
     }
 
@@ -67,6 +92,7 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
         try {
             console.log('editor/npc called');
             req = request;
+
             onNpcListRecieved(function(result) {
                 response.send(result);
             });
