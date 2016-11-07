@@ -32,7 +32,7 @@ define(['dbHandler'],
             myButton.html(myRouteEntry.buttonLabel);
             myButton.attr('class', 'btn btn-primary btn-lg btn-block');
             var myRoute = myRouteEntry.route;
-            myButton.attr('myRouteToCall', myRoute);
+            myButton.attr('jeffersonDbRouteToCall', myRoute);
             if (!myRouteEntry.isForNav) {
                 myButton.click(function() {
                     LoadRoute(myRoute);
@@ -66,14 +66,13 @@ define(['dbHandler'],
                 .find(':button')
                 .each(function(index) {
                     var myRoute = $(this)
-                        .attr('myroutetocall');
-                    //console.log(myRoute);
-                    if (myRoute !== undefined) {
-                        $(this)
-                            .click(function() {
-                                LoadRoute(myRoute);
-                            });
-                    }
+                        .attr('jeffersonDbRouteToCall');
+                    console.log($(this));
+                    console.log(myRoute);
+                    $(this)
+                        .click(function() {
+                            LoadRoute(myRoute);
+                        });
                 });
             var updateButton = $('#buttonUpdateDb');
             if (updateButton !== undefined) {

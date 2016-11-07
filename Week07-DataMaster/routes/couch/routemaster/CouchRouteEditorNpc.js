@@ -65,12 +65,17 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
 
             console.log('/editor/npc/update/');
             console.log(request.query);
-            var result = myDbUtilities.wrapTitleAndBody('Update result', request.query, [{
-                'buttonLabel': 'ok',
-                'route': '/editor/npc/list'
-            }]);
 
-            response.send(result);
+            myDbUtilities.npc.UpdateNpcEntry(request.query.id, request.query.changes, nano, dbName, function(err, DBResonse) {
+
+                var result = myDbUtilities.wrapTitleAndBody('Update result', DBResonse, [{
+                    'buttonLabel': 'ok',
+                    'route': '/editor/npc/list'
+                }]);
+
+                response.send(result);
+            });
+
         } catch (e) {
             console.log(e);
         }

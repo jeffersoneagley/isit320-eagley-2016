@@ -149,6 +149,30 @@ function buildNpcObject() {
             }
         }
     };
+
+    npc.UpdateNpcEntry = function(npc_id, changes, nano, dbName, callback) {
+        var nanoDb = nano.db.use(dbName);
+        nanoDb.view('npcObjects', 'docSortedById', {
+            keys: [parseInt(npc_id)]
+        }, function(err, doc) {
+            var docId = doc._id;
+            var rev = doc._rev;
+            var updatedDoc = doc;
+            for (var item in changes) {
+                updatedDoc[item] = changes[item];
+            }
+            nanoDb.destroy(docId, rev, function(err, body) {
+                if (err) {
+                    callback(err, body);
+                }
+                nanoDb.insert(updatedDoc, function(err, body) {
+                    console.log(body);
+                    callback(err, body);
+                });
+            });
+        });
+        callback(result);
+    };
     return npc;
 }
 
