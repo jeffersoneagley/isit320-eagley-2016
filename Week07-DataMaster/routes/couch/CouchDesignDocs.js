@@ -42,6 +42,8 @@ function designDocs(router, nano, dbName) {
 
     var docNpcAllByName = function(doc) {
         emit(doc.npc_name, {
+            '_id': doc._id,
+            '_rev': doc._rev,
             'npc_id': doc.npc_id,
             'npc_name': doc.npc_name,
             'description': doc.description,
@@ -182,6 +184,17 @@ function designDocs(router, nano, dbName) {
                                 "docStatesHtml" : {
                                     "map" : docStatesHtml
                                 }*/
+            },
+            'updates': {
+                'update_specific_one': 'function(doc, req) { ' +
+                    ' var message = \'in-place-query begun - \'; ' +
+                    ' var myRequest = JSON.parse(req.body); ' +
+                    ' for( field in myRequest ){ ' +
+                    //  ' doc[field] = myRequest[field]; ' +
+                    ' message += field + \' changed from \' + toJSON(doc) +\' to \'+myRequest[field]; ' +
+                    ' } ' +
+                    ' return [toJSON(doc), message]; ' +
+                    '   } '
             }
         };
         console.log('calling createDesignDocument');

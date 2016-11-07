@@ -144,28 +144,28 @@ function buildNpcObject() {
 
     npc.UpdateNpcEntry = function(npc_id, changes, nano, dbName, callback) {
         var nanoDb = nano.db.use(dbName);
-        nanoDb.view('npcObjects', 'docSortedById', {
+        console.log('UpdateNpcEntry ' + npc_id + ' ' + JSON.stringify(changes));
+        nanoDb.atomic('npcObjects', 'update_specific_one', 'docSortedById?key =' + npc_id, changes, function(err, response) {
+            console.log(err);
+            console.log(response);
+            callback(err, response);
+        });
+        /*nanoDb.view('npcObjects', 'docSortedById', {
             keys: [parseInt(npc_id)]
         }, function(err, doc) {
-            var docId = doc._id;
-            var rev = doc._rev;
-            var updatedDoc = doc;
+            console.log('nano view docSortedById in UpdateNpcEntry');
+            console.log(JSON.stringify(doc.rows[0]));
             for (var item in changes) {
-                updatedDoc[item] = changes[item];
+                doc.rows[0].value[item] = changes[item];
             }
-            nanoDb.destroy(docId, rev, function(err, body) {
-                if (err) {
-                    callback(err, body);
-                }
-                nanoDb.insert(updatedDoc, function(err, body) {
-                    console.log(body);
-                    callback(err, body);
-                });
+            nanoDb.insert(doc.rows[0].value, function(err, body) {
+                console.log('insert completed ' + err);
+                callback(err, body);
             });
-        });
-        callback(result);
+        });*/
     };
     return npc;
 }
 
 module.exports = DbControllerNpc;
+ts = DbControllerNpc;

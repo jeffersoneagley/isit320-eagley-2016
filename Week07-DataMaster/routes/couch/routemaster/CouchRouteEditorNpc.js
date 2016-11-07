@@ -91,6 +91,7 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
 
                 var result = myDbUtilities.wrapTitleAndBody('Update result', DBResonse, [{
                     'buttonLabel': 'ok',
+                    'cssclass': 'btn btn-accept',
                     'route': '/editor/npc/list'
                 }]);
 
