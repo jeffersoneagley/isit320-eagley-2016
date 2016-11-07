@@ -1,0 +1,36 @@
+{
+    "_id": "npcObjects",
+    "docs": [{
+        "npc_id": 1,
+        "npc_name": "Lydia",
+        "description": "A cute blue fish",
+        "color": "#3333FF",
+        "value": 10,
+        "question": "Nyan?",
+        "answer": true
+    }, {
+        "npc_id": 2,
+        "npc_name": "Jefferson",
+        "description": "A programmer",
+        "color": "#00EE00",
+        "value": 5,
+        "question": "Is it coffee time?",
+        "answer": true
+    }, {
+        "npc_id": 3,
+        "npc_name": "Charlie",
+        "description": "A mad scientist, solar panel enthusiast, and professor.",
+        "color": "#EEEE00",
+        "value": 2,
+        "question": "Did you run grunt check on your code?",
+        "answer": true
+    }, {
+        "npc_id": 4,
+        "npc_name": "Tour Guide",
+        "description": "Welcome. Let me teach you the basics. Obviously you know WASD and mouse for movement already.",
+        "color": "#888888",
+        "value": 1,
+        "question": "You'll have to answer questions to get some NPC's out of your way, some NPC's won't talk to you if you're not reknowned enough. Earn reknown by answering questions. Have some free reknown, press yes:",
+        "answer": true
+    }]
+}

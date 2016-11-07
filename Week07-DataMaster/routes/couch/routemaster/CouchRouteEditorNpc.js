@@ -5,6 +5,23 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
     var routesNpcDatabase = [{
         'buttonLabel': 'Exit Npcs',
         'route': '/editor/'
+    }, {
+        'buttonLabel': 'Npc: delete db',
+        'routes': ['/deleteDb', '/editor/npc/list'],
+        'cssclass': 'btn btn-danger'
+    }, {
+        'buttonLabel': 'Npc: create',
+        'routes': ['/createDb', '/editor/npc/list']
+    }, {
+        'buttonLabel': 'Npc: design docs',
+        'routes': ['/designDoc', '/editor/npc/list']
+    }, {
+        'buttonLabel': 'Npc: fill data',
+        'routes': ['/insertBulk?fileName=NpcBackup.json', '/editor/npc/list']
+    }, {
+        'buttonLabel': 'Refresh',
+        'route': '/editor/npc/list',
+        'cssclass': 'btn btn-info'
     }];
 
     function BuildNpcListHtml(callback) {
@@ -12,12 +29,16 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
             //console.log('ReadNpcAllByID complted');
             //console.log(data);
             var myResponse = '';
-            for (var row in data.rows) {
-                BuildNpcListElement(data.rows[row], function(htmlText) {
-                    myResponse += (htmlText);
-                });
+            if (result) {
+                callback('<h3 class="alert alert-warning">No db data found!</h3>');
+            } else {
+                for (var row in data.rows) {
+                    BuildNpcListElement(data.rows[row], function(htmlText) {
+                        myResponse += (htmlText);
+                    });
+                }
+                callback(myResponse);
             }
-            callback(myResponse);
         });
     }
 

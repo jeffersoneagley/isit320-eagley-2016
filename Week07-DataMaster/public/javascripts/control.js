@@ -31,23 +31,41 @@ define(['dbHandler'],
             var myButton = $('<button>');
             myButton.html(myRouteEntry.buttonLabel);
             myButton.attr('class', 'btn btn-primary btn-lg btn-block');
-            var myRoute = myRouteEntry.route;
-            myButton.attr('jeffersonDbRouteToCall', myRoute);
-            if (!myRouteEntry.isForNav) {
+
+            if (myRouteEntry.routes !== undefined) {
+                //multiple routes to call
+                var myRouteList = myRouteEntry.routes;
                 myButton.click(function() {
+                    var callbackFunction = null;
+                    for (var i = 0; i < myRouteList.length; i++) {
+                        LoadRoute(myRouteList[i]);
+                    }
+
+                });
+            } else if (myRouteEntry.route !== undefined) {
+                //single route to call
+
+                var myRoute = myRouteEntry.route;
+                myButton.attr('jeffersonDbRouteToCall', myRoute);
+                myButton.click(function() {
+
                     LoadRoute(myRoute);
                 });
-            } else {
-                myButton.click(function() {
-                    FillRoutes(myRoute);
-                });
+            }
+            if (myRouteEntry.cssclass !== undefined) {
+                myButton.addClass(myRouteEntry.cssclass);
             }
             myButtonPanel.append(myButton);
         }
 
-        function LoadRoute(routeName) {
+        function LoadRoute(routeName, callback) {
             console.log('Calling load ' + routeName);
-            $.getJSON(routeName, LoadRecievedDataToPage);
+            $.getJSON(routeName, function(response, result) {
+                LoadRecievedDataToPage(response, result);
+                if (callback !== undefined) {
+                    callback(response, result);
+                }
+            });
         }
 
         function LoadRecievedDataToPage(response, result) {

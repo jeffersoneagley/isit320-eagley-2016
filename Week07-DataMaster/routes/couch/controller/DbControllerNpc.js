@@ -34,16 +34,8 @@ function buildNpcObject() {
         try {
             nanoDb.view('npcObjects', 'docSortedById', function(err, result) {
                 console.log('response from db ' + err);
-                //console.log(result);
-                if (!err) {
-                    //console.log('success, processing result');
-                    //console.log(result);
-                    //result.rows
-                } else {
-                    console.log(err);
-                }
                 console.log(result);
-                callback(result);
+                callback(result, err);
             });
         } catch (exc) {
             console.log(exc);
