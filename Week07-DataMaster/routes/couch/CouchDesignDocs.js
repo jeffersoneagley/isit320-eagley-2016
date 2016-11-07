@@ -30,6 +30,7 @@ function designDocs(router, nano, dbName) {
 
     var docNpcAllByID = function(doc) {
         emit(doc.npc_id, {
+            '_rev': doc._rev,
             'npc_id': doc.npc_id,
             'npc_name': doc.npc_name,
             'description': doc.description,

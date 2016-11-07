@@ -145,24 +145,28 @@ function buildNpcObject() {
     npc.UpdateNpcEntry = function(npc_id, changes, nano, dbName, callback) {
         var nanoDb = nano.db.use(dbName);
         console.log('UpdateNpcEntry ' + npc_id + ' ' + JSON.stringify(changes));
-        nanoDb.atomic('npcObjects', 'update_specific_one', 'docSortedById?key =' + npc_id, changes, function(err, response) {
+        /*nanoDb.atomic('npcObjects', 'update_specific_one', 'docSortedById?key =' + npc_id, changes, function(err, response) {
             console.log(err);
             console.log(response);
             callback(err, response);
-        });
-        /*nanoDb.view('npcObjects', 'docSortedById', {
+        });*/
+        nanoDb.view('npcObjects', 'docSortedById', {
             keys: [parseInt(npc_id)]
         }, function(err, doc) {
             console.log('nano view docSortedById in UpdateNpcEntry');
             console.log(JSON.stringify(doc.rows[0]));
+            var myInsertDoc = doc.rows[0].value;
+            myInsertDoc._id = doc.rows[0].id;
             for (var item in changes) {
-                doc.rows[0].value[item] = changes[item];
+                myInsertDoc[item] = changes[item];
+                console.log(item + ' changed to' + changes[item]);
             }
-            nanoDb.insert(doc.rows[0].value, function(err, body) {
-                console.log('insert completed ' + err);
+            console.log(JSON.stringify(myInsertDoc));
+            nanoDb.insert(myInsertDoc, function(err, body) {
+                console.log('insert completed ' + err + ' ' + JSON.stringify(body));
                 callback(err, body);
             });
-        });*/
+        });
     };
     return npc;
 }
