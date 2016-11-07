@@ -184,18 +184,19 @@ function designDocs(router, nano, dbName) {
                                 "docStatesHtml" : {
                                     "map" : docStatesHtml
                                 }*/
-            },
-            'updates': {
-                'update_specific_one': 'function(doc, req) { ' +
-                    ' var message = \'in-place-query begun - \'; ' +
-                    ' var myRequest = JSON.parse(req.body); ' +
-                    ' for( field in myRequest ){ ' +
-                    //  ' doc[field] = myRequest[field]; ' +
-                    ' message += field + \' changed from \' + toJSON(doc) +\' to \'+myRequest[field]; ' +
-                    ' } ' +
-                    ' return [toJSON(doc), message]; ' +
-                    '   } '
             }
+            /*,
+                        'updates': {
+                            'update_specific_one': 'function(doc, req) { ' +
+                                ' var message = \'in-place-query begun - \'; ' +
+                                ' var myRequest = JSON.parse(req.body); ' +
+                                ' for( field in myRequest ){ ' +
+                                //  ' doc[field] = myRequest[field]; ' +
+                                ' message += field + \' changed from \' + toJSON(doc) +\' to \'+myRequest[field]; ' +
+                                ' } ' +
+                                ' return [toJSON(doc), message]; ' +
+                                '   } '
+                        }*/
         };
         console.log('calling createDesignDocument');
         createDesignDocument(designDocument, designName, response);
