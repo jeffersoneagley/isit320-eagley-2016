@@ -88,8 +88,14 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
             console.log(request.query);
 
             myDbUtilities.npc.UpdateNpcEntry(request.query.id, request.query.changes, nano, dbName, function(err, DBResonse) {
-
-                var result = myDbUtilities.wrapTitleAndBody('Update result', DBResonse, [{
+                var myReply = '';
+                if (err !== undefined && err !== null) {
+                    myReply = '<div class="alert-warning"><h2>Something went wrong saving to the database!</h2>' +
+                        '<p>Contact the database administrator immediately and tell them your insert command failed</p></div>';
+                } else {
+                    myReply = '<div class="alert-success">Succssfully updated Npc!</div>';
+                }
+                var result = myDbUtilities.wrapTitleAndBody('Update result', myReply, [{
                     'buttonLabel': 'ok',
                     'cssclass': 'btn btn-accept',
                     'route': '/editor/npc/list'
