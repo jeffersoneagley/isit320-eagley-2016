@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+
+    div
+        a(href='/facebook/login') Log In with Facebook
+    div
+        a(href="/facebook/profile") Facebook Profile
+
+    div
+        a(href='/auth/google') Log In Google
+    div
+        a(href='/auth/account') Google Account
+
+    div
+        a(href='/logout') Logout
+
+    button#status Information
+
+    div
+        pre#report
+    div
+        pre#debug
