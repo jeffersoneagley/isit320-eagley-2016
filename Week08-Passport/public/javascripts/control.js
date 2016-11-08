@@ -7,7 +7,7 @@ var Control = (function() {
 
     function Control() {
         console.log('Control constructor called');
-        $('#info')
+        $('#buttonStatus')
             .click(info);
     }
 
@@ -15,8 +15,10 @@ var Control = (function() {
         // WRITE AN AJAX OR GET JSON METHOD THAT CALLS THE /info ROUTE AND DISPLAYS THE RESULT
         // THIS SHOULD INCLUDE THE USER INFORMATION SHOWN BELOW IN MY GOOGLE ACCOUNT SCREENSHOT
         $.getJSON('/status', function(err, response) {
-            $('#displayBasicInfo')
-                .html(response);
+            $('#report')
+                .html(JSON.stringify(response));
+            $('#debug')
+                .html(JSON.stringify(err));
         });
     };
 
