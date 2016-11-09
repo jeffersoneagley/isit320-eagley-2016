@@ -5,21 +5,6 @@
 function designDocs(router, nano, dbName) {
     'use strict';
 
-    var firstAndLast = function(doc) {
-        if (doc.firstName && doc.lastName) {
-            var name = doc.firstName + ' ' + doc.lastName;
-            emit(doc._id, name);
-        }
-    };
-
-    var lastOnly = function(doc) {
-
-        if (doc.firstName && doc.lastName) {
-            var name = doc.lastName;
-            emit(doc._id, name);
-        }
-    };
-
     var docIdDoc = function(doc) {
         emit(doc._id, doc);
     };
@@ -30,6 +15,7 @@ function designDocs(router, nano, dbName) {
 
     var docNpcAllByID = function(doc) {
         emit(doc.npc_id, {
+            '_id': doc._id,
             '_rev': doc._rev,
             'npc_id': doc.npc_id,
             'npc_name': doc.npc_name,
@@ -81,6 +67,7 @@ function designDocs(router, nano, dbName) {
             var data = [];
             doc.docs.forEach(function(npc) {
                 data.push({
+                    '_id': npc.id,
                     'npc_id': npc.npc_id,
                     'npc_name': npc.npc_name,
                     'description': npc.description,
@@ -93,37 +80,6 @@ function designDocs(router, nano, dbName) {
             emit(doc.npc_id, data);
         }
     };
-
-    /*
-    var viewStatesDoc = function(doc) {
-        if (doc._id === "statesDoc") {
-            var data = [];
-            doc.docs.forEach(function(state) {
-                emit({
-                    "name" : state.name,
-                    "capital" : state.capital
-                }, 1);
-            });
-            emit(doc.docs[0].abbreviation, data);
-        }
-    }
-
-    var docStatesHtml = function(doc) {
-        start({
-            'headers' : {
-                'Content-Type' : 'text/html'
-            }
-        });
-        send('<html><body><table>');
-        send('<tr><th>ID</th><th>Key</th><th>Value</th></tr>')
-        while (row = viewStatesDoc()) {
-            send(''.concat('<tr>', '<td>' + toJSON(row.name) + '</td>', '<td>'
-                    + toJSON(row.capital) + '</td>', '<td>' + toJSON(row.value)
-                    + '</td>', '</tr>'));
-        }
-        send('</table></body></html>');
-
-    }*/
 
     function createDesignDocument(designDocument, designName, response) {
         console.log('createDesignDocument');
@@ -166,38 +122,7 @@ function designDocs(router, nano, dbName) {
                 'docGetSpecificNpcById': {
                     'map': docGetSpecificNpcById
                 }
-                /*  'docBulk': {
-                      'map': docBulk
-                  },
-                'docIdDoc': {
-                    'map': docIdDoc
-                },
-                'docNpcName': {
-                    'map': docNpcName
-                },
-                'docNpcQuestion': {
-                    'map': docNpcQuestion
-                }*/
-                /*,
-                                "viewStatesDoc" : {
-                                    "map" : viewStatesDoc
-                                },
-                                "docStatesHtml" : {
-                                    "map" : docStatesHtml
-                                }*/
             }
-            /*,
-                        'updates': {
-                            'update_specific_one': 'function(doc, req) { ' +
-                                ' var message = \'in-place-query begun - \'; ' +
-                                ' var myRequest = JSON.parse(req.body); ' +
-                                ' for( field in myRequest ){ ' +
-                                //  ' doc[field] = myRequest[field]; ' +
-                                ' message += field + \' changed from \' + toJSON(doc) +\' to \'+myRequest[field]; ' +
-                                ' } ' +
-                                ' return [toJSON(doc), message]; ' +
-                                '   } '
-                        }*/
         };
         console.log('calling createDesignDocument');
         createDesignDocument(designDocument, designName, response);

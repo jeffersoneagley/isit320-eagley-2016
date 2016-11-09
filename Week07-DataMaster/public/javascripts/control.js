@@ -97,7 +97,7 @@ define(['dbHandler'],
                 updateButton.click(function() {
                     var changesInJson = {};
                     $('#responseBody')
-                        .find('input')
+                        .find('[jeffersonDbCouchProperty]')
                         .each(
                             function() {
                                 var original = $(this)

@@ -56,32 +56,43 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
     }
 
     function listBuildCreateNewNpcButton(callback) {
+        var mySection = '<div class=\'alert alert-info row\'>' +
+            '<div class=\'lead col-sm-6 col-xs-3\'>Create new npc</div>' +
+            '<button class=\'btn btn-primary btn-lg\' ' +
+            '  jeffersonDbRouteToCall = \'/editor/npc/new\'' +
+            'id = \'buttonNpcNew\' ><span style=\'font-weight:bold\'>+</span>' +
+            ' Create New </button> </div>';
 
+        callback(mySection);
     }
 
-    function onNpcListRecieved(result, callback) {
-        var myEditorInterface = myDbUtilities.wrapTitleAndBody('NPC Database', result, routesNpcDatabase);
-        callback(myEditorInterface);
+    function onNpcListRecieved(callback) {
+
+        listBuildFinalPage(function(result) {
+
+            var myEditorInterface = myDbUtilities.wrapTitleAndBody('NPC Database', result, routesNpcDatabase);
+            callback(myEditorInterface);
+        });
     }
 
     function listBuildNpcList(callback) {
         BuildNpcListHtml(function(htmlSnippet) {
 
-            callback(myEditorInterface);
+            callback(htmlSnippet);
         });
     }
 
     function listBuildFinalPage(callback) {
         var sectionNewNpc = null;
         var sectionNpcList = null;
-        listBuildNpcList(function(myNpcListInterface) {
-            sectionNpcList = myNpcListInterface;
+        listBuildNpcList(function(myNpcListInterfaceSection) {
+            sectionNpcList = myNpcListInterfaceSection;
             if (sectionNpcList !== null && sectionNewNpc !== null) {
                 callback(sectionNewNpc + sectionNpcList);
             }
         });
-        listBuildCreateNewNpcButton(function(myNpcListInterface) {
-            sectionNewNpc = myNpcListInterface;
+        listBuildCreateNewNpcButton(function(myNewNpcInterfaceSection) {
+            sectionNewNpc = myNewNpcInterfaceSection;
             if (sectionNpcList !== null && sectionNewNpc !== null) {
                 callback(sectionNewNpc + sectionNpcList);
             }
@@ -140,6 +151,7 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
         try {
 
             myDbUtilities.npc.ReadSingleNpcByID(request.params.id, nano, dbName, function(npc) {
+                console.log('npc single recieved:');
                 console.log(npc);
                 request.app.render('./template/npcEditSingle.jade', npc, function(err, htmlSnippet) {
                     if (err) {

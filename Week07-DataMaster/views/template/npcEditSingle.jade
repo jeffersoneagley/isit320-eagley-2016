@@ -1,5 +1,8 @@
 div(class='container')
     div(class='input-group')
+        span(class='input-group-addon') Document id :
+        span(class='input-group-addon' jeffersonDbCouchProperty='_id') #{_id}
+    div(class='input-group')
         span(class='input-group-addon') Name
         input(type='text' class = 'form-control' jeffersonDbCouchProperty='npc_name' value='#{npc_name}')
         span(class='input-group-addon') original: #{npc_name}
@@ -23,8 +26,12 @@ div(class='container')
         span(class='input-group-addon') Answer
         input(type='text' class = 'form-control' jeffersonDbCouchProperty='answer' value= '#{answer}')
         span(class='') Original: #{answer}
+    div(class='input-group')
+        span(class='input-group-addon') npc_id
+        input(type= 'number' class = 'form-control' jeffersonDbCouchProperty='npc_id' value= '#{npc_id}')
+        span(class='') Original: #{npc_id}
 h4(class='alert alert-info') Don't forget to save!.
 div(class='row')
     button(class='btn btn-warning col-sm-3' jeffersonDbRouteToCall='/editor/npc/list/' id='buttonCancel') Cancel
     span(class='col-sm-5')
-    button(class='btn btn-primary col-sm-4' jeffersonDbSubmitRoute='/editor/npc/update/' jeffersonDbEntryId='#{npc_id}' id='buttonUpdateDb') Save
+    button(class='btn btn-primary col-sm-4' jeffersonDbSubmitRoute='/editor/npc/update/' jeffersonDbEntryId='#{_id}' id='buttonUpdateDb') Save
