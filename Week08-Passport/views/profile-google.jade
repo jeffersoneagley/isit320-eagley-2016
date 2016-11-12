@@ -4,7 +4,7 @@ block content
     h1 #{title}
     h2 Welcome #{user.name.givenName}
     img(src= '#{user.photos[0].value}')
-    each val, _, idx in user._json
+    each val, idx in user._json
         h3= idx
         p= JSON.stringify(val)
 

@@ -1,5 +1,5 @@
 define(['dbHandler'],
-    function(DbHandler) {
+    function (DbHandler) {
         'use strict';
         var myButtonPanel = $('#buttonPanelControls');
         var dbHandler = null;
@@ -10,11 +10,13 @@ define(['dbHandler'],
             LoadRoute('/editor/');
         }
 
-        function FillRoutes(myRoute) {
-            $.getJSON(myRoute, function(response) {
-                BuildRouteButtons(response.rows);
-            });
-        }
+        /*
+         function FillRoutes(myRoute) {
+         $.getJSON(myRoute, function (response) {
+         BuildRouteButtons(response.rows);
+         });
+         }
+         */
 
         function BuildRouteButtons(routelist) {
             if (routelist === 'locked') {
@@ -35,7 +37,7 @@ define(['dbHandler'],
             if (myRouteEntry.routes !== undefined) {
                 //multiple routes to call
                 var myRouteList = myRouteEntry.routes;
-                myButton.click(function() {
+                myButton.click(function () {
                     var callbackFunction = null;
                     for (var i = 0; i < myRouteList.length; i++) {
                         LoadRoute(myRouteList[i]);
@@ -47,7 +49,7 @@ define(['dbHandler'],
 
                 var myRoute = myRouteEntry.route;
                 myButton.attr('jeffersonDbRouteToCall', myRoute);
-                myButton.click(function() {
+                myButton.click(function () {
 
                     LoadRoute(myRoute);
                 });
@@ -60,7 +62,7 @@ define(['dbHandler'],
 
         function LoadRoute(routeName, callback) {
             console.log('Calling load ' + routeName);
-            $.getJSON(routeName, function(response, result) {
+            $.getJSON(routeName, function (response, result) {
                 LoadRecievedDataToPage(response, result);
                 if (callback !== undefined) {
                     callback(response, result);
@@ -82,24 +84,24 @@ define(['dbHandler'],
         function BindListButtons() {
             $('#responseBody')
                 .find(':button')
-                .each(function(index) {
+                .each(function (index) {
                     var myRoute = $(this)
                         .attr('jeffersonDbRouteToCall');
                     console.log($(this));
                     console.log(myRoute);
                     $(this)
-                        .click(function() {
+                        .click(function () {
                             LoadRoute(myRoute);
                         });
                 });
             var updateButton = $('#buttonUpdateDb');
             if (updateButton !== undefined) {
-                updateButton.click(function() {
+                updateButton.click(function () {
                     var changesInJson = {};
                     $('#responseBody')
                         .find('[jeffersonDbCouchProperty]')
                         .each(
-                            function() {
+                            function () {
                                 var original = $(this)
                                     .prop('defaultValue');
                                 var current = $(this)
@@ -119,7 +121,7 @@ define(['dbHandler'],
                         updateButton.attr('jeffersonDbSubmitRoute'),
                         updateButton.attr('jeffersonDbEntryId'),
                         changesInJson,
-                        function(response, result) {
+                        function (response, result) {
                             console.log(response);
                             console.log(result);
                             LoadRecievedDataToPage(response, result);
