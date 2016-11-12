@@ -3,8 +3,8 @@
 define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
         'collisions', 'npcEngine', 'prettyLights', 'drawHud', 'fishyMap'
     ],
-    function(Floors, Score, PointerLockControls, PointerLockSetup,
-        Collisions, NpcEngine, PrettyLights, DrawHud, FishyMap) {
+    function (Floors, Score, PointerLockControls, PointerLockSetup,
+              Collisions, NpcEngine, PrettyLights, DrawHud, FishyMap) {
         'use strict';
         var scene = null;
         var camera = null;
@@ -33,7 +33,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
             y: 0,
             z: 2
         };
-        var onWindowResize = function(event) {
+        var onWindowResize = function (event) {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -144,7 +144,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
         function CheckPlayerHasMovedCells() {
             var current = ConvertWorldToCell(controls.getObject()
                 .position);
-            console.log(current);
+            // console.log(current);
             if (
                 current.x !== lastLocation.x ||
                 current.z !== lastLocation.z
@@ -182,18 +182,18 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
 
         function addCubes(scene, camera, wireFrame) {
 
-            $.getJSON('grid000.json', function(grid) {
+            $.getJSON('grid000.json', function (grid) {
                 fishyMap.BindStructureMap(grid);
                 for (var i = 0; i < grid.length; i++) {
                     for (var j = 0; j < grid[i].length; j++) {
                         switch (grid[i][j]) {
-                        case 1:
+                            case 1:
 
-                            addCube(scene, camera, false, (size * i), (size * j));
-                            break;
-                        default:
+                                addCube(scene, camera, false, (size * i), (size * j));
+                                break;
+                            default:
 
-                    }
+                        }
                     }
                 }
             });
@@ -201,9 +201,9 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
 
         function addSpheres(scene, camera, wireFrame) {
 
-            var data = readDatabase(function(err, data) {
+            var data = readDatabase(function (err, data) {
                 if (!err) {
-                    $.getJSON('npcs000.json', function(grid) {
+                    $.getJSON('npcs000.json', function (grid) {
                         fishyMap.BindNpcMap(grid);
                         for (var i = 0; i < grid.length; i++) {
                             for (var j = 0; j < grid[i].length; j++) {
@@ -224,13 +224,13 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
         }
 
         function readDatabase(callback) {
-            $.getJSON('/readNpcInitialSetupParameters', function(data) {
-                    var myData = data.rows;
-                    console.log(myData);
-                    console.log(JSON.stringify(myData, null, 4));
-                    callback(undefined, myData);
-                })
-                .fail(function(jqxhr, textStatus, error) {
+            $.getJSON('/readNpcInitialSetupParameters', function (data) {
+                var myData = data.rows;
+                console.log(myData);
+                console.log(JSON.stringify(myData, null, 4));
+                callback(undefined, myData);
+            })
+                .fail(function (jqxhr, textStatus, error) {
                     var err = textStatus + ', ' + error;
                     console.log({
                         'Request Failed': err
