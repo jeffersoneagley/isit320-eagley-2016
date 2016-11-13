@@ -11,12 +11,12 @@ requirejs.config({
     }
 });
 
-requirejs(['jquery'], function($) {
+requirejs(['jquery'], function ($) {
     'use strict';
 
-    requirejs(['control'], function(control) {
+    requirejs(['control'], function (control) {
         $(document)
-            .ready(function() {
+            .ready(function () {
 
             });
     });
