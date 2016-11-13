@@ -23,7 +23,7 @@ passport.deserializeUser(function(obj, done) {
 
 router.get('/login', function(req, res) {
     'use strict';
-    res.render('login', {
+    res.redirect('/', {
         user: req.user
     });
 });
@@ -36,7 +36,7 @@ router.get('/logout', function(request, response) {
 
 router.get('/status', function(request, response) {
     'use strict';
-    console.log('Info called');
+    console.log('Status called');
     console.log('Auth: ' + request.isAuthenticated('google'));
     response.send({
         result: 'Success',

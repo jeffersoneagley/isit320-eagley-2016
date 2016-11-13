@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var google = require('./routes/google-auth');
+var google = require('./routes/login-google');
 
 var session = require('express-session');
 var passport = require('passport');
@@ -41,7 +41,7 @@ app.use('/users', users);
 app.use('/auth', google);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     'use strict';
     var err = new Error('Not Found');
     err.status = 404;
@@ -53,7 +53,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
         'use strict';
         console.log(err.message);
         res.status(err.status || 500);
@@ -66,13 +66,18 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     'use strict';
     res.status(err.status || 500);
+    console.log(err.message);
     res.render('error', {
         message: err.message,
         error: {}
     });
 });
+//
+// if (!this._passport) {
+//     throw new Error('passport.initialize() middleware not in use');
+// }
 
 module.exports = app;

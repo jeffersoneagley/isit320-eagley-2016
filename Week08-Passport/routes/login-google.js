@@ -20,7 +20,7 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
-router.get('/account', ensureAuthenticated, function(request, response) {
+router.get('/account', ensureAuthenticated, function (request, response) {
     'use strict';
     response.render('profile-google', {
         title: 'Google Account',
@@ -34,10 +34,10 @@ passport.use(new GoogleStrategy({
         callbackURL: 'http://localhost:30025/auth/google/callback',
         passReqToCallback: true
     },
-    function(request, accessToken, refreshToken, profile, done) {
+    function (request, accessToken, refreshToken, profile, done) {
         'use strict';
         // asynchronous verification, for effect...
-        process.nextTick(function() {
+        process.nextTick(function () {
 
             // Return Google profile for now. We will add Database data here later.
             return done(null, profile);
@@ -53,9 +53,9 @@ router.get('/google',
 //router.get('/auth/google/callback',
 router.get('/google/callback',
     passport.authenticate('google', {
-        failureRedirect: '/login'
+        failureRedirect: '/'
     }),
-    function(req, res) {
+    function (req, res) {
         'use strict';
         // Successful authentication, redirect home.
         res.redirect('/');
