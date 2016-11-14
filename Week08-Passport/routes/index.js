@@ -7,7 +7,7 @@ router.get('/', function (request, response, next) {
     'use strict';
     console.log('Index called ');
     response.render('index', {
-        title: 'Passport Google'
+        title: 'Passport signin!'
     });
 });
 
