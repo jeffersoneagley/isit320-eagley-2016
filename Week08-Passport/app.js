@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var google = require('./routes/login-google');
+var facebook = require('./routes/login-facebook');
 
 var session = require('express-session');
 var passport = require('passport');
@@ -38,6 +39,7 @@ app.use(passport.session());
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/facebook', facebook);
 app.use('/auth', google);
 
 // catch 404 and forward to error handler
