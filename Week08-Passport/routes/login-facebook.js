@@ -12,7 +12,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
  **************************************/
 
 router.get('/profile', require('connect-ensure-login').ensureLoggedIn(),
-    function (req, res) {
+    function(req, res) {
         'use strict';
         console.log(req.user);
         res.render('profile-facebook', {
@@ -27,7 +27,7 @@ passport.use(new FacebookStrategy({
         callbackURL: 'http://localhost:30025/facebook/login/callback',
         profileFields: ['id', 'displayName', 'photos', 'email']
     },
-    function (accessToken, refreshToken, profile, done) {
+    function(accessToken, refreshToken, profile, done) {
         'use strict';
         console.log('accessToken', accessToken);
         console.log('refreshToken', refreshToken);
@@ -42,13 +42,14 @@ router.get('/login/callback',
     passport.authenticate('facebook', {
         failureRedirect: '/login'
     }),
-    function (req, res) {
+    function(req, res) {
         'use strict';
         res.redirect('/');
     });
 
 module.exports = router;
-//Here is a way to use the profileFields property to alter the Facebook Strategy so you can get more information about the user:
+//Here is a way to use the profileFields property to alter the Facebook Strategy
+// so you can get more information about the user:
 
 // passport.use(new FacebookStrategy({
 //         clientID: process.env.CLIENT_ID,
