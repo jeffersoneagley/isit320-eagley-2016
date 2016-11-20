@@ -8,7 +8,7 @@ var uuid = require('uuid');
 var FileStoreSession = require('session-file-store')(session);
 
 router.use(session({
-    genid: function (req) {
+    genid: function(req) {
         'use strict';
         return uuid.v4(); // use UUIDs for session IDs
     },
@@ -18,7 +18,7 @@ router.use(session({
     store: new FileStoreSession()
 }));
 
-router.use(function (request, response, next) {
+router.use(function(request, response, next) {
     'use strict';
     console.log('Sample middleware with useful output');
     console.log('request cookies', request.cookies);
@@ -30,7 +30,7 @@ router.use(function (request, response, next) {
     next();
 });
 
-router.use(function (request, response, next) {
+router.use(function(request, response, next) {
     'use strict';
     var views = request.session.views;
 
