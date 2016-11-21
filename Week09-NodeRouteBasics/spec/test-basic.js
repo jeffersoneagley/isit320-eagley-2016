@@ -31,8 +31,8 @@ describe('Elvenware Simple Plain Suite', function() {
             .get('/getFeetInMile')
             .expect(200)
             .expect('Content-Type', /json/)
-            .end(function(err, res){
-                if(err) throw err;
+            .end(function(err, res) {
+                if (err) throw err;
                 done();
             });
     });
@@ -42,8 +42,8 @@ describe('Elvenware Simple Plain Suite', function() {
             .get('/calculateFeet')
             .expect(200)
             .expect('Content-Type', /json/)
-            .end(function(err, res){
-                if(err) throw err;
+            .end(function(err, res) {
+                if (err) throw err;
                 done();
             });
     });
@@ -53,8 +53,8 @@ describe('Elvenware Simple Plain Suite', function() {
             .get('/calculateCircumference')
             .expect(200)
             .expect('Content-Type', /json/)
-            .end(function(err, res){
-                if(err) throw err;
+            .end(function(err, res) {
+                if (err) throw err;
                 done();
             });
     });
