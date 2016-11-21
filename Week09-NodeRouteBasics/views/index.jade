@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+    div
+        input(type='number' value='1')#calculationInput
+        output#calculationOutput 1 mile = 5280 feet
+    div(class='btn-group')
+        button#btnFeetOneMile 1 mile
+        button#btnFeetFromMiles Convert miles to feet
+        button#btnCircumferenceFromRadius Circumference from radius
+    pre#debug
