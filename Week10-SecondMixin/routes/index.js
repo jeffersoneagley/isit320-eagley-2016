@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
     'use strict';
     res.render('index', {
         pageTitle: 'Main Page',
-        programTitle: 'Week05-JadeMixinBasics'
+        programTitle: 'Week10SecondMixin'
     });
 });
 

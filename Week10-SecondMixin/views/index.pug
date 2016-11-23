@@ -9,14 +9,17 @@ block append content
         p You are in the <strong>#{programTitle}</strong> program. Select some controls and press the Go button.
 
         +elfFormPanel("Main Form")#target
+            +elfPanel("CheckBoxes")
+                +elfCheckBox("Kurosawa", "checkBox01", "checkBox01")#checkBox01
+                +elfCheckBox("Tolstoy", "checkBox02", "checkBox02")#checkBox02
+                +elfCheckBox("Mifune", "checkBox03", "checkBox03")#checkBox03
 
             +elfRadioPanel("Radio Buttons")
-                +elfRadio("Radio1", "option1")
-                +elfRadio("Radio2", "option2")
-
-            +elfPanel("CheckBoxes")
-                +elfCheckBox("CheckBox 01", "checkBox01", "checkBox01")#checkBox01
-                +elfCheckBox("CheckBox 02", "checkBox02", "checkBox02")#checkBox02
+                +elfRadio("Seven Samurai", "option1")
+                +elfRadio("Ran", "option2")
+                +elfRadio("Rashomon", "option3")
+                +elfRadio("High and Low", "option4")
+                +elfRadio("Ikiru", "option5")
 
             +elfPanel("Input")
                 +elfInput("Enter a name", "subject", "Enter a subject")#subject.form-control
