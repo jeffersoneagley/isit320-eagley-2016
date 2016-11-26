@@ -1,0 +1,14 @@
+doctype html
+include mixin-eagley-navbar
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport', content='width=device-width')
+        title= title
+        block js
+            script(data-main='javascripts/main' src='/components/requirejs/require.js')
+        block css
+            link(rel='stylesheet', href='/css/style.css')
+    body
+        +eagleyNavbar
+        block content
