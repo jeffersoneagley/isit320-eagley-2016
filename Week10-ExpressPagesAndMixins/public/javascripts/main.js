@@ -8,6 +8,7 @@ requirejs.config({
     paths: {
         'jquery': '/components/jquery/dist/jquery',
         'control': '/javascripts/control',
+        'home': '/javascripts/home',
         'about': '/javascripts/about',
         'bootstrap': '/components/bootstrap/dist/js/bootstrap.min.js'
     }
@@ -16,10 +17,10 @@ requirejs.config({
 requirejs(['jquery'], function($) {
     'use strict';
 
-    requirejs(['control'], function(control) {
+    requirejs(['control'], function(Control) {
         $(document)
             .ready(function() {
-
+                var control = new Control();
             });
     });
 });

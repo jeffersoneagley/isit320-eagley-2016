@@ -3,6 +3,6 @@ include mixins
 mixin eagleyNavbar
     .header
         +nav("Isit320", "navigationbar", "navbar-default navbar-fixed-top")
-            +nav_item( null, "home", "active" )#buttonNavHome Home
-            +nav_item( null, "about", "about" )#buttonNavAbout About
+            +nav_item( null, "buttonNavHome", "active" )#buttonNavHome Home
+            +nav_item( null, "buttonNavAbout", "inactive" )#buttonNavAbout About
         +bootswatch('cerulean')

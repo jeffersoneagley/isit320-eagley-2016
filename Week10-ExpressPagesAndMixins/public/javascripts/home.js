@@ -2,16 +2,16 @@ define([require], function() {
     'use strict';
     var displayDiv;
 
-    function About(myDisplayDiv) {
+    function Home(myDisplayDiv) {
         displayDiv = myDisplayDiv;
-        console.log($('#buttonNavAbout'));
-        $('#buttonNavAbout')
-            .click(AboutClickhandler);
+        console.log($('#buttonNavHome'));
+        $('#buttonNavHome')
+            .click(HomeClickhandler);
     }
 
-    function AboutClickhandler() {
-        console.log('AboutClickhandler');
-        $.get('/about', function(response, result) {
+    function HomeClickhandler() {
+        console.log('HomeClickhandler');
+        $.get('/home', function(response, result) {
             console.log('response from server: ' + result);
             console.log(response);
             if (result !== 'success') {
@@ -22,5 +22,5 @@ define([require], function() {
         });
     }
 
-    return About;
+    return Home;
 });
