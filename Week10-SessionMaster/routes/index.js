@@ -16,6 +16,11 @@ router.get('/', function(req, res) {
     });
 });
 
+// router.use(function(request, response, next) {
+//     'use strict';
+//     logPageView(request, response);
+// });
+
 passport.serializeUser(function(user, done) {
     'use strict';
     done(null, user);
@@ -39,10 +44,26 @@ router.get('/login', function(request, response) {
 
     } catch (e) {
         console.log(e);
-    } finally {
-
     }
 });
+
+var logAndGetReport = function(req, res) {
+    'use strict';
+    logPageView(req, res);
+    pageReport(req, res);
+};
+
+var logPageView = function(request, response) {
+    'use strict';
+    var previousPage = '';
+    if (request.session.lastPage) {
+        previousPage = request.session.lastPage;
+    }
+
+    request.session.lastPage = request.url;
+    var welcome = 'Welcome to ' + request.url;
+    console.log('welcome', welcome);
+};
 
 var pageReport = function(request, response) {
     'use strict';
@@ -73,6 +94,16 @@ router.get('/page02', function(request, response) {
 router.get('/page03', function(request, response) {
     'use strict';
     pageReport(request, response);
+});
+
+router.get('/status', function(request, response) {
+    'use strict';
+    console.log('Status called');
+    console.log('Auth: ' + request.isAuthenticated('google'));
+    response.send({
+        result: 'Success',
+        authenticated: request.isAuthenticated()
+    });
 });
 
 module.exports = router;

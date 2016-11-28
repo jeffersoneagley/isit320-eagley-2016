@@ -14,7 +14,7 @@ mixin page-authentication
 
 mixin page-auth-loggedin
     a(href="/logout").btn.btn-warning#buttonLogout Logout
-    a(href="/status").btn.btn-warning#buttonLogout Refresh login
+    button(jeffersonRoute="/status").btn.btn-warning#buttonLogout Refresh login
 
 mixin page-auth-loggedout
     a(href="/login").btn.btn-warning#buttonLogout Log in

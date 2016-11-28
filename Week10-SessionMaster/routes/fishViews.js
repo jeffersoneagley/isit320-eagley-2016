@@ -72,5 +72,14 @@ module.exports = (function() {
         });
     });
 
+    router.get('/', function(request, response, next) {
+        console.log(request.query);
+        response.send({
+            result: 'you viewed this page ' +
+                request.session.views['/views/' + query] +
+                ' times'
+        });
+    });
+
     return router;
 })();
