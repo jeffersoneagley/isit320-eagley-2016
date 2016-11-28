@@ -32,6 +32,18 @@ router.get('/logout', function(request, response) {
     response.redirect('/');
 });
 
+router.get('/login', function(request, response) {
+    'use strict';
+    try {
+        response.render('login-options');
+
+    } catch (e) {
+        console.log(e);
+    } finally {
+
+    }
+});
+
 var pageReport = function(request, response) {
     'use strict';
     var previousPage = '';

@@ -16,12 +16,8 @@ mixin littleMenu
                     img(alt='Isit320', src='favicon.png')
             // Nav Links
             #bs-example-navbar-collapse-1.collapse.navbar-collapse
-                ul.nav.navbar-nav
-                    li#basics-menu
-                        a.togglePageClick(href='/basics-page')
-                            | Basics
-                            span.sr-only (current)
-                    li#database-menu
-                        a.togglePageClick(href="/database-page") Database
-                    li#authentication-menu
-                        a.togglePageClick(href="/authentication-page") Authentication
+                button.btn.btn-primary( data-target='#panel-basics-page' data-toggle='collapse' )
+                    | Basics
+                    //-span.sr-only (current)
+                button.btn.btn-primary( data-target='#panel-database-page' data-toggle='collapse' ) Database
+                button.btn.btn-primary( data-target='#panel-authentication-page' data-toggle='collapse' ) Authentication

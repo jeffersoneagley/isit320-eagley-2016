@@ -1,26 +1,17 @@
 extends layout
 include mixin-littleMenu
+include mixin-sections
 
 block content
     h1= title
     p Welcome to #{title}
     +littleMenu
-    .panel.panel-default#basics-page
-        .well Basics
-        .container
-            button(jeffersonRoute="/page01" class='btn btn-primary') page 1
-            button(jeffersonRoute="/page02" class='btn btn-primary') page 2
-            button(jeffersonRoute="/page03" class='btn btn-primary') page 3
-            button(jeffersonRoute="/views/file-store" class='btn btn-secondary') File-store
-            button(jeffersonRoute="/views/request" class='btn btn-secondary') Request
-    .panel.panel-default#database-page
-        .well Database
-        .container
-            button(jeffersonRoute="/couch/designDoc" class='.btn.btn-info')#designDoc Insert Design Doc
-            button(jeffersonRoute="/couch/viewSessions" class='.btn.btn-info')#sessionView View Sessions
+    #accordion.panel-group
+        +page-basics
+        +page-database
+        +page-authentication
 
-    .panel.panel-default#authentication-page
-        .well Authentication
+    //div#buttonPanel
     pre(class='jumbotron')#responseArea Welcome
     pre(class='well')#viewcount
     pre(class='alert alert-info')#debug Errors show up here

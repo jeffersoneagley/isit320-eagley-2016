@@ -13,6 +13,12 @@ var fishMiddleware = require('./routes/fishMiddleware');
 var fishViews = require('./routes/fishViews');
 var couchController = require('./routes/couch/Couch');
 
+var google = require('./routes/login-google');
+var facebook = require('./routes/login-facebook');
+
+var session = require('express-session');
+var passport = require('passport');
+
 var app = express();
 
 app.use(favicon('./public/favicon.png'));
@@ -28,9 +34,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(fishMiddleware);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/couch', couchController);
 app.use('/', routes);
 app.use('/users', users);
+app.use('/views', fishViews);
+
+app.use('/auth', google);
+app.use('/facebook', facebook);
 app.use('/views', fishViews);
 
 /// catch 404 and forwarding to error handler

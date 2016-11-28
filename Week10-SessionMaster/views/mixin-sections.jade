@@ -1,0 +1,30 @@
+mixin page-database
+    .well.collapse.in#panel-database-page
+        span Database
+        .container
+            button(jeffersonRoute="/couch/designDoc" class='.btn.btn-info')#designDoc Insert Design Doc
+            button(jeffersonRoute="/couch/viewSessions" class='.btn.btn-info')#sessionView View Sessions
+
+mixin page-authentication
+    .well.collapse.in#panel-authentication-page
+        span Authentication
+        .container
+            +page-auth-loggedin
+            +page-auth-loggedout
+
+mixin page-auth-loggedin
+    a(href="/logout").btn.btn-warning#buttonLogout Logout
+    a(href="/status").btn.btn-warning#buttonLogout Refresh login
+
+mixin page-auth-loggedout
+    a(href="/login").btn.btn-warning#buttonLogout Log in
+
+mixin page-basics
+    .well.collapse.in#panel-basics-page
+        span Basics
+        .container
+            button(jeffersonRoute="/page01" class='btn btn-primary') page 1
+            button(jeffersonRoute="/page02" class='btn btn-primary') page 2
+            button(jeffersonRoute="/page03" class='btn btn-primary') page 3
+            button(jeffersonRoute="/views/file-store" class='btn btn-secondary') File-store
+            button(jeffersonRoute="/views/request" class='btn btn-secondary') Request

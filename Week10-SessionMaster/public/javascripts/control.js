@@ -1,59 +1,69 @@
-/**
- * Control.js
- */
+define([],
+    function() {
+        'use strict';
 
-var Control = (function() {
-    'use strict';
+        function Control() {
+            console.log('Control constructor called');
+            var myOutput = $('#responseArea');
+            console.log(myOutput);
 
-    function Control() {
-        console.log('Control constructor called');
-        $('#myPageButtons')
-            .children('button')
-            .click(showPage);
-    }
+            $('button[jeffersonRoute]')
+                .click(showPage);
+        }
 
-    var showPage = function() {
-        var myRoute = $(this)
-            .attr('jeffersonRoute');
-        $.getJSON(myRoute, function(response, result) {
-                $('#responseArea')
-                    .html(JSON.stringify(response, null, 4));
-                $('#debug')
-                    .html(JSON.stringify(result));
-                getViews(myRoute);
-                if (result === 'success') {
+        var showPage = function() {
+            var myRoute = $(this)
+                .attr('jeffersonRoute');
+            $.getJSON(myRoute, function(response, result) {
+                    $('#responseArea')
+                        .html(JSON.stringify(response, null, 4));
                     $('#debug')
-                        .attr('class', 'alert alert-success');
-                } else {
+                        .html(JSON.stringify(result));
+                    getViews(myRoute);
+                    if (result === 'success') {
+                        $('#debug')
+                            .attr('class', 'alert alert-success');
+                    } else {
+                        $('#debug')
+                            .attr('class', 'alert alert-warning');
+                    }
+                })
+                .fail(function(jq, status, error) {
                     $('#debug')
                         .attr('class', 'alert alert-warning');
-                }
-            })
-            .fail(function(jq, status, error) {
-                $('#debug')
-                    .attr('class', 'alert alert-warning');
-                $('#debug')
-                    .html('error: ' + jq.responseText);
-                console.log('error: ', status);
-                console.log('error: ', error);
+                    $('#debug')
+                        .html('error: ' + jq.responseText);
+                    console.log('error: ', status);
+                    console.log('error: ', error);
+                });
+        };
+
+        var getViews = function(myRoute) {
+            $.getJSON('/views' + myRoute, function(response) {
+                console.log('/views/' + myRoute);
+                console.log(response.result);
+                $('#viewcount')
+                    .html(response.result);
             });
-    };
+        };
 
-    var getViews = function(myRoute) {
-        $.getJSON('/views' + myRoute, function(response) {
-            console.log('/views/' + myRoute);
-            console.log(response.result);
-            $('#viewcount')
-                .html(response.result);
-        });
-    };
+        var loginInfo = function() {
+            // WRITE AN AJAX OR GET JSON METHOD THAT CALLS THE /info ROUTE AND DISPLAYS THE RESULT
+            // THIS SHOULD INCLUDE THE USER INFORMATION SHOWN BELOW IN MY GOOGLE ACCOUNT SCREENSHOT
+            $.getJSON('/status', function(err, response) {
+                $('#report')
+                    .html(JSON.stringify(response));
+                $('#debug')
+                    .html(JSON.stringify(err));
+            });
+        };
 
-    return Control;
+        var loginRefresh = function() {
+            $.getJSON('/status', function(err, response) {
 
-}());
+            });
+        };
 
-$(document)
-    .ready(function() {
-        'use strict';
-        var control = new Control();
+        return Control;
+
     });
