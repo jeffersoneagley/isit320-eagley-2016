@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 
 // var routeParamMiddleware = function(request, response, next) {
 //     'use strict';
@@ -13,6 +14,22 @@ router.get('/', function(req, res) {
     res.render('index', {
         title: 'Week09 Session Basics'
     });
+});
+
+passport.serializeUser(function(user, done) {
+    'use strict';
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    'use strict';
+    done(null, obj);
+});
+
+router.get('/logout', function(request, response) {
+    'use strict';
+    request.logout();
+    response.redirect('/');
 });
 
 var pageReport = function(request, response) {

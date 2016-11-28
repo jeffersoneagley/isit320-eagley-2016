@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
+var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -14,6 +15,7 @@ var couchController = require('./routes/couch/Couch');
 
 var app = express();
 
+app.use(favicon('./public/favicon.png'));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -58,6 +60,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     'use strict';
+    console.log(err);
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,

@@ -19,6 +19,18 @@ function designDocs(router, nano, dbName) {
         }
     };
 
+    var elfSessionStore = function(doc) {
+        if (doc.collectionName === 'sessions') {
+            emit(doc._id, doc);
+        }
+    };
+
+    var elfSessionExpires = function(doc) {
+        if (doc.collectionName === 'sessions' && doc.expires) {
+            emit(doc._id, doc.expires);
+        }
+    };
+
     function createDesignDocument(designDocument, designName, response) {
         console.log('createDesignDocument');
         console.log('createDesignDocument(' + designDocument + ', ' +
