@@ -20,7 +20,7 @@ function EditorNpc(router, nano, myDbUtilities) {
     }
 
     function makeRow(dbData, request, callback) {
-        request.app.render('./template/dbLine.jade', dbData, function(err, result) {
+        request.app.render('./template/dbLine.pug', dbData, function(err, result) {
             if (err) {
                 console.log(err);
             }

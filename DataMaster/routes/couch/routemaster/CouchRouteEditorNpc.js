@@ -44,7 +44,7 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
 
     function BuildNpcListElement(npc, callback) {
         console.log(npc);
-        req.app.render('template/npcLine.jade', npc.value, function(err, result) {
+        req.app.render('template/npcLine.pug', npc.value, function(err, result) {
             //console.log(result);
             if (!err) {
                 callback(result);
@@ -153,7 +153,7 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
             myDbUtilities.npc.ReadSingleNpcByID(request.params.id, nano, dbName, function(npc) {
                 console.log('npc single recieved:');
                 console.log(npc);
-                request.app.render('./template/npcEditSingle.jade', npc, function(err, htmlSnippet) {
+                request.app.render('./template/npcEditSingle.pug', npc, function(err, htmlSnippet) {
                     if (err) {
                         throw err;
                     }
