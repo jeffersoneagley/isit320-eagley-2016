@@ -23,7 +23,7 @@ passport.deserializeUser(function(obj, done) {
 
 router.get('/login', function(req, res) {
     'use strict';
-    res.render('index', {
+    res.render('login', {
         user: req.user
     });
 });
