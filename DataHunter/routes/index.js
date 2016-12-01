@@ -1,4 +1,4 @@
-var router = require('./Couch');
+var router = require('./couch/Couch');
 /* GET home page. */
 router.get('/', function(req, res) {
     'use strict';
