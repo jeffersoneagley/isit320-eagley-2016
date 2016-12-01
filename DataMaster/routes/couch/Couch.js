@@ -7,7 +7,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 
-var setServer = require('./set-server');
+var setServer = require('/bin/set-server');
 
 var nano = require('nano')(setServer.serverUrl);
 
