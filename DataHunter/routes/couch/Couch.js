@@ -7,7 +7,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 
-var setServer = require('../../src/SetServer/set-server-couch');
+var setServer = require('../src/SetServer/set-server-couch');
 
 var nano = require('nano')(setServer.serverUrl);
 
@@ -20,7 +20,7 @@ var designDocs = require('./CouchDesignDocs')(router, nano, dbName);
 var attach = require('./CouchAttach')(router, nano, dbName);
 var couchBulk = require('./CouchBulk')(router, dbName, setServer.serverUrl);
 
-router.get('/databaseName', function (request, response) {
+router.get('/databaseName', function(request, response) {
     'use strict';
     console.log('\/databaseName called.');
     response.send({
@@ -28,24 +28,24 @@ router.get('/databaseName', function (request, response) {
     });
 });
 
-router.get('/listDb', function (request, response) {
+router.get('/listDb', function(request, response) {
     'use strict';
-    nano.db.list(function (err, body) {
-        if(err) {
+    nano.db.list(function(err, body) {
+        if (err) {
             throw err;
         }
         response.send(body);
-        body.forEach(function (db) {
+        body.forEach(function(db) {
             console.log(db);
         });
     });
 });
 
-router.get('/createDb', function (request, response) {
+router.get('/createDb', function(request, response) {
     'use strict';
     console.log('create called.');
-    nano.db.create(dbName, function (err, body) {
-        if(!err) {
+    nano.db.create(dbName, function(err, body) {
+        if (!err) {
             console.log(body);
             response.status(200)
                 .send(body);
@@ -59,10 +59,10 @@ router.get('/createDb', function (request, response) {
     });
 });
 
-router.get('/deleteDb', function (request, response) {
+router.get('/deleteDb', function(request, response) {
     'use strict';
-    nano.db.destroy(dbName, function (err, body) {
-        if(err) {
+    nano.db.destroy(dbName, function(err, body) {
+        if (err) {
             console.log(err);
             response.status(err.statusCode)
                 .send(err);
@@ -72,17 +72,17 @@ router.get('/deleteDb', function (request, response) {
     });
 });
 
-router.get('/readNpcInitialSetupParameters', function (request, response) {
+router.get('/readNpcInitialSetupParameters', function(request, response) {
     'use strict';
     console.log('readNpcInitialSetupParameters called');
     // var url = 'http://localhost:5984/prog28202/_all_docs';
 
     var nanoDb = nano.db.use(dbName);
     try {
-        nanoDb.view('npcObjects', 'docNpcInitialSetupParameters', function (err, result) {
+        nanoDb.view('npcObjects', 'docNpcInitialSetupParameters', function(err, result) {
             console.log('response from db ' + err);
             console.log(result);
-            if(!err) {
+            if (!err) {
                 console.log('success, processing result');
                 console.log(result);
                 //result.rows
@@ -92,27 +92,27 @@ router.get('/readNpcInitialSetupParameters', function (request, response) {
             console.log(result);
             response.send(result);
         });
-    } catch(exc) {
+    } catch (exc) {
         console.log(exc);
     }
 });
 
-router.get('/readNpcQuestion', function (request, response) {
+router.get('/readNpcQuestion', function(request, response) {
     'use strict';
     console.log('readNpcQuestion for NPC ' + request.query.npc_id);
     // var url = 'http://localhost:5984/prog28202/_all_docs';
-    if(request.query.npc_id !== undefined) {
+    if (request.query.npc_id !== undefined) {
         var npc_id = request.query.npc_id;
         var nanoDb = nano.db.use(dbName);
         try {
             nanoDb.view('npcObjects', 'docSortedById', {
                 keys: [parseInt(npc_id)]
-            }, function (err, result) {
-                if(!err) {
+            }, function(err, result) {
+                if (!err) {
                     console.log('success, processing result');
                     var question = result.rows[0].value.question;
                     var options = [];
-                    if(result.rows[0].value.answer === false || result.rows[0].value.answer === true) {
+                    if (result.rows[0].value.answer === false || result.rows[0].value.answer === true) {
                         options.push({
                             'label': 'yes',
                             'value': true
@@ -132,16 +132,16 @@ router.get('/readNpcQuestion', function (request, response) {
                     response.send(err);
                 }
             });
-        } catch(exc) {
+        } catch (exc) {
             console.log(exc);
         }
     }
 });
 
-router.get('/readNpcTryGuess', function (request, response) {
+router.get('/readNpcTryGuess', function(request, response) {
     'use strict';
     console.log('readNpcQuestion for NPC ' + request.query.npc_id + ' guess: ' + request.query.guess);
-    if(request.query.npc_id !== undefined) {
+    if (request.query.npc_id !== undefined) {
         var npc_id = request.query.npc_id;
         var guess = request.query.guess;
         var nanoDb = nano.db.use(dbName);
@@ -152,8 +152,8 @@ router.get('/readNpcTryGuess', function (request, response) {
         try {
             nanoDb.view('npcObjects', 'docSortedById', {
                 keys: [parseInt(npc_id)]
-            }, function (err, result) {
-                if(!err) {
+            }, function(err, result) {
+                if (!err) {
                     console.log('success, processing result: ');
                     console.log(JSON.stringify(result, null, 4));
                     var question = result.rows[0].value.question;
@@ -172,21 +172,21 @@ router.get('/readNpcTryGuess', function (request, response) {
                     response.send(err);
                 }
             });
-        } catch(exc) {
+        } catch (exc) {
             console.log(exc);
         }
     }
 });
 
-router.get('/read', function (request, response) {
+router.get('/read', function(request, response) {
     'use strict';
     console.log('Read called: ' + JSON.stringify(request.query));
 
     var nanoDb = nano.db.use(dbName);
     nanoDb.get(request.query.docName, {
         revs_info: true
-    }, function (err, body) {
-        if(!err) {
+    }, function(err, body) {
+        if (!err) {
             console.log(body);
             response.send(body);
         } else {
