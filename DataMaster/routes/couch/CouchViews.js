@@ -32,43 +32,6 @@ function views(router, nano, dbName) {
         runTemplateView('Templates/Basic.html', request, response);
     });
 
-    /**
-     * @memberOf CouchViews
-     */
-    router.get('/viewStateCapitalTemplate', function(request, response) {
-        console.log('viewStateCapital Called: ' + request.query);
-        runTemplateView('Templates/StateCapital.html', request, response);
-    });
-
-    router.get('/viewBulk', function(request, response) {
-        var nanoDb = nano.db.use(dbName);
-        nanoDb.view(request.query.designDoc, request.query.view, function(err, body) {
-            if (!err) {
-                console.log(body);
-                response.send(body);
-            } else {
-                console.log(err);
-                response.status(err.statusCode).send(err);
-            }
-        });
-    });
-
-    router.get('/viewStateCapitalAngular', function(request, response) {
-        console.log('viewStateCapitalAngular called.');
-        var doc = request.query.designDoc;
-        var view = request.query.view;
-        var nanoDb = nano.db.use(dbName);
-        nanoDb.view(doc, view, function(err, body) {
-            if (!err) {
-                console.log(body);
-                response.send(body);
-            } else {
-                console.log(err);
-                response.status(err.statusCode).send(err);
-            }
-        });
-    });
-
     router.get('/viewOneDoc', function(request, response) {
         console.log('View one doc called');
         var nanoDb = nano.db.use(dbName);
@@ -78,7 +41,26 @@ function views(router, nano, dbName) {
                 response.send(body);
             } else {
                 console.log(err);
-                response.status(err.statusCode).send(err);
+                response.status(err.statusCode)
+                    .send(err);
+            }
+        });
+    });
+
+    router.get('/viewSessions', function(request, response) {
+        console.log('view sessions called');
+        var nanoDb = nano.db.use(dbName);
+        nanoDb.view('elf-sessions', 'docElfSessions', function(err, body) {
+            if (!err && body.rows || body.rows.length > 0) {
+                response.send({
+                    'sessions from couch': body.rows
+                });
+            } else {
+                console.log(err);
+                response.send({
+                    'error': err,
+                    'body': body
+                });
             }
         });
     });

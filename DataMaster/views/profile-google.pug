@@ -1,0 +1,11 @@
+block content
+    h1 #{title}
+    h2 Welcome #{user.name.givenName}
+    img(src= '#{user.photos[0].value}')
+    each val, idx in user._json
+        h3= idx
+        p= JSON.stringify(val)
+
+    div#displayBasicInfo
+    //pre #{JSON.stringify(user._json, null, 4)}
+    //#{JSON.stringify(user, null, 4)}

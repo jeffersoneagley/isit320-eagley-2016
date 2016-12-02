@@ -1,11 +1,11 @@
 extends layout
+include mixin-littleMenu
+include mixin-sections
 
 block content
     h1= title
-    h2= subtitle
-    div(class='.container')
-        div(class='row')
-            div(class='col-sm-3 col-xs-12 col-primary')#buttonPanelControls
-            div(class='col-sm-9 col-xs-12 jumbotron')
-                h3#responseTitle Welcome
-                div#responseBody Select a button on the left when they load..
+    p Welcome to #{title}
+    +littleMenu
+    pre(class='jumbotron')#responseArea Welcome
+    pre(class='well')#viewcount
+    pre(class='alert alert-info')#debug Errors show up here

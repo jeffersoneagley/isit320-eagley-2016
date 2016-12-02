@@ -32,6 +32,7 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
             if (result) {
                 callback('<h3 class="alert alert-warning">No db data found!</h3>');
             } else {
+                /*jshint loopfunc: true */
                 for (var row in data.rows) {
                     BuildNpcListElement(data.rows[row], function(htmlText) {
                         myResponse += (htmlText);
@@ -124,22 +125,26 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
             console.log('/editor/npc/update/');
             console.log(request.query);
 
-            myDbUtilities.npc.UpdateNpcEntry(request.query.id, request.query.changes, nano, dbName, function(err, DBResonse) {
-                var myReply = '';
-                if (err !== undefined && err !== null) {
-                    myReply = '<div class="alert-warning"><h2>Something went wrong saving to the database!</h2>' +
-                        '<p>Contact the database administrator immediately and tell them your insert command failed</p></div>';
-                } else {
-                    myReply = '<div class="alert-success">Succssfully updated Npc!</div>';
-                }
-                var result = myDbUtilities.wrapTitleAndBody('Update result', myReply, [{
-                    'buttonLabel': 'ok',
-                    'cssclass': 'btn btn-accept',
-                    'route': '/editor/npc/list'
-                }]);
+            myDbUtilities.npc.UpdateNpcEntry(
+                request.query.id,
+                request.query.changes, nano, dbName,
+                function(err, DBResonse) {
+                    var myReply = '';
+                    if (err !== undefined && err !== null) {
+                        myReply = '<div class="alert-warning"><h2>Something went wrong saving to the database!</h2>' +
+                            '<p>Contact the database administrator immediately and ' +
+                            'tell them your insert command failed</p></div>';
+                    } else {
+                        myReply = '<div class="alert-success">Succssfully updated Npc!</div>';
+                    }
+                    var result = myDbUtilities.wrapTitleAndBody('Update result', myReply, [{
+                        'buttonLabel': 'ok',
+                        'cssclass': 'btn btn-accept',
+                        'route': '/editor/npc/list'
+                    }]);
 
-                response.send(result);
-            });
+                    response.send(result);
+                });
 
         } catch (e) {
             console.log(e);
@@ -157,7 +162,8 @@ function EditorNpc(router, nano, dbName, myDbUtilities) {
                     if (err) {
                         throw err;
                     }
-                    var myEditorInterface = myDbUtilities.wrapTitleAndBody('Edit Npc ' + npc.npc_id, htmlSnippet, 'locked');
+                    var myEditorInterface =
+                        myDbUtilities.wrapTitleAndBody('Edit Npc ' + npc.npc_id, htmlSnippet, 'locked');
                     console.log(myEditorInterface);
                     response.send(myEditorInterface);
                 });

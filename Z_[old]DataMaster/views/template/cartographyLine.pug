@@ -1,0 +1,12 @@
+div(class='well row' style='box-shadow: 0em 0em .25em #{color}')
+    div(class='col-sm-2 text-center')
+        div(class='row')
+            h4(class='col-xs-3 offset-xs-3 col-sm-12')  ID #{_id}
+            h4(class='col-xs-3 offset-xs-3 col-sm-12') #{name}
+    div(class='col-sm-5')
+        p(class='small well') #{description}
+    div(class='col-sm-5')
+        button(class='btn btn-primary btn-lg btn-block'
+        jeffersonDbRouteToCall='/editor/map/#{_id}'
+        id='buttonEditMap#{map_id}'
+        ) edit >
