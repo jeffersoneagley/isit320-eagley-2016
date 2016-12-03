@@ -6,7 +6,6 @@ define([],
             console.log('Control constructor called');
             var myOutput = $('#responseArea');
             console.log(myOutput);
-
             $('button[fishroute]')
                 .click(showPage);
         }
@@ -14,11 +13,13 @@ define([],
         var showPage = function() {
             var myRoute = $(this)
                 .attr('fishroute');
-            $.getJSON(myRoute, function(response, result) {
+            $.get(myRoute, function(response, result) {
                     $('#responseArea')
-                        .html(JSON.stringify(response, null, 4));
+                        .html(response);
                     $('#debug')
                         .html(JSON.stringify(result));
+                    $('button[fishroute]')
+                        .click(showPage);
                     getViews(myRoute);
                     if (result === 'success') {
                         $('#debug')

@@ -1,0 +1,27 @@
+mixin npcListItem(npc)
+    div(class='well row' style='box-shadow: 0em 0em .25em '+npc.color )
+        pre #{npc._id}
+        .panel.row
+            div.col-sm-2.col-xs-12.alert.alert-success
+                .col-xs-12 mapId: #{npc.npc_id}
+                .col-xs-12 #{npc.npc_name}
+            div.col-sm-3.col-xs-12.alert.alert-info
+                .col-xs-12 Description:
+                .col-xs-12
+                    if npc.description.length>19
+                        | #{npc.description.substring(0,17)+"..."}
+                    else
+                        | #{npc.description}
+            div.col-sm-4.col.xs-12.alert.alert-info
+                .col-xs-12 Question:
+                .col-xs-12
+                    if npc.question.length>19
+                        | #{npc.question.substring(0,17)+"..."}
+                    else
+                        | #{npc.question}
+            div.col-sm-3.col-xs-12
+                button(class='btn btn-primary btn-lg btn-block'
+                fishroute='/editor/npc/' + npc.npc_id
+                id='buttonEditNpc'+npc.npc_id
+                ) edit
+                    span(style='color:'+npc.color) &nbsp>

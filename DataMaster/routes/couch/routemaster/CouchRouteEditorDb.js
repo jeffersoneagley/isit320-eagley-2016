@@ -10,8 +10,8 @@ function EditorNpc(router, nano, myDbUtilities) {
     function makeList(dbArray, request, callback) {
         var htmlResult = '';
         /*jshint loopfunc: true */
-        for(var db in dbArray) {
-            makeRow(dbArray[db], request, function (result) {
+        for (var db in dbArray) {
+            makeRow(dbArray[db], request, function(result) {
                 htmlResult += result;
             });
         }
@@ -21,22 +21,22 @@ function EditorNpc(router, nano, myDbUtilities) {
     }
 
     function makeRow(dbData, request, callback) {
-        request.app.render('./template/dbLine.pug', dbData, function (err, result) {
-            if(err) {
+        request.app.render('./template/dbLine.pug', dbData, function(err, result) {
+            if (err) {
                 console.log(err);
             }
             callback(result);
         });
     }
 
-    router.get('/editor/db/list', function (request, response) {
-        myDbUtilities.db.listAllDb(nano, function (result, error) {
+    router.get('/editor/db/list', function(request, response) {
+        myDbUtilities.db.listAllDb(nano, function(result, error) {
             var dbNameList = {};
-            for(var db in result) {
+            for (var db in result) {
                 dbNameList[db] = {};
                 dbNameList[db].name = result[db];
             }
-            makeList(dbNameList, request, function (htmlSnippet) {
+            makeList(dbNameList, request, function(htmlSnippet) {
                 var myEditorInterface = myDbUtilities.wrapTitleAndBody(
                     'Database stats',
                     htmlSnippet,
@@ -47,4 +47,4 @@ function EditorNpc(router, nano, myDbUtilities) {
         });
     });
 }
-module.exports = EditorNpc;
+module.exports = EditorNpc;;

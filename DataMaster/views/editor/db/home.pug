@@ -1,6 +1,5 @@
-import mixins-database
+include mixins-database
 
-block
-    h1 DB Editor
-    for dbitem in databases
-        +dbListButton(dbitem)
+h1 DB Editor
+for dbitem in databases
+    +dbListButton(dbitem)

@@ -39,14 +39,13 @@ app.use(fishMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/couch', couchController);
-app.use('/', routes);
-app.use('/users', users);
-
 app.use('/auth', google);
 app.use('/facebook', facebook);
 app.use('/views', fishViews);
 app.use('/editor', editorRoutes);
+app.use('/couch', couchController);
+app.use('/', routes);
+app.use('/users', users);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
