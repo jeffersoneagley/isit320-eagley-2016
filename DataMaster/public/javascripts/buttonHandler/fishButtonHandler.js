@@ -10,7 +10,7 @@ define('fishButtonHandler', [require, './fishSubmitDb', './fishButtonRouteHandle
         }
 
         FishButtonHandler.prototype.RefreshButtonClickHandlers = function() {
-            fishNavLoginHandler();
+            fishNavLoginHandler(fishShowPageFragment, fishButtonRouteHandlers);
             fishSubmitDb(fishShowPageFragment);
             fishButtonRouteHandlers(fishShowPageFragment);
         };

@@ -1,14 +1,16 @@
 define([], function() {
     'use strict';
-    return function(fishShowPageFragment) {
-        $.get('/authentication/userbar', function(err, response) {
-            if (err === 'success') {
-                $('#navbarSignInOutMenu')
-                    .html(response);
-            } else {
-                $('#navbarSignInOutMenu')
-                    .html(err);
+    return function(fishShowPageFragment, next) {
+        $.get('/authentication/userbar', function(response, result) {
+            $('#navbarSignInOutMenu')
+                .empty()
+                .html(response);
+            if (result === 'success') {} else {
+                $('#debug')
+                    .html(result);
+                console.log(result);
             }
+            next(fishShowPageFragment, '#navbarSignInOutMenu');
         });
     };
 
