@@ -3,9 +3,9 @@ include mixin-littleMenu
 include mixin-sections
 
 block content
-    h1= title
-    p Welcome to #{title}
     +littleMenu
-    pre(class='jumbotron')#responseArea Welcome
+    pre(class='jumbotron')#responseArea
+        h1= title
+        p Welcome to #{title}
     pre(class='well')#viewcount
     pre(class='alert alert-info')#debug Errors show up here

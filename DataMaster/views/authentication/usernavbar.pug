@@ -1,0 +1,8 @@
+if isAuthenticated
+    li
+        .alert.alert-success.glyphicon.glyphicon-user Welcome #{user.displayName}
+    li
+        a.btn.btn-warning.glyphicon-log-out(href='/authentication/logout') Sign Out
+else
+    li
+        button.btn.btn-info(fishroute='/authentication/login').glyphicon.glyphicon-log-in Sign In

@@ -1,23 +1,30 @@
 mixin littleMenu
-    nav.navbar.navbar-default.navbar-fixed-top
+    nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
         .container-fluid
-            // Brand
             .navbar-header
-                button.navbar-toggle.collapsed(type='button',
-                    data-toggle='collapse',
-                    data-target='#bs-example-navbar-collapse-1',
-                    aria-expanded='false')
-                span.sr-only Toggle navigation
-                span.icon-bar
-                span.icon-bar
-                span.icon-bar
+                button.navbar-toggle.collapsed(
+                    type='button'
+                        data-toggle="collapse",
+                        data-target='#fishNavbarCollapse',
+                        aria-expanded='false',
+                        aria-controls="navbar"
+                        )
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                +littleMenuBranding
+            .collapse.navbar-collapse(id='fishNavbarCollapse')
+                ul.nav.navbar-nav
+                    +littleMenuNavRoutes
+                ul#navbarSignInOutMenu.navbar.navbar-nav.navbar-right
 
-                a.navbar-brand(href='/')
-                    img(alt='Isit320', src='favicon.png')
-            // Nav Links
-            #bs-example-navbar-collapse-1.collapse.navbar-collapse
-                button.btn.btn-primary(fishroute='/')
-                    | home
-                    //-span.sr-only (current)
-                button.btn.btn-primary( fishroute='/editor/db/home' ) Database
-                button.btn.btn-primary( fishroute='/editor/npc/home' ) NPC's
+mixin littleMenuNavRoutes
+    li
+        button.btn.btn-primary( fishroute='/editor/db/home' ) Database
+    li
+        button.btn.btn-primary( fishroute='/editor/npc/home' ) NPC's
+
+mixin littleMenuBranding
+    a.navbar-brand(href='/')
+        img(alt='Isit320', src='favicon.png')

@@ -20,7 +20,6 @@ mixin levelListItem(level)
                         | #{level.nextLevel}
             div.col-sm-3.col-xs-12
                 button(class='btn btn-primary btn-lg btn-block'
-                fishroute='/editor/npc/' + npc.npc_id
-                id='buttonEditNpc'+npc.npc_id
+                fishroute='/editor/npc/' + level._id
+                id='buttonEditNpc'+leve._id
                 ) edit
-                    span(style='color:'+npc.color) &nbsp>

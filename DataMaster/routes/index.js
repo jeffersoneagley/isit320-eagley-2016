@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var isAuthenticated = require('./SignedIn');
 
 // var routeParamMiddleware = function(request, response, next) {
 //     'use strict';
@@ -12,7 +13,7 @@ var passport = require('passport');
 router.get('/', function(req, res) {
     'use strict';
     res.render('index', {
-        title: 'Week09 Session Basics'
+        title: 'Data Master'
     });
 });
 
@@ -31,13 +32,13 @@ passport.deserializeUser(function(obj, done) {
     done(null, obj);
 });
 
-router.get('/logout', function(request, response) {
+router.get('/authentication/logout', function(request, response) {
     'use strict';
     request.logout();
     response.redirect('/');
 });
 
-router.get('/login', function(request, response) {
+router.get('/authentication/login', function(request, response) {
     'use strict';
     try {
         response.render('login-options');
@@ -94,6 +95,20 @@ router.get('/page02', function(request, response) {
 router.get('/page03', function(request, response) {
     'use strict';
     pageReport(request, response);
+});
+
+router.get('/authentication/userbar', function(request, response) {
+    'use strict';
+    console.log('getting navbar signin options');
+    console.log('is user logged in? ' + request.isAuthenticated());
+    if (request.isAuthenticated()) {
+        console.log('user: ' + request.user.displayName + ' ID: ' + request.user.id);
+    }
+    var params = {
+        isAuthenticated: request.isAuthenticated(),
+        user: request.user
+    };
+    response.render('authentication/usernavbar', params);
 });
 
 router.get('/status', function(request, response) {

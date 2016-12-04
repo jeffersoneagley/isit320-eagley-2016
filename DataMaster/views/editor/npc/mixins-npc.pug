@@ -21,7 +21,7 @@ mixin npcListItem(npc)
                         | #{npc.question}
             div.col-sm-3.col-xs-12
                 button(class='btn btn-primary btn-lg btn-block'
-                fishroute='/editor/npc/' + npc.npc_id
+                fishroute='/editor/npc/edit/' + npc._id
                 id='buttonEditNpc'+npc.npc_id
                 ) edit
                     span(style='color:'+npc.color) &nbsp>

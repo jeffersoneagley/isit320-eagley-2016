@@ -41,7 +41,7 @@ app.use(passport.session());
 
 app.use('/auth', google);
 app.use('/facebook', facebook);
-app.use('/views', fishViews);
+//app.use('/views', fishViews);
 app.use('/editor', editorRoutes);
 app.use('/couch', couchController);
 app.use('/', routes);
