@@ -1,23 +1,22 @@
 div(class='container')
 
     div(class='row')
-        button(class='btn btn-warning col-sm-4' fishroute='/editor/npc/home' id='buttonCancel') NPC List
-        button(class='btn btn-warning col-sm-4'
+        button(class='btn btn-primary col-sm-4' fishroute='/editor/npc/home') NPC List
+        button(class='btn btn-info col-sm-4'
             fishroute='/editor/npc/edit/' + result.id
             id='buttonEditNpc'+result.id) Make more changes
-        a(class='btn btn-warning col-sm-4' href='/' id='buttonCancel') Home
+        a(class='btn btn-primary col-sm-4' href='/' id='buttonCancel') Home
 
 
-    h2 Updates to #{changes.npc_name}:
-        .input-group.col-md-6.col-sm-12
-            span NPC's db document id:
-            span( fishDbCouchProperty='_id') #{result.id}
-        .input-group.col-md-6.col-sm-12
-            span New revision ID:
-            span( fishDbCouchProperty='_rev') #{result.rev}
-        for change in changes
-            #{ console.log(change)}
-            .well
-                dl
-                    dh #{change}
-                    dd #{changes[change]}
+    h2 Changes:
+    .input-group.col-md-6.col-sm-12
+        span NPC's db document id:
+        span( fishDbCouchProperty='_id') #{result.id}
+    .input-group.col-md-6.col-sm-12
+        span New revision ID:
+        span( fishDbCouchProperty='_rev') #{result.rev}
+    each val, key in changes
+        .well
+            dl
+                dh #{key}
+                dd #{val}
