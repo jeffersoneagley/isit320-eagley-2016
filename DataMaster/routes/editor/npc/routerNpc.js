@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var setServer = require('../../../src/SetServer/set-server-couch');
 
-var dbControllerNpc = require('./DbControllerNpc');
+var dbControllerNpc = require('./DbControllerNpc')();
 var nano = require('nano')(setServer.serverUrl);
 //var isAuthenticated = require('../SignedIn');
 
@@ -27,16 +27,32 @@ var buildRoutes = function() {
         }
     });
 
-    router.get('/update/:id', function(request, response) {
+    router.get('/update', function(request, response) {
         try {
-            if (request.query.changes !== undefined && request.params.id !== undefined) {
+            console.log(request.query);
+            if (request.query.changes !== undefined &&
+                request.query.id !== undefined && request.query.rev !== undefined) {
                 var changes = request.query.changes;
-                dbControllerNpc(request.params.id, changes, nano, gameserver, function(err, result) {
-                    response.send({
-                        'result': result,
-                        'err': err
+                console.log('pushing update');
+                dbControllerNpc.UpdateNpcEntry(
+                        request.query.id,
+                        request.query.rev,
+                        changes, nano, gameserver,
+                        function(err, result) {
+                            console.log('attempted insert, err: ' + err);
+                            response.render('editor/npc/npcUpdatedSingle.pug', {
+                                'result': result,
+                                'changes': changes
+                            });
+                        })
+                    .fail(function(err, result) {
+                        response.send({
+                            'result': result,
+                            'err': err
+                        });
                     });
-                });
+            } else {
+                console.log('fail');
             }
         } catch (e) {
             console.log(e);

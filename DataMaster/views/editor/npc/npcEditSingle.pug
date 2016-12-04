@@ -1,23 +1,33 @@
 div(class='container')
     h2 Now editing: #{npc.npc_name}
-    .input-group
+    .input-group.col-md-6.col-sm-12
         span NPC's db document id:
         span( fishDbCouchProperty='_id') #{npc._id}
-    .row
-        .input-group
-            span.input-group-addon Name
-            input(type='text' class = 'form-control' fishDbCouchProperty='npc_name' value=npc.npc_name)
-        .alert.alert-info original: #{npc.npc_name}
-    .row
-        .input-group
-            span.input-group-addon Color
-            input(type='text' class = 'form-control' fishDbCouchProperty='color' value=npc.color)
-        .alert.alert-info original: #{npc.color}
-    .row
-        .input-group
-            span.input-group-addon Value
-            input(type='number' class = 'form-control' fishDbCouchProperty='value' value=npc.value)
-        .alert.alert-info original: #{npc.value}
+    .input-group.col-md-6.col-sm-12
+        span Revision ID:
+        span( fishDbCouchProperty='_rev') #{npc._rev}
+    .col-md-6.col-sm-12
+        .row
+            .input-group
+                span.input-group-addon Name
+                input(type='text' class = 'form-control' fishDbCouchProperty='npc_name' value=npc.npc_name)
+            .alert.alert-info original: #{npc.npc_name}
+        .row
+            .input-group
+                span.input-group-addon Color
+                input(type='text' class = 'form-control' fishDbCouchProperty='color' value=npc.color)
+            .alert.alert-info original: #{npc.color}
+    .col-md-6.col-sm-12
+        .row
+            .input-group
+                span.input-group-addon Value
+                input(type='number' class = 'form-control' fishDbCouchProperty='value' value=npc.value)
+            .alert.alert-info original: #{npc.value}
+        .row
+            .input-group
+                span.input-group-addon npc map ID:
+                input(type= 'number' class = 'form-control' fishDbCouchProperty='npc_id' value= npc.npc_id)
+            .alert.alert-info Original: #{npc.npc_id}
     .row
         .input-group
             span.input-group-addon Description
@@ -33,13 +43,9 @@ div(class='container')
             span.input-group-addon Answer
             input(type='text' class = 'form-control' fishDbCouchProperty='answer' value= npc.answer? 'true':'false')
         .alert.alert-info Original: #{npc.answer}
-    .row
-        .input-group
-            span.input-group-addon npc map ID:
-            input(type= 'number' class = 'form-control' fishDbCouchProperty='npc_id' value= npc.npc_id)
-        .alert.alert-info Original: #{npc.npc_id}
 h4(class='alert alert-info') Don't forget to save!.
 div(class='row')
     button(class='btn btn-warning col-sm-3' fishroute='/editor/npc/home' id='buttonCancel') Cancel
     span(class='col-sm-5')
-    button(class='btn btn-primary col-sm-4' fishDbSubmitRoute='/editor/npc/update/' fishDbEntryId=npc._id id='fishButtonUpdateDb') Save
+    button(class='btn btn-primary col-sm-4' fishDbSubmitRoute='/editor/npc/update/'
+    fishDbEntryRev=npc._rev fishDbEntryId=npc._id id='fishButtonUpdateDb') Save

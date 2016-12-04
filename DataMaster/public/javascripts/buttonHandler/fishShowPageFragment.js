@@ -25,16 +25,21 @@ define([require], function(_) {
         fishButtonHandler.RefreshButtonClickHandlers();
     };
 
-    FishShowPageFragment.prototype.ClickHandler = function() {
-        var myRoute = $(this)
-            .attr('fishroute');
+    FishShowPageFragment.prototype.ShowPageFromHtml = function(sourceHtml) {
+        $('#responseArea')
+            .html(sourceHtml);
+        window.location = '#';
+        RefreshFunctions();
+    };
+
+    FishShowPageFragment.prototype.ShowPageFromRoute = function(myRoute) {
         $.get(myRoute, function(response, result) {
-                $('#responseArea')
-                    .html(response);
-                window.location = '#';
+                FishShowPageFragment.prototype.ShowPageFromHtml(response);
                 $('#debug')
                     .html(JSON.stringify(result));
-                getViews(myRoute);
+                if (activateViewCountSystem) {
+                    getViews(myRoute);
+                }
                 if (result === 'success') {
                     $('#debug')
                         .attr('class', 'alert alert-success');
@@ -43,7 +48,6 @@ define([require], function(_) {
                     $('#debug')
                         .attr('class', 'alert alert-warning');
                 }
-                RefreshFunctions();
             })
             .fail(function(jq, status, error) {
                 window.location = '#debug';
@@ -54,6 +58,12 @@ define([require], function(_) {
                 console.log('error: ', status);
                 console.log('error: ', error);
             });
+    };
+
+    FishShowPageFragment.prototype.ClickHandler = function() {
+        var myRoute = $(this)
+            .attr('fishroute');
+        FishShowPageFragment.prototype.ShowPageFromRoute(myRoute);
     };
     return FishShowPageFragment;
 });

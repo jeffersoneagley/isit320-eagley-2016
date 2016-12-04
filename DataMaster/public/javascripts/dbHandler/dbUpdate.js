@@ -1,13 +1,15 @@
 define([require], function(_) {
     'use strict';
-    return function(route, entryId, changesInJson, callback) {
+    return function(route, entryId, rev, changesInJson, callback) {
         var changeObject = {
             'id': entryId,
+            'rev': rev,
             'changes': changesInJson
         };
         console.log(changeObject);
-        $.getJSON(route, changeObject, function(err, result) {
-            callback(err, result);
+        $.get(route, changeObject, function(response, result) {
+            console.log('dbUpdate returned ' + result);
+            callback(response, result);
         });
     };
 

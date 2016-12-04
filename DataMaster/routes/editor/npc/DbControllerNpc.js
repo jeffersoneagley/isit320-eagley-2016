@@ -142,23 +142,32 @@ function buildNpcObject() {
         }
     };
 
-    npc.UpdateNpcEntry = function(docId, changes, nano, dbName, callback) {
-        var nanoDb = nano.db.use(dbName);
-        nanoDb.get(docId, function(err, doc) {
-            console.log('nano get doc');
-            console.log(JSON.stringify(doc));
-            var myInsertDoc = doc;
-            myInsertDoc._id = docId;
-            for (var item in changes) {
-                myInsertDoc[item] = changes[item];
-                console.log(item + ' changed to' + changes[item]);
-            }
-            console.log(JSON.stringify(myInsertDoc));
-            nanoDb.insert(myInsertDoc, function(err, body) {
-                console.log('insert completed ' + err + ' ' + JSON.stringify(body));
-                callback(err, body);
+    npc.UpdateNpcEntry = function(docId, docRev, changes, nano, dbName, callback) {
+        try {
+            var nanoDb = nano.db.use(dbName);
+            nanoDb.get(docId, function(err, doc) {
+                console.log('nano get doc');
+                console.log(JSON.stringify(doc));
+                var myInsertDoc = doc;
+                myInsertDoc.id = docId;
+                myInsertDoc.rev = docRev;
+                for (var item in changes) {
+                    myInsertDoc[item] = changes[item];
+                    console.log(item + ' changed to' + changes[item]);
+                }
+                console.log(JSON.stringify(myInsertDoc));
+                nanoDb.insert(myInsertDoc, function(err, body) {
+                    console.log('insert completed ' + err + ' ' + JSON.stringify(body));
+                    callback(err, body);
+                });
             });
-        });
+        } catch (e) {
+            console.log(e);
+            callback(e);
+        } finally {
+
+        }
+
     };
     return npc;
 }
