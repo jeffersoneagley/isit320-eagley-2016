@@ -47,4 +47,4 @@ function EditorNpc(router, nano, myDbUtilities) {
         });
     });
 }
-module.exports = EditorNpc;;
+module.exports = EditorNpc;

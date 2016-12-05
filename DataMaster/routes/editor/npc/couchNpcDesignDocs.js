@@ -66,7 +66,7 @@ function designDocs() {
     };
 
     var docNpcAnswerBool = function(npc) {
-        if (typeof (npc.answer) === 'boolean') {
+        if (typeof(npc.answer) === 'boolean') {
             emit(npc.npc_name + ': ' + npc.answer, {
                 'npc_id': npc.npc_id,
                 'npc_name': npc.npc_name,
