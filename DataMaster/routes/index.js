@@ -35,7 +35,7 @@ passport.deserializeUser(function(obj, done) {
 router.get('/authentication/logout', function(request, response) {
     'use strict';
     request.logout();
-    response.redirect('/');
+    response.send('Logged out! Have a nice day!');
 });
 
 router.get('/authentication/login', function(request, response) {

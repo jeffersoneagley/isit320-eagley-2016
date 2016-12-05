@@ -11,7 +11,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var fishMiddleware = require('./routes/fishMiddleware');
 var fishViews = require('./routes/fishViews');
-var couchController = require('./routes/couch/Couch');
+// var couchController = require('./routes/couch/Couch');
 var editorRoutes = require('./routes/editor/editorRoutes');
 
 var google = require('./routes/login-google');
@@ -43,7 +43,7 @@ app.use('/auth', google);
 app.use('/facebook', facebook);
 //app.use('/views', fishViews);
 app.use('/editor', editorRoutes);
-app.use('/couch', couchController);
+// app.use('/couch', couchController);
 app.use('/', routes);
 app.use('/users', users);
 

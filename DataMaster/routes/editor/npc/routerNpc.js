@@ -1,26 +1,32 @@
 var express = require('express');
 var router = express.Router();
 var setServer = require('../../../src/SetServer/set-server-couch');
-
 var dbControllerNpc = require('./DbControllerNpc')();
 var nano = require('nano')(setServer.serverUrl);
-//var isAuthenticated = require('../SignedIn');
 
 var gameserver = 'game_data_eagley';
 
 var buildRoutes = function() {
     'use strict';
+    var routerNpcDb = require('./routerNpcDb');
+    routerNpcDb(nano, router, gameserver);
 
     router.get('/home', function(request, response) {
         console.log('getting db from db');
         try {
             nano.db.use(gameserver)
-                .view('npcObjects', 'docSortedById', function(err, result) {
+                .view('npcObjects', 'docNpcAllByDocID', function(err, result) {
+                    var npcPageParams = {
+                        'npcList': []
+                    };
+                    if (!err && result && result.rows) {
+                        npcPageParams = {
+                            'npcList': result.rows
+                        };
+                    }
                     console.log('response from db ' + err);
                     console.log(JSON.stringify(result));
-                    response.render('editor/npc/home.pug', {
-                        'npcList': result.rows
-                    });
+                    response.render('editor/npc/home.pug', npcPageParams);
                 });
         } catch (exc) {
             console.log(exc);
@@ -78,6 +84,9 @@ var buildRoutes = function() {
 
         }
     });
+
+    //router.use('/db', routerNpcDb.router);
+
     module.exports = router;
 };
 buildRoutes();

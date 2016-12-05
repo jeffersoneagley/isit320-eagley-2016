@@ -54,7 +54,7 @@ define([require], function(_) {
                 $('#debug')
                     .attr('class', 'alert alert-warning');
                 $('#debug')
-                    .html('error: ' + jq.responseText);
+                    .html('result: ' + jq.responseText);
                 console.log('error: ', status);
                 console.log('error: ', error);
             });
