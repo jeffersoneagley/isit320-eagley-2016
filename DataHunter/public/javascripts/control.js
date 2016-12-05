@@ -90,7 +90,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
             var structureMaterials = [null, 'images/crate.jpg'];
             var loader = new THREE.TextureLoader();
             crateMaterial = new THREE.MeshLambertMaterial({
-                map: loader.load('images/crate.jpg')
+                map: loader.load(structureMaterials[1])
             });
 
             fishyMap.BindKeyStructureBackgrounds(structureMaterials);
@@ -207,13 +207,13 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
                 for (var i = 0; i < grid.length; i++) {
                     for (var j = 0; j < grid[i].length; j++) {
                         switch (grid[i][j]) {
-                            case 1:
+                        case 1:
 
-                                addCube(scene, camera, false, (size * i), (size * j));
-                                break;
-                            default:
+                            addCube(scene, camera, false, (size * i), (size * j));
+                            break;
+                        default:
 
-                        }
+                    }
                     }
                 }
             });

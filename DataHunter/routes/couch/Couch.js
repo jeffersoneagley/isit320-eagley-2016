@@ -12,11 +12,10 @@ var setServer = require('../../src/SetServer/set-server-couch');
 var nano = require('nano')(setServer.serverUrl);
 
 var dbName = 'game_data_eagley';
-var docName = 'npcObjects';
+var collectionName = 'npcObjects';
 
 var insert = require('./CouchInsert')(router, nano, dbName);
 var views = require('./CouchViews')(router, nano, dbName);
-var designDocs = require('./CouchDesignDocs')(router, nano, dbName);
 var attach = require('./CouchAttach')(router, nano, dbName);
 var couchBulk = require('./CouchBulk')(router, dbName, setServer.serverUrl);
 
@@ -79,7 +78,7 @@ router.get('/readNpcInitialSetupParameters', function(request, response) {
 
     var nanoDb = nano.db.use(dbName);
     try {
-        nanoDb.view('npcObjects', 'docNpcInitialSetupParameters', function(err, result) {
+        nanoDb.view(collectionName, 'docNpcInitialSetupParameters', function(err, result) {
             console.log('response from db ' + err);
             console.log(result);
             if (!err) {
@@ -105,7 +104,7 @@ router.get('/readNpcQuestion', function(request, response) {
         var npc_id = request.query.npc_id;
         var nanoDb = nano.db.use(dbName);
         try {
-            nanoDb.view('npcObjects', 'docSortedById', {
+            nanoDb.view(collectionName, 'docNpcAllByMapID', {
                 keys: [parseInt(npc_id)]
             }, function(err, result) {
                 if (!err) {
@@ -150,7 +149,7 @@ router.get('/readNpcTryGuess', function(request, response) {
         };
         console.log(params.keys);
         try {
-            nanoDb.view('npcObjects', 'docSortedById', {
+            nanoDb.view(collectionName, 'docNpcAllByMapID', {
                 keys: [parseInt(npc_id)]
             }, function(err, result) {
                 if (!err) {
@@ -200,27 +199,4 @@ router.get('/read', function(request, response) {
 
     });
 });
-
-/*router.get('/docNames', function(request, response) {
-    'use strict';
-    // var url = 'http://localhost:5984/prog28202/_all_docs';
-    var nanoDb = nano.db.use(dbName);
-    var result = [];
-    nanoDb.list(function(err, body) {
-        if (!err) {
-            body.rows.forEach(function(doc) {
-                console.log(doc);
-                result.push(doc.key);
-            });
-            console.log(result);
-            response.send(result);
-        } else {
-            console.log(err);
-            response.status(500)
-                .send(err);
-            return;
-        }
-    });
-});*/
-
 module.exports = router;
