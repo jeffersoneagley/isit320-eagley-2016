@@ -1,5 +1,7 @@
 include mixins-level
 
 h2 Level Editor
+.btn-group
+    button.btn.btn-primary(fishroute='/editor/level/db/home') Open level Database Control
 for levelItem in levelList
     +levelListItem(levelItem.value)

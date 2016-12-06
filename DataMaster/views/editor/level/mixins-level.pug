@@ -3,7 +3,7 @@ mixin levelListItem(level)
         pre #{level._id}
         .panel.row
             div.col-sm-2.col-xs-12.alert.alert-success
-                .col-xs-12 mapId: #{level.name}
+                .col-xs-12 name: #{level.name}
             div.col-sm-3.col-xs-12.alert.alert-info
                 .col-xs-12 Description:
                 .col-xs-12
@@ -13,13 +13,9 @@ mixin levelListItem(level)
                         | #{level.description}
             div.col-sm-4.col.xs-12.alert.alert-info
                 .col-xs-12 Next level id:
-                .col-xs-12
-                    if level.nextLevel.length>19
-                        | #{level.nextLevel.substring(0,17)+"..."}
-                    else
-                        | #{level.nextLevel}
+                .col-xs-12 #{level.nextLevelId}
             div.col-sm-3.col-xs-12
                 button(class='btn btn-primary btn-lg btn-block'
-                fishroute='/editor/npc/' + level._id
-                id='buttonEditNpc'+leve._id
+                fishroute='/editor/level/' + level._id
+                id='buttonEditLevel'+level._id
                 ) edit

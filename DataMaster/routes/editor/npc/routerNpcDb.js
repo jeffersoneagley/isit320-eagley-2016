@@ -1,12 +1,14 @@
-function routerNpcDbFunctions(nano, router, gameserver) {
+function routerNpcDbFunctions(nano, gameserver) {
     'use strict';
+    var express = require('express');
+    var router = express.Router();
 
     var designDocs = require('./couchNpcDesignDocs');
     var couchNpcCreateDb = require('./couchNpcCreateDb');
 
     var mypath = '/db';
 
-    router.get(mypath + '/home', function(request, response) {
+    router.get('/home', function(request, response) {
         nano.db.use(gameserver)
             .info(function(err, body) {
                 var dbHealth;
@@ -23,7 +25,7 @@ function routerNpcDbFunctions(nano, router, gameserver) {
             });
     });
 
-    router.get(mypath + '/rebuildDb', function(request, response) {
+    router.get('/rebuildDb', function(request, response) {
 
         couchNpcCreateDb.createNpcDatabase(nano, gameserver, function(errDbCreate, bodyDbCreate) {
 
@@ -44,7 +46,7 @@ function routerNpcDbFunctions(nano, router, gameserver) {
         });
     });
 
-    router.get(mypath + '/deleteDb', function(request, response) {
+    router.get('/deleteDb', function(request, response) {
         nano.db.destroy(gameserver, function(err, body) {
             if (err) {
                 console.log('error from couch');
@@ -56,5 +58,7 @@ function routerNpcDbFunctions(nano, router, gameserver) {
             }
         });
     });
+
+    return router;
 }
 module.exports = routerNpcDbFunctions;

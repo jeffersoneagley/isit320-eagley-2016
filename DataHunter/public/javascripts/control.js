@@ -23,6 +23,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
         var cubes = [];
         var controls;
         var reducedUpdateIndex = 5;
+        var currentLevelId = 1;
         var lastLocation = {
             'x': 0,
             'z': 0
@@ -200,54 +201,54 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
                 .html(Number(Math.round(position.z / size)));
         }
 
-        function addCubes(scene, camera, wireFrame) {
-
-            $.getJSON('grid000.json', function(grid) {
-                fishyMap.BindStructureMap(grid);
-                for (var i = 0; i < grid.length; i++) {
-                    for (var j = 0; j < grid[i].length; j++) {
-                        switch (grid[i][j]) {
-                        case 1:
-
-                            addCube(scene, camera, false, (size * i), (size * j));
-                            break;
-                        default:
-
-                    }
-                    }
-                }
-            });
-        }
-
-        function addSpheres(scene, camera, wireFrame) {
-
-            var data = readIntialNpcSetupFromDatabase(function(err, data) {
-                if (!err) {
-                    var npcList = {};
-                    for (var i = 0; i < data.length; i++) {
-                        var npcEntry = data[i].value;
-                        npcList[npcEntry.npc_id] = npcEntry;
-                    }
-                    fishyMap.BindKeyNpcColors(npcList);
-                    $.getJSON('npcs000.json', function(grid) {
-                        fishyMap.BindNpcMap(grid);
-                        for (var i = 0; i < grid.length; i++) {
-                            for (var j = 0; j < grid[i].length; j++) {
-                                if (grid[i][j] !== 0) {
-                                    npcEngine.addNpc(scene, camera, false,
-                                        (size * i), (size * j), size,
-                                        data[grid[i][j] - 1].value.color,
-                                        data[grid[i][j] - 1].value.npc_id
-                                    );
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    console.log('Failed to load NPC data');
-                }
-            });
-        }
+        // function addCubes(scene, camera, wireFrame) {
+        //
+        //     $.getJSON('grid000.json', function(grid) {
+        //         fishyMap.BindStructureMap(grid);
+        //         for (var i = 0; i < grid.length; i++) {
+        //             for (var j = 0; j < grid[i].length; j++) {
+        //                 switch (grid[i][j]) {
+        //                 case 1:
+        //
+        //                     addCube(scene, camera, false, (size * i), (size * j));
+        //                     break;
+        //                 default:
+        //
+        //             }
+        //             }
+        //         }
+        //     });
+        // }
+        //
+        // function addSpheres(scene, camera, wireFrame) {
+        //
+        //     var data = readIntialNpcSetupFromDatabase(function(err, data) {
+        //         if (!err) {
+        //             var npcList = {};
+        //             for (var i = 0; i < data.length; i++) {
+        //                 var npcEntry = data[i].value;
+        //                 npcList[npcEntry.npc_id] = npcEntry;
+        //             }
+        //             fishyMap.BindKeyNpcColors(npcList);
+        //             $.getJSON('npcs000.json', function(grid) {
+        //                 fishyMap.BindNpcMap(grid);
+        //                 for (var i = 0; i < grid.length; i++) {
+        //                     for (var j = 0; j < grid[i].length; j++) {
+        //                         if (grid[i][j] !== 0) {
+        //                             npcEngine.addNpc(scene, camera, false,
+        //                                 (size * i), (size * j), size,
+        //                                 data[grid[i][j] - 1].value.color,
+        //                                 data[grid[i][j] - 1].value.npc_id
+        //                             );
+        //                         }
+        //                     }
+        //                 }
+        //             });
+        //         } else {
+        //             console.log('Failed to load NPC data');
+        //         }
+        //     });
+        // }
 
         function readIntialNpcSetupFromDatabase(callback) {
             $.getJSON('/readNpcInitialSetupParameters', function(data) {
