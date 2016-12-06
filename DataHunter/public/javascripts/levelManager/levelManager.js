@@ -15,21 +15,27 @@ define([], function() {
         });
     }
 
-    function addObjectGridToScene(scene, camera, objectKey, objectGrid) {
+    ///takes an array of object builder functions,
+    ///and a grid of indicies associated with the functions in the array,
+    ///calls the builder functions, and adds the resulting objects to the scene
+    function addObjectGridToScene(scene, camera, objectKey, objectGrid, height) {
 
         for (var i = 0; i < objectGrid.length; i++) {
             for (var j = 0; j < objectGrid[i].length; j++) {
                 var cellIndexOfObject = parseInt(objectGrid[i][j]);
-                var cellObject = objectKey[cellIndexOfObject];
-                if (cellObject !== null && cellObject !== undefined) {
-                    addObjectToScene(scene, camera, cellObject, (size * i), (size * j));
+                if (objectKey[cellIndexOfObject] !== null && objectKey[cellIndexOfObject] !== undefined) {
+                    var cellObject = objectKey[cellIndexOfObject]();
+                    if (cellObject !== null && cellObject !== undefined) {
+                        addObjectToScene(scene, camera, cellObject, (size * i), height, (size * j));
+                    }
                 }
             }
         }
     }
 
-    function addobjectToScene(scene, camera, objectToAdd, xpos, zpos) {
-
+    function addobjectToScene(scene, camera, threeObjectToAdd, xpos, ypos, zpos) {
+        threeObjectToAdd.position.set(xpos, ypos, zpos);
+        scene.add(threeObjectToAdd);
     }
 
     function addSpheres(scene, camera, wireFrame) {
