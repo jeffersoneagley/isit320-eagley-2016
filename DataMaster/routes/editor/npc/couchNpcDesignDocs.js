@@ -17,74 +17,66 @@ function designDocs() {
             emit(doc._id, doc.expires);
         }
     };
-    var docNpcAllByMapID = function(doc) {
-        emit(doc.npc_id, {
-            '_id': doc._id,
-            '_rev': doc._rev,
-            'npc_id': doc.npc_id,
-            'npc_name': doc.npc_name,
-            'description': doc.description,
-            'color': doc.color,
-            'value': doc.value,
-            'question': doc.question,
-            'answer': doc.answer
-        });
+    var docNpcAllByMapId = function(doc) {
+        if (doc.collection === 'npcs') {
+            emit(doc.npc_id, {
+                '_id': doc._id,
+                '_rev': doc._rev,
+                'npc_id': doc.npc_id,
+                'npc_name': doc.npc_name,
+                'description': doc.description,
+                'color': doc.color,
+                'value': doc.value,
+                'question': doc.question,
+                'answer': doc.answer
+            });
+        }
     };
-    var docNpcAllByDocID = function(doc) {
-        emit(doc._id, {
-            '_id': doc._id,
-            '_rev': doc._rev,
-            'npc_id': doc.npc_id,
-            'npc_name': doc.npc_name,
-            'description': doc.description,
-            'color': doc.color,
-            'value': doc.value,
-            'question': doc.question,
-            'answer': doc.answer
-        });
-    };
-
-    var docNpcAllByName = function(doc) {
-        emit(doc.npc_name, {
-            '_id': doc._id,
-            '_rev': doc._rev,
-            'npc_id': doc.npc_id,
-            'npc_name': doc.npc_name,
-            'description': doc.description,
-            'color': doc.color,
-            'value': doc.value,
-            'question': doc.question,
-            'answer': doc.answer
-        });
-    };
-
-    var docNpcInitialSetupParameters = function(doc) {
-        emit(doc.npc_id, {
-            'npc_id': doc.npc_id,
-            'color': doc.color,
-        });
-    };
-
-    var docNpcAnswerBool = function(npc) {
-        if (typeof(npc.answer) === 'boolean') {
-            emit(npc.npc_name + ': ' + npc.answer, {
-                'npc_id': npc.npc_id,
-                'npc_name': npc.npc_name,
-                'description': npc.description,
-                'color': npc.color,
-                'value': npc.value,
-                'question': npc.question,
-                'answer': npc.answer
+    var docNpcAllByDocId = function(doc) {
+        if (doc.collection === 'npcs') {
+            emit(doc._id, {
+                '_id': doc._id,
+                '_rev': doc._rev,
+                'npc_id': doc.npc_id,
+                'npc_name': doc.npc_name,
+                'description': doc.description,
+                'color': doc.color,
+                'value': doc.value,
+                'question': doc.question,
+                'answer': doc.answer
             });
         }
     };
 
-    var docGetSpecificNpcById = function(doc) {
-        if (doc.npc_id === 'npcDoc') {
-            var data = [];
-            doc.docs.forEach(function(npc) {
-                data.push({
-                    '_id': npc.id,
+    var docNpcAllByName = function(doc) {
+        if (doc.collection === 'npcs') {
+            emit(doc.npc_name, {
+                '_id': doc._id,
+                '_rev': doc._rev,
+                'npc_id': doc.npc_id,
+                'npc_name': doc.npc_name,
+                'description': doc.description,
+                'color': doc.color,
+                'value': doc.value,
+                'question': doc.question,
+                'answer': doc.answer
+            });
+        }
+    };
+
+    var docNpcInitialSetupParameters = function(doc) {
+        if (doc.collection === 'npcs') {
+            emit(doc.npc_id, {
+                'npc_id': doc.npc_id,
+                'color': doc.color,
+            });
+        }
+    };
+
+    var docNpcAnswerBool = function(npc) {
+        if (doc.collection === 'npcs') {
+            if (typeof (npc.answer) === 'boolean') {
+                emit(npc.npc_name + ': ' + npc.answer, {
                     'npc_id': npc.npc_id,
                     'npc_name': npc.npc_name,
                     'description': npc.description,
@@ -93,8 +85,28 @@ function designDocs() {
                     'question': npc.question,
                     'answer': npc.answer
                 });
-            });
-            emit(doc.npc_id, data);
+            }
+        }
+    };
+
+    var docGetSpecificNpcById = function(doc) {
+        if (doc.collection === 'npcs') {
+            if (doc.npc_id === 'npcDoc') {
+                var data = [];
+                doc.docs.forEach(function(npc) {
+                    data.push({
+                        '_id': npc.id,
+                        'npc_id': npc.npc_id,
+                        'npc_name': npc.npc_name,
+                        'description': npc.description,
+                        'color': npc.color,
+                        'value': npc.value,
+                        'question': npc.question,
+                        'answer': npc.answer
+                    });
+                });
+                emit(doc.npc_id, data);
+            }
         }
     };
 
@@ -127,11 +139,11 @@ function designDocs() {
                     'docNpcAllByName': {
                         'map': docNpcAllByName
                     },
-                    'docNpcAllByDocID': {
-                        'map': docNpcAllByDocID
+                    'docNpcAllByDocId': {
+                        'map': docNpcAllByDocId
                     },
-                    'docNpcAllByMapID': {
-                        'map': docNpcAllByMapID
+                    'docNpcAllByMapId': {
+                        'map': docNpcAllByMapId
                     }
                 }
             };

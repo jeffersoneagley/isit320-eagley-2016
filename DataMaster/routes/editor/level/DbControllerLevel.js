@@ -20,7 +20,7 @@ function DbControllerLevel() {
         },
         getLevelList: function(nanodb, callback) {
             try {
-                nanoDb.view('levelObjects', 'docLevelAllHeadersByLevelID', function(err, result) {
+                nanoDb.view('levelObjects', 'docLevelAllHeadersByLevelId', function(err, result) {
                     //console.log(result);
                     if (!err) {
                         console.log('successfully retrieved map ' + mapId + ':');

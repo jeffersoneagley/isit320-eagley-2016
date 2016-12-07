@@ -1,10 +1,10 @@
 /* globals define: true, THREE:true */
 
-define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
-        'collisions', 'npcEngine', 'prettyLights', 'drawHud', 'fishyMap'
+define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions',
+        'npcEngine', 'prettyLights', 'drawHud', 'levelManager'
     ],
     function(Floors, Score, PointerLockControls, PointerLockSetup,
-        Collisions, NpcEngine, PrettyLights, DrawHud, FishyMap) {
+        Collisions, NpcEngine, PrettyLights, DrawHud, LevelManager) {
         'use strict';
         var scene = null;
         var camera = null;
@@ -16,11 +16,8 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
         var collisions = null;
         var npcEngine = null;
         var drawHud = null;
-        var fishyMap = null;
-        var crateMaterial = null;
-        var loader = null;
+        var levelManager = null;
         var size = 20;
-        var cubes = [];
         var controls;
         var reducedUpdateIndex = 5;
         var currentLevelId = 1;
@@ -52,8 +49,6 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
 
             //initialize controllers and objects
             scene = new THREE.Scene();
-            fishyMap = new FishyMap();
-            initializeMaterials();
             floors = new Floors(THREE);
             collisions = new Collisions(THREE);
             drawHud = new DrawHud(THREE);
@@ -75,9 +70,9 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
             $('#gameWindow')
                 .append(renderer.domElement);
 
-            //build items to scene
-            addCubes(scene, camera, false);
-            addSpheres(scene, camera, false);
+            levelManager = new LevelManager(THREE, npcEngine, size, scene);
+
+            //lift the curtain
             new PrettyLights(THREE, scene);
 
             window.addEventListener('resize', onWindowResize, false);
@@ -87,15 +82,15 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
             doPointerLock();
         }
 
-        function initializeMaterials() {
-            var structureMaterials = [null, 'images/crate.jpg'];
-            var loader = new THREE.TextureLoader();
-            crateMaterial = new THREE.MeshLambertMaterial({
-                map: loader.load(structureMaterials[1])
-            });
-
-            fishyMap.BindKeyStructureBackgrounds(structureMaterials);
-        }
+        // function initializeMaterials() {
+        //     var structureMaterials = [null, 'images/crate.jpg'];
+        //     var loader = new THREE.TextureLoader();
+        //     crateMaterial = new THREE.MeshLambertMaterial({
+        //         map: loader.load(structureMaterials[1])
+        //     });
+        //
+        //     fishyMap.BindKeyStructureBackgrounds(structureMaterials);
+        // }
 
         function initializeHudBindings() {
             drawHud.AttachRefreshFunction(scoreboard.GuessesMade, 'GetScoreText');
@@ -119,7 +114,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
 
             var controlObject = controls.getObject();
             var position = controlObject.position;
-            collisions.detect(cubes, controls);
+            collisions.detect(levelManager.getCollisionItems(), controls);
             collisions.detect(npcEngine.getNpcList(), controls);
 
             // Move the camera
@@ -141,7 +136,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
                 drawText(controls.getObject()
                     .position);
                 //check whether player has moved
-                CheckPlayerHasMovedCells();
+                //CheckPlayerHasMovedCells();
             } else {
                 //15 frames haven't passed, increment counter
                 reducedUpdateIndex++;
@@ -156,7 +151,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup',
                 current.x !== lastLocation.x ||
                 current.z !== lastLocation.z
             ) {
-                fishyMap.DiscoverCell(current.x, current.z, true);
+                levelManager.fishyMap.DiscoverCell(current.x, current.z, true);
                 //discover ahead of player
                 var fwd = {
                     x: (current.x - lastLocation.x),

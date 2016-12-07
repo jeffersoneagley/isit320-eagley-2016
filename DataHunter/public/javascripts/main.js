@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: '.',
+    baseUrl: '/',
     paths: {
         'jquery': 'components/jquery/dist/jquery',
         'bootstrap': 'components/bootstrap/dist/js/bootstrap',
@@ -14,9 +14,14 @@ requirejs.config({
         'collisions': 'javascripts/physics/collisions',
         'npcEngine': 'javascripts/npc/npcEngine',
         'drawHud': 'javascripts/display/drawHud',
-        'fishyMap': 'javascripts/display/fishyMap/fishyMap'
-
+        'fishyMap': 'javascripts/display/fishyMap/fishyMap',
+        'gridUtils': 'javascripts/util/gridUtils'
     },
+    packages: [{
+        name: 'levelManager',
+        location: '/javascripts/levelManager',
+        main: 'levelManager'
+    }],
     shim: {
         'Three': {
             exports: 'THREE'

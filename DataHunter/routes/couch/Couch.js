@@ -18,6 +18,9 @@ var insert = require('./CouchInsert')(router, nano, dbName);
 var views = require('./CouchViews')(router, nano, dbName);
 var attach = require('./CouchAttach')(router, nano, dbName);
 var couchBulk = require('./CouchBulk')(router, dbName, setServer.serverUrl);
+var couchFishLevelRouter = require('./CouchFishLevelRouter')(nano, dbName);
+
+router.use('/level', couchFishLevelRouter);
 
 router.get('/databaseName', function(request, response) {
     'use strict';

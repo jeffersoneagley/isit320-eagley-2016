@@ -10,9 +10,14 @@ function couchNpcDbCreator() {
             console.log('bulk data');
             var record = fs.readFile('data/npcbackup.json', 'utf8', function(err, json) {
                 console.log('Reading file');
-                console.log(json);
+                var npcList = JSON.parse(json);
+                for (var npc in npcList.docs) {
+                    if (npcList.docs.hasOwnProperty(npc)) {
+                        npcList.docs[npc].collection = 'npcs';
+                    }
+                }
                 nano.db.use(dbName)
-                    .bulk(JSON.parse(json), callback);
+                    .bulk(npcList, callback);
             });
         }
     };

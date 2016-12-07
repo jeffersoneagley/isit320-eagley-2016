@@ -10,7 +10,7 @@ var buildRoutes = function(nano, gameserver, fishUtilities) {
         console.log('getting db from db');
         try {
             nano.db.use(gameserver)
-                .view('levelObjects', 'docLevelAllHeadersByLevelID', function(err, result) {
+                .view('levelObjects', 'docLevelAllHeadersByLevelId', function(err, result) {
                     var levelPageParams = {
                         'levelList': []
                     };

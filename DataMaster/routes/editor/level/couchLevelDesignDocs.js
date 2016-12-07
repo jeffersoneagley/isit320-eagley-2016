@@ -1,8 +1,8 @@
 function designDocs() {
     'use strict';
-    var docLevelAllHeadersByLevelID = function(doc) {
+    var docLevelAllHeadersByLevelId = function(doc) {
         if (doc.collection === 'levels') {
-            emit(doc.levelID, {
+            emit(doc.levelId, {
                 '_id': doc._id,
                 '_rev': doc._rev,
                 'levelId': doc.levelId,
@@ -10,6 +10,11 @@ function designDocs() {
                 'description': doc.description,
                 'nextLevelId': doc.nextLevelId
             });
+        }
+    };
+    var docLevelAllLevelsByLevelId = function(doc) {
+        if (doc.collection === 'levels') {
+            emit(doc.levelId, doc);
         }
     };
 
@@ -30,8 +35,11 @@ function designDocs() {
             var designName = '_design/levelObjects';
             var designDocument = {
                 'views': {
-                    'docLevelAllHeadersByLevelID': {
-                        'map': docLevelAllHeadersByLevelID
+                    'docLevelAllHeadersByLevelId': {
+                        'map': docLevelAllHeadersByLevelId
+                    },
+                    'docLevelAllLevelsByLevelId': {
+                        'map': docLevelAllLevelsByLevelId
                     }
                 }
             };

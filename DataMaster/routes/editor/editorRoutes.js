@@ -32,10 +32,6 @@ function editorRoutes() {
     useRoute('/level', routerLevel);
     useRoute('/db', routerDb);
 
-    //router.use('/npc', routerNpc);
-    //router.use('/level', routerMap);
-    //router.use('/db', routerDb);
-
     module.exports = router;
 
 }
