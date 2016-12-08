@@ -14,12 +14,34 @@ define([], function() {
         }
     };
 
+    function convertParser(gridVal, endcase) {
+        if (typeof gridVal === 'number') {
+            return endcase(gridVal);
+        }else {
+            var response = {};
+            for (var variable in gridVal) {
+                if (gridVal.hasOwnProperty(variable)) {
+                    var recurseResult = convertParser(gridVal[variable], endcase);
+                    if (recurseResult !== null && recurseResult !== undefined) {
+                        response[variable] = recurseResult;
+                    }
+                }
+            }
+            console.log(response);
+            return response;
+        }
+    }
+
     GridUtils.prototype.convertGridToWorld = function(gridVal) {
-        return gridSize * gridVal;
+        return convertParser(gridVal, function(result) {
+            return gridSize * result;
+        });
     };
 
     GridUtils.prototype.convertWorldToGrid = function(gridVal) {
-        return gridVal / gridSize;
+        return convertParser(gridVal, function(result) {
+            return Number(Math.round(result / gridSize));
+        });
     };
     return GridUtils;
 });

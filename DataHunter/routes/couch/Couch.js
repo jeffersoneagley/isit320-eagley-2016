@@ -107,7 +107,7 @@ router.get('/readNpcQuestion', function(request, response) {
         var npc_id = request.query.npc_id;
         var nanoDb = nano.db.use(dbName);
         try {
-            nanoDb.view(collectionName, 'docNpcAllByMapID', {
+            nanoDb.view(collectionName, 'docNpcAllByMapId', {
                 keys: [parseInt(npc_id)]
             }, function(err, result) {
                 if (!err) {
@@ -152,7 +152,7 @@ router.get('/readNpcTryGuess', function(request, response) {
         };
         console.log(params.keys);
         try {
-            nanoDb.view(collectionName, 'docNpcAllByMapID', {
+            nanoDb.view(collectionName, 'docNpcAllByMapId', {
                 keys: [parseInt(npc_id)]
             }, function(err, result) {
                 if (!err) {

@@ -14,13 +14,17 @@ requirejs.config({
         'collisions': 'javascripts/physics/collisions',
         'npcEngine': 'javascripts/npc/npcEngine',
         'drawHud': 'javascripts/display/drawHud',
-        'fishyMap': 'javascripts/display/fishyMap/fishyMap',
-        'gridUtils': 'javascripts/util/gridUtils'
+        'gridUtils': 'javascripts/util/gridUtils',
+        'getPropertyArray': 'javascripts/util/getPropertyArray'
     },
     packages: [{
         name: 'levelManager',
         location: '/javascripts/levelManager',
         main: 'levelManager'
+    }, {
+        name: 'fishyMap',
+        location: '/javascripts/display/fishyMap',
+        main: 'fishyMap'
     }],
     shim: {
         'Three': {

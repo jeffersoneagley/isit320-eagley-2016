@@ -21,10 +21,6 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
         var controls;
         var reducedUpdateIndex = 5;
         var currentLevelId = 1;
-        var lastLocation = {
-            'x': 0,
-            'z': 0
-        };
 
         var cameraPosition = {
             x: 2,
@@ -55,7 +51,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             initializeScoreboard();
             //set up scene
             floors.drawFloor(scene);
-            npcEngine = new NpcEngine(THREE, scoreboard);
+            npcEngine = new NpcEngine(THREE, scoreboard, size);
             initializeHudBindings();
 
             //set up camera
@@ -82,16 +78,6 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             doPointerLock();
         }
 
-        // function initializeMaterials() {
-        //     var structureMaterials = [null, 'images/crate.jpg'];
-        //     var loader = new THREE.TextureLoader();
-        //     crateMaterial = new THREE.MeshLambertMaterial({
-        //         map: loader.load(structureMaterials[1])
-        //     });
-        //
-        //     fishyMap.BindKeyStructureBackgrounds(structureMaterials);
-        // }
-
         function initializeHudBindings() {
             drawHud.AttachRefreshFunction(scoreboard.GuessesMade, 'GetScoreText');
             drawHud.AttachRefreshFunction(scoreboard.QuestionsCorrect, 'GetScoreText');
@@ -115,7 +101,7 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
             var controlObject = controls.getObject();
             var position = controlObject.position;
             collisions.detect(levelManager.getCollisionItems(), controls);
-            collisions.detect(npcEngine.getNpcList(), controls);
+            collisions.detect(npcEngine.getCollisionItems(), controls);
 
             // Move the camera
             controls.update();
@@ -136,38 +122,10 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
                 drawText(controls.getObject()
                     .position);
                 //check whether player has moved
-                //CheckPlayerHasMovedCells();
+                levelManager.animateReducedUpdate(controls.getObject());
             } else {
                 //15 frames haven't passed, increment counter
                 reducedUpdateIndex++;
-            }
-        }
-
-        function CheckPlayerHasMovedCells() {
-            var current = ConvertWorldToCell(controls.getObject()
-                .position);
-            //console.log(current);
-            if (
-                current.x !== lastLocation.x ||
-                current.z !== lastLocation.z
-            ) {
-                levelManager.fishyMap.DiscoverCell(current.x, current.z, true);
-                //discover ahead of player
-                var fwd = {
-                    x: (current.x - lastLocation.x),
-                    z: (current.z - lastLocation.z)
-                };
-                for (var i = -1; i <= 1; i++) {
-                    var myX = 0;
-                    if (fwd.x !== 0) {
-                        fishyMap.DiscoverCell(current.x + fwd.x, current.z + i, true);
-                    }
-                    if (fwd.z !== 0) {
-                        fishyMap.DiscoverCell(current.x + i, current.z + fwd.z, true);
-                    }
-                }
-                lastLocation.x = current.x;
-                lastLocation.z = current.z;
             }
         }
 
@@ -245,25 +203,25 @@ define(['floor', 'score', 'pointerLockControls', 'pointerLockSetup', 'collisions
         //     });
         // }
 
-        function readIntialNpcSetupFromDatabase(callback) {
-            $.getJSON('/readNpcInitialSetupParameters', function(data) {
-                    var myData = data.rows;
-                    console.log(myData);
-                    console.log(JSON.stringify(myData, null, 4));
-                    callback(undefined, myData);
-                })
-                .fail(function(jqxhr, textStatus, error) {
-                    var err = textStatus + ', ' + error;
-                    console.log({
-                        'Request Failed': err
-                    });
-                    var response = JSON.parse(jqxhr.responseText);
-                    var responseValue = JSON.stringify(response, null, 4);
-                    console.log(responseValue);
-                    alert('Database not connected' + responseValue);
-                    callback('Database not connected' + responseValue, null);
-                });
-        }
+        // function readIntialNpcSetupFromDatabase(callback) {
+        //     $.getJSON('/readNpcInitialSetupParameters', function(data) {
+        //             var myData = data.rows;
+        //             console.log(myData);
+        //             console.log(JSON.stringify(myData, null, 4));
+        //             callback(undefined, myData);
+        //         })
+        //         .fail(function(jqxhr, textStatus, error) {
+        //             var err = textStatus + ', ' + error;
+        //             console.log({
+        //                 'Request Failed': err
+        //             });
+        //             var response = JSON.parse(jqxhr.responseText);
+        //             var responseValue = JSON.stringify(response, null, 4);
+        //             console.log(responseValue);
+        //             alert('Database not connected' + responseValue);
+        //             callback('Database not connected' + responseValue, null);
+        //         });
+        // }
 
         function addCube(scene, camera, wireFrame, x, y) {
             var geometry = new THREE.BoxGeometry(size, size, size);

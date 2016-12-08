@@ -1,4 +1,5 @@
-define(['gridUtils'], function(GridUtils) {
+define(['gridUtils', 'getPropertyArray'],
+function(GridUtils, getPropertyArray) {
     'use strict';
 
     var THREE = null;
@@ -39,19 +40,6 @@ define(['gridUtils'], function(GridUtils) {
         }
     }
 
-    function getPropertyArray(arr, property) {
-        var result = [];
-        for (var i = 0; i < arr.length; i++) {
-            if (arr[i] !== null && arr[i] !== undefined) {
-                result.push(arr[i][property]);
-            } else {
-                result.push(null);
-            }
-        }
-        console.log(result);
-        return result;
-    }
-
     StructureManager.prototype.initializeMaterials = function() {
         var loader = new THREE.TextureLoader();
         for (var structureObj in structureItems) {
@@ -79,7 +67,7 @@ define(['gridUtils'], function(GridUtils) {
         }
     };
 
-    StructureManager.prototype.refreshStructures = function(scene, structureGrid) {
+    StructureManager.prototype.reloadStructures = function(scene, structureGrid) {
         makeStructureNode(scene);
         gridUtils.doFunctionToGrid(structureGrid, function(gridx, gridy) {
             StructureManager.prototype.buildStructure(

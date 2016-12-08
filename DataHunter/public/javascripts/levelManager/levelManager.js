@@ -1,5 +1,5 @@
-define(['prettyLights', './structureManager', 'fishyMap'],
-    function(PrettyLights, StructureManager, FishyMap) {
+define(['prettyLights', './structureManager', 'fishyMap', 'gridUtils'],
+    function(PrettyLights, StructureManager, FishyMap, GridUtils) {
         'use strict';
         var currentLevelObject = null;
         var currentLevelNumber = 1;
@@ -9,18 +9,19 @@ define(['prettyLights', './structureManager', 'fishyMap'],
         var gridSize = null;
         var fishyMap = null;
         var scene = null;
+        var gridUtils = null;
 
         function LevelManager(threeInit, npcEngineInit, gridSizeInit, sceneInit) {
             THREE = threeInit;
             scene = sceneInit;
             gridSize = gridSizeInit;
-            npcEngine = npcEngineInit;
-            fishyMap = new FishyMap();
-            structureManager = new StructureManager(THREE, gridSize);
+            gridUtils = new GridUtils(gridSize);
 
-            //initialize structure materials and feed them to the minimap
-            var mats = structureManager.initializeMaterials();
-            fishyMap.BindKeyStructureBackgrounds(mats);
+            structureManager = new StructureManager(THREE, gridSize);
+            npcEngine = npcEngineInit;
+
+            fishyMap = new FishyMap(THREE, gridUtils);
+
             getLevel(currentLevelNumber);
         }
 
@@ -30,14 +31,27 @@ define(['prettyLights', './structureManager', 'fishyMap'],
                 console.log(err);
                 console.log('level recieved');
                 currentLevelObject = responseData;
+                //initialize structure materials and feed them to the minimap
+                var mats = structureManager.initializeMaterials();
+                fishyMap.BindKeyStructureBackgrounds(mats);
                 buildLevel();
+                fishyMap.BindStructureMap(currentLevelObject.structure);
+                fishyMap.BindNpcMap(currentLevelObject.npc);
             });
         }
 
         function buildLevel() {
             console.log('building level');
-            structureManager.refreshStructures(scene, currentLevelObject.structure);
+            structureManager.reloadStructures(scene, currentLevelObject.structure);
+            npcEngine.reloadNpcs(scene, currentLevelObject.npc, function() {
+                var npcColors = npcEngine.getNpcColors();
+                fishyMap.BindKeyNpcColors(npcColors);
+            });
         }
+
+        LevelManager.prototype.animateReducedUpdate = function(playerObject) {
+            fishyMap.animateReducedUpdate(playerObject);
+        };
 
         LevelManager.prototype.StructureManager = function() {
             return structureManager;

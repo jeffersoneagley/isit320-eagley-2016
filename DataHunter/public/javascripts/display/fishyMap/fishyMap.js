@@ -1,104 +1,133 @@
-define([require], function() {
+define(['./fishyMapMovement'], function(FishyMapMovement) {
     'use strict';
+    var mapGrid = [];
+    var mapItems = [];
+    var mapHtmlElements = [];
+    var mapHtmlTableRowElements = [];
+    var gridUtils = null;
     var debug = false;
+    var fishyMapMovement = null;
+    var gridForStructures = null;
+    var gridForNpcs = null;
+    var templateListStructures = null; //stores images based on index
+    var templateListNpcs = null; //stores colors based on index
+    var mapHtmlTableRoot = $('<div>');
+    var ParentElement = $('#fishyMap');
+    var THREE = null;
 
-    function FishyMap() {
-        this.mapItems = [];
-        this.mapHtmlElements = [];
-        this.mapHtmlTableRoot = $('<div>');
-        this.mapHtmlTableRoot.css('display', 'flex');
-        this.mapHtmlTableRoot.css('flex-direction', 'column-reverse');
-        this.mapHtmlTableRoot.css('flex-wrap', 'no-wrap');
-        this.mapHtmlTableRoot.css('width', '100%');
-        this.mapHtmlTableRoot.css('height', '100%');
-        this.mapHtmlTableRowElements = [];
-        this.mapGrid = [];
-        this.gridForStructures = null;
-        this.gridForNpcs = null;
-        this.templateListStructures = null; //stores images based on index
-        this.templateListNpcs = null; //stores colors based on index
-        this.ParentElement = $('#fishyMap');
+    function FishyMap(threeInit, gridUtilsInit) {
+        THREE = threeInit;
+        gridUtils = gridUtilsInit;
+        initializeHtmlTable();
+        fishyMapMovement = new FishyMapMovement();
+        FishyMap.prototype.CheckBindComplete();
     }
 
-    FishyMap.prototype.DiscoverCell = function(x, y, isDiscovered) {
+    function initializeHtmlTable() {
+        mapHtmlTableRoot.css('display', 'flex');
+        mapHtmlTableRoot.css('flex-direction', 'column-reverse');
+        mapHtmlTableRoot.css('flex-wrap', 'no-wrap');
+        mapHtmlTableRoot.css('width', '100%');
+        mapHtmlTableRoot.css('height', '100%');
+    }
+
+    FishyMap.prototype.animateReducedUpdate = function(playerObject) {
+        fishyMapMovement.CheckPlayerHasMovedCells({
+            'x': gridUtils.convertWorldToGrid(playerObject.position.x),
+            'z': gridUtils.convertWorldToGrid(playerObject.position.z)
+        },
+          FishyMap.prototype.DiscoverCell
+        );
+    };
+
+    FishyMap.prototype.DiscoverCell = function(cellx, celly, isDiscovered) {
         isDiscovered = isDiscovered || true;
         try {
             //console.log(x + ' ' + y + ' ' + isDiscovered);
-            if (this.mapItems[x][y] !== undefined) {
-                this.mapItems[x][y].discovered = isDiscovered;
-                this.refreshCellHtml(x, y);
+            if (mapItems[cellx][celly] !== undefined) {
+                mapItems[cellx][celly].discovered = isDiscovered;
+                FishyMap.prototype.refreshCellHtml(cellx, celly);
                 return true;
             }
-        } catch (exc) {}
-        this.refreshCellHtml(x, y);
+        } catch (exc) {
+            console.log(exc);
+        }
+        FishyMap.prototype.refreshCellHtml(cellx, celly);
         return false;
     };
 
     FishyMap.prototype.BindKeyNpcColors = function(arrayOfNpcs) {
-        this.templateListNpcs = arrayOfNpcs;
-        this.CheckBindComplete();
+        templateListNpcs = arrayOfNpcs;
+        FishyMap.prototype.CheckBindComplete();
     };
 
     FishyMap.prototype.BindKeyStructureBackgrounds = function(arrayOfStructures) {
-        this.templateListStructures = arrayOfStructures;
-        this.CheckBindComplete();
+        templateListStructures = arrayOfStructures;
+        FishyMap.prototype.CheckBindComplete();
     };
 
     FishyMap.prototype.BindNpcMap = function(npcGrid) {
-        this.gridForNpcs = npcGrid;
-        this.CheckBindComplete();
+        gridForNpcs = npcGrid;
+        FishyMap.prototype.CheckBindComplete();
     };
 
     FishyMap.prototype.BindStructureMap = function(structureGrid) {
-        this.gridForStructures = structureGrid;
-        this.CheckBindComplete();
+        gridForStructures = structureGrid;
+        console.log(structureGrid);
+        FishyMap.prototype.CheckBindComplete();
     };
 
     FishyMap.prototype.CheckBindComplete = function() {
         if (
-            this.gridForNpcs !== null &&
-            this.gridForStructures !== null &&
-            this.templateListNpcs !== null &&
-            this.templateListStructures !== null
+            gridForNpcs !== null &&
+            gridForStructures !== null &&
+            templateListNpcs !== null &&
+            templateListStructures !== null
         ) {
-            this.BuildMap();
-            for (var i = 0; i < this.mapItems.length; i++) {
-                for (var j = 0; j < this.mapItems.length; j++) {
-                    this.refreshCellHtml(i, j);
+            FishyMap.prototype.BuildMap();
+            for (var i = 0; i < mapItems.length; i++) {
+                for (var j = 0; j < mapItems.length; j++) {
+                    FishyMap.prototype.refreshCellHtml(i, j);
                 }
             }
+            // fishyMapMovement.CheckPlayerHasMovedCells({
+            //     'x': gridUtils.convertWorldToGrid(playerObject.position.x),
+            //     'z': gridUtils.convertWorldToGrid(playerObject.position.z)
+            // },
+            //   FishyMap.prototype.DiscoverCell
+            // );
         }
     };
 
     FishyMap.prototype.SetMinimapParentElement = function(parent) {
-        //this.mapHtmlTableRoot.detatch();
-        this.ParentElement = parent;
-        this.ParentElement.append(this.mapHtmlTableRoot);
+        //mapHtmlTableRoot.detatch();
+        ParentElement = parent;
+        ParentElement.append(mapHtmlTableRoot);
     };
 
     FishyMap.prototype.BuildMap = function() {
         if (debug) {
             console.log('BuildMap');
         }
-        this.SetMinimapParentElement(this.ParentElement);
-        for (var i = 0; i < this.gridForStructures.length; i++) {
-            this.mapItems.push([]);
-            for (var j = 0; j < this.gridForStructures[i].length; j++) {
+        FishyMap.prototype.SetMinimapParentElement(ParentElement);
+        for (var i = 0; i < gridForStructures.length; i++) {
+            mapItems.push([]);
+            for (var j = 0; j < gridForStructures[i].length; j++) {
                 //console.log('mapItems[' + i + '][' + j + ']');
-                this.mapItems[i].push({
-                    'structure': this.gridForStructures[i][j],
-                    'npc': this.gridForNpcs[i][j],
+                mapItems[i].push({
+                    'structure': gridForStructures[i][j],
+                    'npc': gridForNpcs[i][j],
                     'discovered': false
                 });
             }
         }
-        this.BuildAndFillHtmlGrid();
+        FishyMap.prototype.BuildAndFillHtmlGrid();
     };
 
     FishyMap.prototype.DoForAllMapItems = function(cellFunction) {
-        for (var i = 0; i < this.mapItems.length; i++) {
-            for (var j = 0; j < this.mapItems.length; j++) {
-                cellFunction(this.mapItems[i][j]);
+        for (var i = 0; i < mapItems.length; i++) {
+            for (var j = 0; j < mapItems.length; j++) {
+                cellFunction(mapItems[i][j]);
             }
         }
     };
@@ -117,8 +146,8 @@ define([require], function() {
         DoForAllMapItems(function(mapItem) {
             if (mapItem.structure === 0) {
                 if (
-                    this.mapItems.structure === 0 &&
-                    this.mapItems.discovered
+                    mapItems.structure === 0 &&
+                    mapItems.discovered
                 ) {
                     exploredSquares++;
                 }
@@ -131,8 +160,8 @@ define([require], function() {
         if (debug) {
             console.log('BuildAndFillHtmlGrid');
         }
-        this.mapHtmlTableRoot.empty();
-        for (var i = 0; i < this.mapItems.length; i++) {
+        mapHtmlTableRoot.empty();
+        for (var i = 0; i < mapItems.length; i++) {
             var newRow = $('<div>');
             newRow.attr('id', 'fishyMapTableRow' + i);
             newRow.css('display', 'flex');
@@ -142,15 +171,15 @@ define([require], function() {
             newRow.css('height', '0.15em');
             newRow.css('min-width', '1%');
             newRow.css('min-height', '1%');
-            this.mapHtmlTableRoot.append(newRow);
-            this.mapHtmlTableRowElements.push(newRow);
-            this.mapHtmlElements.push([]);
-            for (var j = 0; j < this.mapItems[i].length; j++) {
-                var newCell = this.BuildHtmlMapCell();
+            mapHtmlTableRoot.append(newRow);
+            mapHtmlTableRowElements.push(newRow);
+            mapHtmlElements.push([]);
+            for (var j = 0; j < mapItems[i].length; j++) {
+                var newCell = FishyMap.prototype.BuildHtmlMapCell();
                 newCell.attr('id', 'fishyMapTableCell' + i + 'by' + j);
                 newCell.appendTo(newRow);
                 //console.log(newCell);
-                this.mapHtmlElements[i].push(newCell);
+                mapHtmlElements[i].push(newCell);
             }
         }
     };
@@ -172,23 +201,35 @@ define([require], function() {
 
     FishyMap.prototype.refreshCellHtml = function(i, j) {
         //console.log('refreshCellHtml');
-        if (this.mapItems[i][j].discovered) {
+        if (
+          mapItems[i][j].discovered
+        ) {
 
-            this.mapHtmlElements[i][j].empty();
+            mapHtmlElements[i][j].empty();
             //set background
-            this.mapHtmlElements[i][j].css('background-color', 'lightskyblue');
+            mapHtmlElements[i][j].css('background-color', 'lightskyblue');
             //show structures
             try {
-                var structureId = this.mapItems[i][j].structure;
+                var structureId = mapItems[i][j].structure;
                 if (structureId !== 0) {
-                    //console.log(structureId);
+                    // var myStructure = $(templateListStructures[structureId].map.image).cloneNode(false);
+                    // console.log(myStructure);
+                    // myStructure
+                    //     .attr('display', 'block')
+                    //     .css('width', '90%')
+                    //     .css('height', '90%');
+                    // console.log(structureId);
+                    // console.log(templateListStructures[structureId]);
                     var myStructure = $('<div>')
                         .css('display', 'block')
                         .css('width', '90%')
                         .css('height', '90%')
-                        .css('background', 'URL(' + this.templateListStructures[structureId] + ')')
-                        .css('background-size', '90%');
-                    this.mapHtmlElements[i][j].append(myStructure);
+                        .css('background-color', 'sandybrown')
+                        .css('background-size', '99%');
+                    // .css('background-image', $(templateListStructures[structureId].map.image));
+                    // .css('background', 'URL(' + 'images/crate.jpg' + ')')
+
+                    mapHtmlElements[i][j].append(myStructure);
                 }
             } catch (exc) {
                 console.log(exc);
@@ -196,23 +237,25 @@ define([require], function() {
             }
             //show NPCS
             try {
-                var npcId = this.mapItems[i][j].npc;
+                var npcId = mapItems[i][j].npc;
                 if (npcId !== 0) {
-                    var myNpc = this.templateListNpcs[npcId];
-                    var myColor = myNpc.color;
+                    var myNpc = templateListNpcs[npcId];
+                    // var myColor = myNpc.color;
+                    var myColor = myNpc;
                     var npcEmblem = $('<div>')
                         .css('width', '50%')
                         .css('height', '50%')
                         .css('border-radius', '25%')
                         .css('border', 'groove 0.1em ' + myColor)
                         .css('background', myColor);
-                    this.mapHtmlElements[i][j].append(npcEmblem);
+                    mapHtmlElements[i][j].append(npcEmblem);
                 }
             } catch (exc) {
+                console.log(exc);
                 console.log('NPC add to map failed');
             }
         } else {
-            this.mapHtmlElements[i][j].css('background-color', 'slategray');
+            mapHtmlElements[i][j].css('background-color', 'slategray');
         }
     };
     return FishyMap;
