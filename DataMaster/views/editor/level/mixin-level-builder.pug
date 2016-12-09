@@ -1,0 +1,24 @@
+mixin map(level)
+    each row, i in level.structure
+        tr
+            each cell, j in level.structure[i]
+                mapCell(level.structure[i][j], level.npc[i][j])
+
+mixin mapCell(structure, npc)
+    td
+        +structure(structure)
+        +npc(npc)
+
+mixin npc(npc)
+    div(style="border-radius: 10%; background-color: "+#{npc.color})
+
+mixin structure(structure)
+    if(structure.image)
+        structure.image
+    else if(structure.color)
+        div(style="width:100%; height:100%; background-color:+"#{structure.color})
+    else
+        +structure-floor
+
+mixin structure-floor
+    div(style="width:100%; height:100%; background-color:skyblue")
