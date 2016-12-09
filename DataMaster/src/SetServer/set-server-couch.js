@@ -10,6 +10,7 @@ console.log('SetServer middleware attaching to database on: ', serverUrl);
 
 function checkServerAlive(serverToTest) {
     'use strict';
+    console.log('checking server is alive');
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open('GET', serverToTest, false); // false for synchronous request
     xmlHttp.send(null);
@@ -17,8 +18,7 @@ function checkServerAlive(serverToTest) {
     return (xmlHttp.status === 200);
 }
 
-module.exports.serverUrl = serverUrl;
-module.exports.initializeServer = function() {
+initializeServer = function() {
     'use strict';
     for (var serv in servers) {
         if (servers.hasOwnProperty(serv)) {
@@ -30,3 +30,5 @@ module.exports.initializeServer = function() {
 };
 
 initializeServer();
+
+module.exports.serverUrl = serverUrl;
