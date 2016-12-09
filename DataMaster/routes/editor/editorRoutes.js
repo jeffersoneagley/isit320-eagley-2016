@@ -17,6 +17,7 @@ function editorRoutes() {
     var routerDb = require('./db/routerDb');
 
     router.use('/', function(request, response, next) {
+        console.log('isAuthenticated');
         isAuthenticated.signedIn(request, response, next);
     });
 

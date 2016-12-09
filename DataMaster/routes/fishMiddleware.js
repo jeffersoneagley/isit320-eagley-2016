@@ -58,8 +58,8 @@ router.use(session({
 router.use(function(request, response, next) {
     'use strict';
     console.log('Sample middleware with useful output');
-    console.log('request cookies', request.cookies);
-    console.log('request secret', request.secret);
+    // console.log('request cookies', request.cookies);
+    // console.log('request secret', request.secret);
     // Uncomment the following line for one run, perhaps.
     // It is too verbose to use everytime
     //console.log(Object.getOwnPropertyNames(request));
@@ -79,7 +79,7 @@ router.use(function(request, response, next) {
     var pathname = parseurl(request)
         .pathname;
     console.log('pathname', pathname);
-    console.log('views', views);
+    // console.log('views', views);
 
     // count the views
     views[pathname] = (views[pathname] || 0) + 1;

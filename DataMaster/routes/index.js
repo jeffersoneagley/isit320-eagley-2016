@@ -100,15 +100,19 @@ router.get('/page03', function(request, response) {
 router.get('/authentication/userbar', function(request, response) {
     'use strict';
     console.log('getting navbar signin options');
-    console.log('is user logged in? ' + request.isAuthenticated());
-    if (request.isAuthenticated()) {
-        console.log('user: ' + request.user.displayName + ' ID: ' + request.user.id);
+    try {
+        console.log('is user logged in? ' + request.isAuthenticated());
+        if (request.isAuthenticated()) {
+            console.log('user: ' + request.user.displayName + ' ID: ' + request.user.id);
+        }
+        var params = {
+            isAuthenticated: request.isAuthenticated(),
+            user: request.user
+        };
+        response.render('authentication/usernavbar', params);
+    } catch (e) {
+        console.log(e);
     }
-    var params = {
-        isAuthenticated: request.isAuthenticated(),
-        user: request.user
-    };
-    response.render('authentication/usernavbar', params);
 });
 
 router.get('/status', function(request, response) {

@@ -16,7 +16,7 @@ div(class='container')
     .col-sm-4.col-xs-12
         .row
             .input-group
-                span.input-group-addon mapId for other levels to find:
+                span.input-group-addon map id:
                 input(type= 'number' class = 'form-control' fishDbCouchProperty='levelId' value= level.levelId)
             .alert.alert-info Original: #{level.levelId}
     .col-sm-4.col-xs-12
@@ -30,7 +30,7 @@ div(class='container')
             span.input-group-addon Description
             input(type='text' class = 'form-control' fishDbCouchProperty='description' value= level.description)
         .alert.alert-info Original: #{level.description}
-    .table.table-responsive
+    table.table.table-responsive
         +map(level)
 h4(class='alert alert-info') Don't forget to save!.
 div(class='row')

@@ -67,8 +67,7 @@ var buildRoutes = function(nano, gameserver, fishUtilities) {
             console.log('called edit for docid ' + request.params.id);
             nano.db.use(gameserver)
                 .get(request.params.id, function(err, result) {
-                    console.log('Error from couch:');
-                    console.log(err);
+                    console.log('Error from couch:' + err);
                     response.render('editor/level/levelEditSingle.pug', {
                         'level': result
                     });

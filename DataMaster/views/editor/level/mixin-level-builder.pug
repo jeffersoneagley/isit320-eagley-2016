@@ -2,21 +2,29 @@ mixin map(level)
     each row, i in level.structure
         tr
             each cell, j in level.structure[i]
-                mapCell(level.structure[i][j], level.npc[i][j])
+                +mapCell(level.structure[i][j], level.npc[i][j])
 
 mixin mapCell(structure, npc)
     td
-        +structure(structure)
-        +npc(npc)
+        //- +structure(structure)
+        +cellInput('structure', structure)
+        //- +npc(npc)
+        +cellInput('npc', npc)
+
+mixin cellInput(dbkey, value)
+    .input-group
+        //- span.input-group-addon #{dbkey}
+        input(type='number' value=value)
 
 mixin npc(npc)
-    div(style="border-radius: 10%; background-color: "+#{npc.color})
+    div(style="width:100%; height:100%; border-radius: 10%; background-color: "+npc.color)
+
 
 mixin structure(structure)
     if(structure.image)
-        structure.image
+        div(src=structure.image.src)
     else if(structure.color)
-        div(style="width:100%; height:100%; background-color:+"#{structure.color})
+        div(style="width:100%; height:100%; background-color: "+structure.color)
     else
         +structure-floor
 
