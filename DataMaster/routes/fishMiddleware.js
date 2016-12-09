@@ -28,7 +28,7 @@ var couchStore = new ConnectCouchDB({
     // for more informations
     //username: 'username',
     //password: 'password',
-    host: 'localhost',
+    host: setServer.serverUrl,
 
     // Optional. How often expired sessions should be cleaned up.
     // Defaults to 600000 (10 minutes).
