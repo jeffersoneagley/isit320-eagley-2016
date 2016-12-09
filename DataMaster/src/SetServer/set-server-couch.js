@@ -22,7 +22,7 @@ initializeServer = function() {
     'use strict';
     console.log('initializeServer called, checking which couch server is alive:');
     for (var serv in servers) {
-        console.log(servers[serve]);
+        console.log(servers[serv]);
         if (servers.hasOwnProperty(serv)) {
             if (checkServerAlive(servers[serve])) {
                 serverIndex = serv;
