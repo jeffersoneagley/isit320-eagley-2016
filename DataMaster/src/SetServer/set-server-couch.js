@@ -24,7 +24,7 @@ initializeServer = function() {
     for (var serv in servers) {
         console.log(servers[serv]);
         if (servers.hasOwnProperty(serv)) {
-            if (checkServerAlive(servers[serve])) {
+            if (checkServerAlive(servers[serv])) {
                 serverIndex = serv;
             }
         }
