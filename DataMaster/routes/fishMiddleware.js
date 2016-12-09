@@ -7,10 +7,11 @@ var session = require('express-session');
 var uuid = require('uuid');
 var FileStoreSession = require('session-file-store')(session);
 var baseSessionStore = require('sessionstore');
+var setServer = require('../src/SetServer/set-server-couch');
 
 var sessionStore = baseSessionStore.createSessionStore({
     type: 'couchdb',
-    host: 'http://10.0.2.5', // optional
+    host: setServer.serverUrl, // optional
     port: 5984, // optional
     dbName: 'couch-session-eagley', // optional
     collectionName: 'sessions', // optional
