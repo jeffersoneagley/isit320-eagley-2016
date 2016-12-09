@@ -1,5 +1,10 @@
 include mixins-database
 
 h2 DB Editor
+.btn-group
+    button.btn.btn-block.btn-warning(fishroute='/editor/npc/db/deleteDb') Delete game dbs
+    button.btn.btn-block.btn-primary(fishroute='/editor/npc/db/rebuildDb') Rebuild db and npc list
+    button.btn.btn-block.btn-primary(fishroute='/editor/level/db/rebuildDb') Rebuild level list
+
 for dbitem in databases
     +dbListButton(dbitem)
