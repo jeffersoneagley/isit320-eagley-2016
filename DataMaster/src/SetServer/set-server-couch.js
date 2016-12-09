@@ -18,18 +18,15 @@ function checkServerAlive(serverToTest) {
     return (xmlHttp.status === 200);
 }
 
-initializeServer = function() {
-    'use strict';
-    console.log('initializeServer called, checking which couch server is alive:');
-    for (var serv in servers) {
-        console.log(servers[serve]);
-        if (servers.hasOwnProperty(serv)) {
-            if (checkServerAlive(servers[serve])) {
-                serverIndex = serv;
-            }
+console.log('initializeServer called, checking which couch server is alive:');
+for (var serv in servers) {
+    console.log(servers[serve]);
+    if (servers.hasOwnProperty(serv)) {
+        if (checkServerAlive(servers[serve])) {
+            serverIndex = serv;
         }
     }
-};
+}
 
 initializeServer();
 
