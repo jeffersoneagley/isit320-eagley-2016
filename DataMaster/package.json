@@ -25,7 +25,8 @@
     "session-file-store": "^0.2.2",
     "sessionstore": "^1.2.16",
     "static-favicon": "^2.0.0-alpha",
-    "uuid": "^2.0.3"
+    "uuid": "^2.0.3",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
