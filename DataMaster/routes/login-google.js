@@ -31,7 +31,7 @@ router.get('/account', ensureAuthenticated, function(request, response) {
 passport.use(new GoogleStrategy({
         clientID: '516098240111-sb627eh7rj84a20vk1bh79sf2s0rliik.apps.googleusercontent.com',
         clientSecret: 'WPbs7v6k7rSB9aiH7LJVLkMY',
-        callbackURL: 'http://localhost:30025/auth/google/callback',
+        callbackURL: '/auth/google/callback',
         passReqToCallback: true
     },
     function(request, accessToken, refreshToken, profile, done) {
