@@ -11,7 +11,7 @@ var buildRoutes = function(nano, gameserver, fishUtilities) {
         console.log('getting db from db');
         try {
             nano.db.use(gameserver)
-                .view('npcObjects', 'docNpcAllByDocID', function(err, result) {
+                .view('npcObjects', 'docNpcAllByDocId', function(err, result) {
                     var npcPageParams = {
                         'npcList': []
                     };
